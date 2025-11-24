@@ -4,579 +4,112 @@
   <meta charset="utf-8" />
   <title>Prospect 3 — Interactive Flipbook</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="color-scheme" content="dark light">
-
   <style>
-    :root{
-      --bg:#0b1220; --card:#121a2d; --text:#e9f1ff; --muted:#9bb3cc;
-      --accent:#13d38b; --accent2:#71d7ff; --border:#2f4577;
-    }
-    *{box-sizing:border-box}
-    html,body{margin:0;padding:0;background:#0b1220;color:var(--text);font-family:Tahoma,Segoe UI,Arial}
-    button{cursor:pointer}
-
-    /* Top bar */
-    .topbar{
-      position:sticky;top:0;z-index:10;height:58px;background:#111a2fCC;
-      backdrop-filter:blur(6px);display:flex;align-items:center;justify-content:space-between;
-      padding:0 14px;border-bottom:1px solid #203055;
-    }
-    .brand-title{font-weight:700;letter-spacing:.3px}
-
-    .btn{border:none;border-radius:10px;padding:10px 14px;background:#1c2745;color:#fff}
-    .btn:hover{filter:brightness(1.06)}
-    .btn--outline{background:transparent;border:1px solid var(--border)}
-    .btn--glow{background:linear-gradient(90deg,var(--accent),var(--accent2));color:#06233a;font-weight:700}
-
-    /* Start screen */
-    .start-screen{min-height:calc(100vh - 58px);display:flex;align-items:center;justify-content:center;padding:18px}
-    .start-card{
-      width:min(1050px,95vw);background:linear-gradient(160deg,#10192f,#0d1630);
-      border:1px solid #23365f;border-radius:18px;padding:20px;box-shadow:0 20px 50px rgba(0,0,0,.35)
-    }
-    .hero{display:flex;align-items:center;justify-content:space-between;gap:14px}
-    .title{margin:0 0 8px;font-size:1.9rem}
-    .subtitle{margin:0;color:var(--muted)}
-    .lesson-grid,.exam-grid,.tools-grid{display:grid;gap:10px;margin-top:12px}
-    .lesson-grid{grid-template-columns:repeat(auto-fit,minmax(220px,1fr))}
-    .exam-grid{grid-template-columns:repeat(auto-fit,minmax(220px,1fr))}
-    .tools-grid{grid-template-columns:repeat(auto-fit,minmax(240px,1fr))}
-    .lesson-btn,.exam-btn{
-      border:1px solid var(--border);border-radius:14px;padding:14px;background:#16274b;color:#eaf3ff;
-      display:flex;align-items:center;justify-content:space-between;font-weight:700
-    }
-
-    /* Flipbook */
+    body {margin:0;font-family:Tahoma,Arial;background:#0b1220;color:#e9f1ff}
     .hidden{display:none}
-    .flipbook-nav{display:flex;align-items:center;justify-content:space-between;padding:10px 14px}
-    .nav-btn{width:42px;height:42px;border-radius:10px}
-    .current-title{font-weight:700;color:#cfe7ff}
-    .flipbook{width:min(1050px,95vw);margin:0 auto}
-    .page{
-      background:#121a2d;border:1px solid #2a4068;border-radius:14px;
-      margin:16px 0;padding:16px;box-shadow:0 20px 50px rgba(0,0,0,.35)
-    }
-    .page h2{margin-top:0;color:#cfe7ff;border-bottom:1px solid #253a65;padding-bottom:6px}
-
-    /* Content */
-    .section{margin:8px 0 14px;padding:10px;border:1px dashed var(--border);border-radius:12px}
-    .section h3{margin:0 0 6px;color:#9bd6ff}
-    .text{line-height:1.85}
-    .word{cursor:pointer;border-bottom:1px dashed var(--border)}
-    .word:hover{color:var(--accent2)}
-
-    /* Exercises */
-    .exercise-item{padding:8px;border-radius:10px;background:#0f1a32;border:1px solid #2a4068;margin-bottom:8px}
-    .exercise-controls{display:flex;gap:8px;margin-top:8px;flex-wrap:wrap}
-    .answer-key{display:none;margin-top:6px;color:#bde8ff}
-    .answer-key.show{display:block}
-    .correct{outline:2px solid #13d38b}
-    .incorrect{outline:2px solid #ff6e6e}
-
-    /* Modals & popup */
-    .modal{position:fixed;inset:0;background:rgba(6,12,24,.55);display:flex;align-items:center;justify-content:center;padding:12px;z-index:100}
-    .modal-content{width:min(880px,95vw);background:#0f1a32;border:1px solid #2a4068;border-radius:16px;padding:14px;box-shadow:0 20px 50px rgba(0,0,0,.35)}
-    .popup{position:fixed;bottom:20px;right:20px;z-index:101}
-    .popup-content{width:min(420px,92vw);background:#0f1a32;border:1px solid #2a4068;border-radius:14px;box-shadow:0 12px 36px rgba(0,0,0,.35)}
-    .popup-header{display:flex;align-items:center;justify-content:space-between;padding:10px;border-bottom:1px solid #233a60}
-    #popupWord{font-weight:800;color:#9bd6ff}
-    .popup-body{padding:10px}
+    .btn{padding:8px 14px;border:none;border-radius:8px;cursor:pointer}
+    .btn--outline{background:transparent;border:1px solid #2f4577;color:#fff}
+    .btn--glow{background:linear-gradient(90deg,#13d38b,#71d7ff);color:#06233a;font-weight:bold}
+    .modal{position:fixed;inset:0;background:rgba(0,0,0,.6);display:flex;align-items:center;justify-content:center}
+    .modal-content{background:#121a2d;padding:20px;border-radius:12px;max-width:500px;width:90%}
+    .popup{position:fixed;bottom:20px;right:20px;background:#121a2d;padding:12px;border-radius:10px}
   </style>
 </head>
 <body>
-
-  <!-- Top bar -->
-  <header class="topbar">
-    <div class="left-controls">
-      <button class="btn btn--glow" id="musicBtn">♫ موسیقی</button>
-    </div>
-    <div class="brand-title">Prospect 3 — Interactive Flipbook</div>
-    <div class="right-controls">
-      <button class="btn btn--outline" id="helpBtn">راهنما</button>
-    </div>
+  <header style="background:#111a2f;padding:10px;display:flex;justify-content:space-between">
+    <button class="btn btn--glow" id="helpBtn">راهنما</button>
+    <div>Prospect 3 — Interactive Flipbook</div>
+    <button class="btn btn--glow" id="openVocabTrainerBtn">واژه‌نامه</button>
   </header>
 
-  <!-- Start screen -->
-  <section class="start-screen" id="startScreen">
-    <div class="start-card">
-      <div class="hero">
-        <div>
-          <h1 class="title">English for Schools — Prospect 3</h1>
-          <p class="subtitle">Lessons • Practice • Workbook • Audio • Photo Dictionary • Exams</p>
-        </div>
-      </div>
-
-      <h2 style="margin:14px 0 8px">انتخاب درس</h2>
-      <div class="lesson-grid">
-        <button class="lesson-btn" data-lesson="1"><span>Lesson 1</span><small> &nbsp;Personality</small></button>
-        <button class="lesson-btn" data-lesson="2"><span>Lesson 2</span><small> &nbsp;Travel</small></button>
-        <button class="lesson-btn" data-lesson="3"><span>Lesson 3</span><small> &nbsp;Festivals & Ceremonies</small></button>
-      </div>
-
-      <h2 style="margin:14px 0 8px">آزمون‌ها</h2>
-      <div class="exam-grid">
-        <button class="exam-btn" data-exam="midterm-1-3">Midterm A — Lessons 1–3</button>
-      </div>
-
-      <h2 style="margin:14px 0 8px">ابزارها</h2>
-      <div class="tools-grid">
-        <button class="btn btn--glow" id="irregularVerbsBtn">افعال بی‌قاعده + تلفظ + مثال</button>
-        <button class="btn btn--glow" id="openVocabTrainerBtn">واژه‌نامه تعاملی</button>
-      </div>
-    </div>
+  <section id="startScreen">
+    <h1>درس‌ها</h1>
+    <button class="btn" id="lesson1Btn">Lesson 1</button>
+    <button class="btn" id="lesson2Btn">Lesson 2</button>
+    <h2>آزمون</h2>
+    <button class="btn" id="examBtn">Midterm Exam</button>
   </section>
 
-  <!-- Flipbook -->
-  <main id="flipbookWrapper" class="hidden">
-    <div class="flipbook-nav">
-      <button class="btn nav-btn" id="prevPageBtn">‹</button>
-      <div class="current-title" id="currentTitle"></div>
-      <button class="btn nav-btn" id="nextPageBtn">›</button>
-    </div>
-    <div class="flipbook" id="flipbook"></div>
-    <div style="display:flex;justify-content:flex-end;padding:0 14px 14px">
-      <button class="btn btn--outline" id="backBtn">بازگشت</button>
-    </div>
-  </main>
-
-  <!-- Help modal -->
-  <div class="modal hidden" id="helpModal" aria-hidden="true">
+  <!-- Modals -->
+  <div class="modal hidden" id="helpModal">
     <div class="modal-content">
       <h2>راهنما</h2>
-      <div class="text">
-        <div>• با دکمه‌های ‹ و › صفحات را تغییر دهید.</div>
-        <div>• روی واژه‌های انگلیسی کلیک کنید تا معنی، مترادف و مثال را ببینید.</div>
-        <div>• برای تلفظ، از دکمه‌های 🔊 استفاده کنید.</div>
-      </div>
-      <div style="margin-top:10px;display:flex;gap:8px;justify-content:flex-end">
-        <button class="btn btn--outline" id="closeHelpBtn">بستن</button>
-      </div>
+      <p>با دکمه‌ها کار کنید و روی واژه‌ها کلیک کنید.</p>
+      <button class="btn btn--outline" id="closeHelpBtn">بستن</button>
     </div>
   </div>
 
-  <!-- Word popup -->
-  <div class="popup hidden" id="wordPopup" aria-hidden="true">
-    <div class="popup-content">
-      <div class="popup-header">
-        <span id="popupWord"></span>
-        <div>
-          <button class="btn btn--outline" id="pronounceBtn">🔊 تلفظ</button>
-          <button class="btn btn--outline" id="closePopupBtn">✕</button>
-        </div>
-      </div>
-      <div class="popup-body" id="popupBody"></div>
-    </div>
-  </div>
-
-  <!-- Verbs modal -->
-  <div class="modal hidden" id="verbsModal" aria-hidden="true">
+  <div class="modal hidden" id="vocabModal">
     <div class="modal-content">
-      <h2>افعال بی‌قاعده</h2>
-      <div id="verbsBody"></div>
-      <div style="margin-top:10px;display:flex;justify-content:flex-end">
-        <button class="btn btn--outline" id="closeVerbsBtn">بستن</button>
-      </div>
+      <h2>واژه‌نامه</h2>
+      <input id="vocabSearch" placeholder="جستجوی واژه..." />
+      <div id="vocabResult"></div>
+      <button class="btn btn--outline" id="closeVocabBtn">بستن</button>
     </div>
   </div>
 
-  <!-- Vocab modal -->
-  <div class="modal hidden" id="vocabModal" aria-hidden="true">
+  <div class="modal hidden" id="examModal">
     <div class="modal-content">
-      <h2>واژه‌نامه تعاملی</h2>
-      <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:8px">
-        <input id="vocabSearch" type="text" placeholder="جستجوی واژه انگلیسی..." style="flex:1;padding:10px;border-radius:10px;border:1px solid #2a4068;background:#0f1a32;color:#eaf4ff"/>
-        <button class="btn" id="vocabPronounceBtn">🔊 تلفظ</button>
-      </div>
-      <div id="vocabResult" style="margin-top:10px;border:1px dashed #2f4577;border-radius:12px;padding:10px;background:#0f1a32"></div>
-      <div style="margin-top:10px;display:flex;justify-content:flex-end">
-        <button class="btn btn--outline" id="closeVocabBtn">بستن</button>
-      </div>
+      <h2>آزمون</h2>
+      <p>They __ kind.</p>
+      <input type="text" id="examAnswer" />
+      <button class="btn btn--glow" id="submitExamBtn">ثبت</button>
+      <button class="btn btn--outline" id="closeExamBtn">بستن</button>
     </div>
   </div>
 
-  <!-- Exam modal -->
-  <div class="modal hidden" id="examModal" aria-hidden="true">
-    <div class="modal-content">
-      <h2 id="examTitle"></h2>
-      <div id="examBody" style="margin-top:10px"></div>
-      <div style="margin-top:10px;display:flex;gap:8px;justify-content:flex-end">
-        <button class="btn btn--glow" id="submitExamBtn">ثبت پاسخ‌ها</button>
-        <button class="btn btn--outline" id="showExamAnswersBtn">نمایش پاسخنامه</button>
-        <button class="btn btn--outline" id="closeExamBtn">بستن</button>
-      </div>
-    </div>
+  <!-- Popup -->
+  <div class="popup hidden" id="wordPopup">
+    <span id="popupWord"></span> — <span id="popupMeaning"></span>
+    <button class="btn btn--outline" id="closePopupBtn">✕</button>
   </div>
 
   <script>
-    /* ---------- Data ---------- */
-    const LESSONS = [
-      {
-        id:1, title:"Lesson 1 — Personality",
-        sections:[
-          { type:"conversation", title:"Conversation", text:`Ehsan: Who is your best friend at school?
-Parham: Reza.
-Ehsan: What's he like?
-Parham: He is clever and kind.` },
-          { type:"practice", title:"Practice — Yes/No", items:[
-            { q:"Is he clever?", a:"Yes, he is." },
-            { q:"Are you kind?", a:"Yes, I am." }
-          ]},
-          { type:"listeningCard", title:"Listening A", audio:"", text:`Iran is a great country. People are kind and friendly.` }
-        ]
-      },
-      {
-        id:2, title:"Lesson 2 — Travel",
-        sections:[
-          { type:"conversation", title:"Conversation", text:`Receptionist: Welcome to our hotel. Do you have a reservation?
-Tourist: Yes, my name is Paul.` },
-          { type:"practice", title:"Practice — Travel", items:[
-            { q:"Do you have a reservation?", a:"Yes, I do." },
-            { q:"Where is your passport?", a:"It's here." }
-          ]}
-        ]
-      },
-      {
-        id:3, title:"Lesson 3 — Festivals & Ceremonies",
-        sections:[
-          { type:"conversation", title:"Conversation", text:`Elham: We usually visit our relatives in Norooz.
-Nasrin: We get gifts, too!` }
-        ]
-      }
-    ];
+    // Elements
+    const helpBtn=document.getElementById('helpBtn');
+    const helpModal=document.getElementById('helpModal');
+    const closeHelpBtn=document.getElementById('closeHelpBtn');
 
-    const DICT = {
-      "clever": { fa:"باهوش", syn:["smart","bright"], rel:["intelligent"], ex:"He is a clever student." },
-      "kind": { fa:"مهربان", syn:["nice","friendly"], rel:["polite"], ex:"She is kind to everyone." },
-      "reservation": { fa:"رزرو", syn:["booking"], rel:["ticket"], ex:"I have a reservation." },
-      "gift": { fa:"هدیه", syn:["present"], rel:["money"], ex:"They get gifts in Norooz." }
+    const openVocabTrainerBtn=document.getElementById('openVocabTrainerBtn');
+    const vocabModal=document.getElementById('vocabModal');
+    const closeVocabBtn=document.getElementById('closeVocabBtn');
+    const vocabSearch=document.getElementById('vocabSearch');
+    const vocabResult=document.getElementById('vocabResult');
+
+    const examBtn=document.getElementById('examBtn');
+    const examModal=document.getElementById('examModal');
+    const closeExamBtn=document.getElementById('closeExamBtn');
+    const submitExamBtn=document.getElementById('submitExamBtn');
+    const examAnswer=document.getElementById('examAnswer');
+
+    const wordPopup=document.getElementById('wordPopup');
+    const popupWord=document.getElementById('popupWord');
+    const popupMeaning=document.getElementById('popupMeaning');
+    const closePopupBtn=document.getElementById('closePopupBtn');
+
+    // Dictionary
+    const DICT={"clever":"باهوش","kind":"مهربان"};
+
+    // Bindings
+    helpBtn.onclick=()=>helpModal.classList.remove('hidden');
+    closeHelpBtn.onclick=()=>helpModal.classList.add('hidden');
+
+    openVocabTrainerBtn.onclick=()=>vocabModal.classList.remove('hidden');
+    closeVocabBtn.onclick=()=>vocabModal.classList.add('hidden');
+
+    examBtn.onclick=()=>examModal.classList.remove('hidden');
+    closeExamBtn.onclick=()=>examModal.classList.add('hidden');
+    submitExamBtn.onclick=()=>{
+      const val=examAnswer.value.trim().toLowerCase();
+      alert(val==="are"?"پاسخ درست":"پاسخ نادرست");
     };
 
-    const EXAMS = {
-      "midterm-1-3": {
-        title:"Midterm Exam — Lessons 1–3",
-        questions:[
-          { type:"mc", q:"They __ kind.", opts:["is","are"], key:"are" },
-          { type:"fill", q:"He __ clever. (is/are)", key:"is" },
-          { type:"mc", q:"Past of 'go' is __.", opts:["went","goed"], key:"went" }
-        ]
-      }
+    closePopupBtn.onclick=()=>wordPopup.classList.add('hidden');
+
+    vocabSearch.oninput=()=>{
+      const q=vocabSearch.value.trim().toLowerCase();
+      vocabResult.textContent=DICT[q]||"یافت نشد";
     };
-
-    const IRREGULAR_VERBS = [
-      { base:"be", past:"was/were", exEn:"I was happy.", exFa:"من خوشحال بودم." },
-      { base:"go", past:"went", exEn:"She went home.", exFa:"او به خانه رفت." },
-      { base:"break", past:"broke", exEn:"He broke his leg.", exFa:"او پایش را شکست." },
-      { base:"buy", past:"bought", exEn:"They bought food.", exFa:"آن‌ها غذا خریدند." }
-    ];
-
-    /* ---------- Elements ---------- */
-    const startScreen = document.getElementById('startScreen');
-    const flipbookWrapper = document.getElementById('flipbookWrapper');
-    const flipbookEl = document.getElementById('flipbook');
-    const currentTitleEl = document.getElementById('currentTitle');
-    const prevPageBtn = document.getElementById('prevPageBtn');
-    const nextPageBtn = document.getElementById('nextPageBtn');
-
-    const helpBtn = document.getElementById('helpBtn');
-    const helpModal = document.getElementById('helpModal');
-    const closeHelpBtn = document.getElementById('closeHelpBtn');
-
-    const irregularVerbsBtn = document.getElementById('irregularVerbsBtn');
-    const verbsModal = document.getElementById('verbsModal');
-    const closeVerbsBtn = document.getElementById('closeVerbsBtn');
-    const verbsBody = document.getElementById('verbsBody');
-
-    const examModal = document.getElementById('examModal');
-    const examTitle = document.getElementById('examTitle');
-    const examBody = document.getElementById('examBody');
-    const closeExamBtn = document.getElementById('closeExamBtn');
-    const submitExamBtn = document.getElementById('submitExamBtn');
-    const showExamAnswersBtn = document.getElementById('showExamAnswersBtn');
-
-    const wordPopup = document.getElementById('wordPopup');
-    const popupWord = document.getElementById('popupWord');
-    const popupBody = document.getElementById('popupBody');
-    const closePopupBtn = document.getElementById('closePopupBtn');
-    const pronounceBtn = document.getElementById('pronounceBtn');
-
-    const vocabModal = document.getElementById('vocabModal');
-    const closeVocabBtn = document.getElementById('closeVocabBtn');
-    const openVocabTrainerBtn = document.getElementById('openVocabTrainerBtn');
-    const vocabSearch = document.getElementById('vocabSearch');
-    const vocabResult = document.getElementById('vocabResult');
-    const vocabPronounceBtn = document.getElementById('vocabPronounceBtn');
-
-    let currentLesson = null;
-    let pages = [];
-    let currentPageIndex = 0;
-    let currentExam = null;
-
-    /* ---------- Bindings ---------- */
-    document.querySelectorAll('.lesson-btn').forEach(btn=>{
-      btn.addEventListener('click', ()=>{
-        const id = parseInt(btn.dataset.lesson,10);
-        loadLesson(id);
-      });
-    });
-
-    document.querySelectorAll('.exam-btn').forEach(btn=>{
-      btn.addEventListener('click', ()=>{
-        openExam(btn.dataset.exam);
-      });
-    });
-
-    helpBtn.addEventListener('click', ()=> helpModal.classList.remove('hidden'));
-    closeHelpBtn.addEventListener('click', ()=> helpModal.classList.add('hidden'));
-
-    irregularVerbsBtn.addEventListener('click', ()=>{
-      renderVerbs();
-      verbsModal.classList.remove('hidden');
-    });
-    closeVerbsBtn.addEventListener('click', ()=> verbsModal.classList.add('hidden'));
-
-    prevPageBtn.addEventListener('click', ()=> turnPage(-1));
-    nextPageBtn.addEventListener('click', ()=> turnPage(1));
-
-    document.getElementById('backBtn').addEventListener('click', ()=>{
-      flipbookWrapper.classList.add('hidden');
-      startScreen.classList.remove('hidden');
-    });
-
-    closePopupBtn.addEventListener('click', ()=> wordPopup.classList.add('hidden'));
-    pronounceBtn.addEventListener('click', ()=> pronounce(popupWord.textContent));
-
-    document.addEventListener('keydown', (e)=>{
-      if(e.key==='ArrowRight') turnPage(1);
-      if(e.key==='ArrowLeft') turnPage(-1);
-      if(e.key==='Escape'){
-        helpModal.classList.add('hidden');
-        verbsModal.classList.add('hidden');
-        examModal.classList.add('hidden');
-        vocabModal.classList.add('hidden');
-        wordPopup.classList.add('hidden');
-      }
-    });
-
-    openVocabTrainerBtn.addEventListener('click', ()=>{
-      vocabModal.classList.remove('hidden');
-      vocabSearch.value="";
-      vocabResult.innerHTML = `<div style="color:${getComputedStyle(document.body).getPropertyValue('--muted')}">یک واژه انگلیسی وارد کنید...</div>`;
-    });
-    closeVocabBtn.addEventListener('click', ()=> vocabModal.classList.add('hidden'));
-    vocabSearch.addEventListener('input', ()=>{
-      const q = (vocabSearch.value||"").trim().toLowerCase();
-      if(!q){
-        vocabResult.innerHTML = `<div style="color:${getComputedStyle(document.body).getPropertyValue('--muted')}">یک واژه انگلیسی وارد کنید...</div>`;
-        return;
-      }
-      const info = DICT[q];
-      vocabResult.innerHTML = info ? `
-        <div><b>واژه:</b> ${q}</div>
-        <div><b>معنی فارسی:</b> ${info.fa}</div>
-        <div><b>مترادف‌ها:</b> ${(info.syn||[]).join(", ")}</div>
-        <div><b>کلمات مرتبط:</b> ${(info.rel||[]).join(", ")}</div>
-        <div><b>مثال انگلیسی:</b> ${info.ex}</div>
-      ` : `ورودی برای "<b>${q}</b>" یافت نشد. می‌توانید آن را به DICT اضافه کنید.`;
-    });
-    vocabPronounceBtn.addEventListener('click', ()=>{
-      const q = (vocabSearch.value||"").trim();
-      if(q) pronounce(q);
-    });
-
-    /* ---------- Core ---------- */
-    function loadLesson(id){
-      const lesson = LESSONS.find(l=>l.id===id);
-      if(!lesson){ alert("Lesson not found."); return; }
-      currentLesson = lesson;
-      startScreen.classList.add('hidden');
-      flipbookWrapper.classList.remove('hidden');
-      currentTitleEl.textContent = lesson.title;
-      pages = buildPages(lesson);
-      currentPageIndex = 0;
-      renderFlipbook();
-    }
-    function buildPages(lesson){ return lesson.sections.map(sec=> sectionToPage(sec)); }
-    function renderFlipbook(){
-      flipbookEl.innerHTML = "";
-      pages.forEach((page, idx)=>{
-        const el = document.createElement('div');
-        el.className = 'page';
-        el.dataset.index = idx;
-        el.innerHTML = page.html;
-        flipbookEl.appendChild(el);
-      });
-      bindPageEvents();
-      highlightCurrentPage();
-    }
-    function bindPageEvents(){
-      flipbookEl.querySelectorAll('.word').forEach(w=>{
-        w.addEventListener('click', ()=> showWordInfo(w.textContent.trim().toLowerCase()));
-      });
-      flipbookEl.querySelectorAll('.reveal-key').forEach(b=>{
-        b.addEventListener('click', ()=>{
-          const key = b.closest('.exercise-item').querySelector('.answer-key');
-          key.classList.toggle('show');
-        });
-      });
-      flipbookEl.querySelectorAll('.listen-btn').forEach(btn=>{
-        const audioEl = btn.nextElementSibling;
-        btn.addEventListener('click', ()=> audioEl && audioEl.play().catch(()=>{}));
-      });
-      flipbookEl.querySelectorAll('.check-input').forEach(b=>{
-        b.addEventListener('click', ()=>{
-          const item = b.closest('.exercise-item');
-          const input = item.querySelector('input, textarea, select');
-          const key = (item.dataset.key||"").trim().toLowerCase();
-          if(!input) return;
-          const val = (input.value||"").trim().toLowerCase();
-          if(val===key || key.includes(val)){
-            input.classList.add('correct'); input.classList.remove('incorrect');
-          }else{
-            input.classList.add('incorrect'); input.classList.remove('correct');
-          }
-        });
-      });
-    }
-    function highlightCurrentPage(){
-      flipbookEl.querySelectorAll('.page').forEach((p,idx)=>{
-        p.style.opacity = (idx===currentPageIndex) ? '1' : '.0';
-      });
-    }
-    function turnPage(dir){
-      const next = currentPageIndex + dir;
-      if(next<0 || next>=pages.length) return;
-      currentPageIndex = next;
-      highlightCurrentPage();
-    }
-
-    function sectionToPage(sec){
-      const title = `<h2>${sec.title}</h2>`; let body = "";
-      if(sec.type==="conversation"){
-        body += `<div class="section"><h3>${sec.title}</h3><div class="text">${inlineWords(sec.text||"")}</div></div>`;
-      }
-      if(sec.type==="practice"){
-        body += `<div class="section"><h3>${sec.title}</h3>
-          ${sec.items.map(it=>`
-            <div class="exercise-item" data-key="${(it.a||'').toLowerCase()}">
-              <div><b>Q:</b> ${inlineWords(it.q)}</div>
-              <div class="exercise-controls">
-                <input type="text" placeholder="پاسخ خود را بنویسید"/>
-                <button class="btn check-input">بررسی</button>
-                <button class="btn btn--outline reveal-key">نمایش پاسخ</button>
-              </div>
-              <div class="answer-key"><b>Answer:</b> ${it.a}</div>
-            </div>
-          `).join("")}
-        </div>`;
-      }
-      if(sec.type==="listeningCard"){
-        body += `
-          <div class="section">
-            <h3>${sec.title}</h3>
-            <div class="text">${nl2br(inlineWords(sec.text||""))}</div>
-            <button class="btn listen-btn" style="margin-top:8px">▶ پخش صوت</button>
-            <audio src="${sec.audio}"></audio>
-          </div>
-        `;
-      }
-      return { html: `${title}${body}` };
-    }
-
-    function inlineWords(text){
-      return String(text).replace(/\b([A-Za-z][A-Za-z\-']+)\b/g,(m)=>`<span class="word">${m}</span>`);
-    }
-    function nl2br(str){ return String(str).replace(/\n/g,"<br/>"); }
-
-    function showWordInfo(word){
-      const info = DICT[word];
-      popupWord.textContent = word;
-      popupBody.innerHTML = info ? `
-        <div>معنی فارسی: <b>${info.fa}</b></div>
-        <div>مترادف‌ها: ${(info.syn||[]).join(", ")}</div>
-        <div>کلمات مرتبط: ${(info.rel||[]).join(", ")}</div>
-        <div>مثال انگلیسی: ${info.ex}</div>
-      ` : `واژه یافت نشد. می‌توانید "${word}" را به DICT اضافه کنید.`;
-      wordPopup.classList.remove('hidden');
-    }
-
-    function pronounce(text){
-      if(!window.speechSynthesis){ alert("Speech Synthesis پشتیبانی نمی‌شود."); return; }
-      const u = new SpeechSynthesisUtterance(text);
-      u.lang = 'en-US';
-      window.speechSynthesis.speak(u);
-    }
-
-    /* ---------- Exams ---------- */
-    function openExam(key){
-      const exam = EXAMS[key];
-      if(!exam){ alert("Exam not found."); return; }
-      currentExam = exam;
-      examTitle.textContent = exam.title;
-      examBody.innerHTML = exam.questions.map((q,i)=>renderExamQuestion(q,i)).join("");
-      examModal.classList.remove('hidden');
-    }
-    function renderExamQuestion(q, idx){
-      if(q.type==="mc"){
-        return `<div class="exercise-item exam-question" data-key="${(q.key||'').toLowerCase()}">
-          <h4>Q${idx+1}. ${q.q}</h4>
-          ${q.opts.map(o=>`
-            <label style="display:block;margin:4px 0;">
-              <input type="radio" name="q${idx}" value="${o.toLowerCase()}"/> ${o}
-            </label>
-          `).join("")}
-        </div>`;
-      }
-      if(q.type==="fill"){
-        return `<div class="exercise-item exam-question" data-key="${(q.key||'').toLowerCase()}">
-          <h4>Q${idx+1}. ${q.q}</h4>
-          <input type="text" placeholder="پاسخ خود را بنویسید"/>
-        </div>`;
-      }
-      return "";
-    }
-    submitExamBtn.addEventListener('click', gradeExam);
-    showExamAnswersBtn.addEventListener('click', showExamAnswers);
-    closeExamBtn.addEventListener('click', ()=>{
-      examModal.classList.add('hidden');
-      currentExam = null;
-    });
-    function gradeExam(){
-      if(!currentExam) return;
-      const questions = examBody.querySelectorAll('.exam-question');
-      let score=0,total=0;
-      questions.forEach(q=>{
-        const key = (q.dataset.key||"").trim();
-        const radios = q.querySelectorAll('input[type="radio"]');
-        const input = q.querySelector('input[type="text"]');
-        if(radios.length){
-          total++;
-          const chosen = [...radios].find(r=>r.checked);
-          if(chosen && chosen.value===key){ score++; q.classList.add('correct'); } else{ q.classList.add('incorrect'); }
-        }else if(input){
-          total++;
-          const val = (input.value||"").trim().toLowerCase();
-          if(val===key){ score++; q.classList.add('correct'); } else{ q.classList.add('incorrect'); }
-        }
-      });
-      alert(`نمره‌ی خودکار: ${score} از ${total}. سوالات تشریحی به‌صورت خودکار تصحیح نمی‌شوند.`);
-    }
-    function showExamAnswers(){
-      if(!currentExam) return;
-      const questions = examBody.querySelectorAll('.exam-question');
-      questions.forEach(q=>{
-        const key = (q.dataset.key||"").trim();
-        if(key){
-          const ans = document.createElement('div');
-          ans.style.marginTop='6px'; ans.style.color='#bde8ff';
-          ans.innerHTML = `<b>Answer:</b> ${key}`;
-          q.appendChild(ans);
-        }
-      });
-    }
-
-    /* Trigger exam button from start screen */
-    document.querySelector('[data-exam="midterm-1-3"]').addEventListener('click', ()=> openExam('midterm-1-3'));
   </script>
 </body>
 </html>
-
