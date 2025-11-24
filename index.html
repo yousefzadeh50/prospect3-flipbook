@@ -1,115 +1,35 @@
 <!DOCTYPE html>
 <html lang="fa">
 <head>
-  <meta charset="utf-8" />
-  <title>Prospect 3 — Interactive Flipbook</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta charset="UTF-8">
+  <title>تست دکمه‌ها</title>
   <style>
-    body {margin:0;font-family:Tahoma,Arial;background:#0b1220;color:#e9f1ff}
-    .hidden{display:none}
-    .btn{padding:8px 14px;border:none;border-radius:8px;cursor:pointer}
-    .btn--outline{background:transparent;border:1px solid #2f4577;color:#fff}
-    .btn--glow{background:linear-gradient(90deg,#13d38b,#71d7ff);color:#06233a;font-weight:bold}
-    .modal{position:fixed;inset:0;background:rgba(0,0,0,.6);display:flex;align-items:center;justify-content:center}
-    .modal-content{background:#121a2d;padding:20px;border-radius:12px;max-width:500px;width:90%}
-    .popup{position:fixed;bottom:20px;right:20px;background:#121a2d;padding:12px;border-radius:10px}
+    .hidden { display: none; }
+    .modal { position: fixed; inset: 0; background: rgba(0,0,0,.6);
+             display: flex; align-items: center; justify-content: center; }
+    .modal-content { background: #fff; padding: 20px; border-radius: 8px; }
   </style>
 </head>
 <body>
-  <header style="background:#111a2f;padding:10px;display:flex;justify-content:space-between">
-    <button class="btn btn--glow" id="helpBtn">راهنما</button>
-    <div>Prospect 3 — Interactive Flipbook</div>
-    <button class="btn btn--glow" id="openVocabTrainerBtn">واژه‌نامه</button>
-  </header>
-
-  <section id="startScreen">
-    <h1>درس‌ها</h1>
-    <button class="btn" id="lesson1Btn">Lesson 1</button>
-    <button class="btn" id="lesson2Btn">Lesson 2</button>
-    <h2>آزمون</h2>
-    <button class="btn" id="examBtn">Midterm Exam</button>
-  </section>
-
-  <!-- Modals -->
-  <div class="modal hidden" id="helpModal">
-    <div class="modal-content">
-      <h2>راهنما</h2>
-      <p>با دکمه‌ها کار کنید و روی واژه‌ها کلیک کنید.</p>
-      <button class="btn btn--outline" id="closeHelpBtn">بستن</button>
-    </div>
-  </div>
+  <button id="openBtn">باز کردن واژه‌نامه</button>
 
   <div class="modal hidden" id="vocabModal">
     <div class="modal-content">
       <h2>واژه‌نامه</h2>
-      <input id="vocabSearch" placeholder="جستجوی واژه..." />
-      <div id="vocabResult"></div>
-      <button class="btn btn--outline" id="closeVocabBtn">بستن</button>
+      <p>این یک تست است.</p>
+      <button id="closeBtn">بستن</button>
     </div>
-  </div>
-
-  <div class="modal hidden" id="examModal">
-    <div class="modal-content">
-      <h2>آزمون</h2>
-      <p>They __ kind.</p>
-      <input type="text" id="examAnswer" />
-      <button class="btn btn--glow" id="submitExamBtn">ثبت</button>
-      <button class="btn btn--outline" id="closeExamBtn">بستن</button>
-    </div>
-  </div>
-
-  <!-- Popup -->
-  <div class="popup hidden" id="wordPopup">
-    <span id="popupWord"></span> — <span id="popupMeaning"></span>
-    <button class="btn btn--outline" id="closePopupBtn">✕</button>
   </div>
 
   <script>
-    // Elements
-    const helpBtn=document.getElementById('helpBtn');
-    const helpModal=document.getElementById('helpModal');
-    const closeHelpBtn=document.getElementById('closeHelpBtn');
+    document.addEventListener("DOMContentLoaded", function() {
+      const openBtn = document.getElementById("openBtn");
+      const closeBtn = document.getElementById("closeBtn");
+      const modal = document.getElementById("vocabModal");
 
-    const openVocabTrainerBtn=document.getElementById('openVocabTrainerBtn');
-    const vocabModal=document.getElementById('vocabModal');
-    const closeVocabBtn=document.getElementById('closeVocabBtn');
-    const vocabSearch=document.getElementById('vocabSearch');
-    const vocabResult=document.getElementById('vocabResult');
-
-    const examBtn=document.getElementById('examBtn');
-    const examModal=document.getElementById('examModal');
-    const closeExamBtn=document.getElementById('closeExamBtn');
-    const submitExamBtn=document.getElementById('submitExamBtn');
-    const examAnswer=document.getElementById('examAnswer');
-
-    const wordPopup=document.getElementById('wordPopup');
-    const popupWord=document.getElementById('popupWord');
-    const popupMeaning=document.getElementById('popupMeaning');
-    const closePopupBtn=document.getElementById('closePopupBtn');
-
-    // Dictionary
-    const DICT={"clever":"باهوش","kind":"مهربان"};
-
-    // Bindings
-    helpBtn.onclick=()=>helpModal.classList.remove('hidden');
-    closeHelpBtn.onclick=()=>helpModal.classList.add('hidden');
-
-    openVocabTrainerBtn.onclick=()=>vocabModal.classList.remove('hidden');
-    closeVocabBtn.onclick=()=>vocabModal.classList.add('hidden');
-
-    examBtn.onclick=()=>examModal.classList.remove('hidden');
-    closeExamBtn.onclick=()=>examModal.classList.add('hidden');
-    submitExamBtn.onclick=()=>{
-      const val=examAnswer.value.trim().toLowerCase();
-      alert(val==="are"?"پاسخ درست":"پاسخ نادرست");
-    };
-
-    closePopupBtn.onclick=()=>wordPopup.classList.add('hidden');
-
-    vocabSearch.oninput=()=>{
-      const q=vocabSearch.value.trim().toLowerCase();
-      vocabResult.textContent=DICT[q]||"یافت نشد";
-    };
+      openBtn.addEventListener("click", ()=> modal.classList.remove("hidden"));
+      closeBtn.addEventListener("click", ()=> modal.classList.add("hidden"));
+    });
   </script>
 </body>
 </html>
