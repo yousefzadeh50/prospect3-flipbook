@@ -8,12 +8,12 @@
 
   <style>
     :root{
-      --bg1:#fdfcfb; --bg2:#e8f0ff;
-      --card:#ffffff; --text:#123c7a; --muted:#5f78a8; --border:#d8e0f0;
+      --bg1:#fefefe; --bg2:#eaf3ff;
+      --card:#ffffff; --text:#0f2b5a; --muted:#5f78a8; --border:#d8e0f0;
       --gradTitle: linear-gradient(90deg,#1e90ff,#00c2ff,#00e1a1);
       --gradBtn: linear-gradient(135deg,#7bdff2,#b2f7ef,#f6f7d7);
       --gradPrimary: linear-gradient(135deg,#84fab0,#8fd3f4);
-      --accent:#ff6f61; --accent2:#a66cff;
+      --accent:#ff6f61; --accent2:#a66cff; --accent3:#ffc371; --accent4:#6dd5ed;
       --shadow: 0 14px 40px rgba(18,60,122,.18);
     }
     *{box-sizing:border-box}
@@ -27,7 +27,7 @@
       min-height:100vh;
     }
 
-    /* عنوان صفحه */
+    /* عنوان صفحه با افکت گرادیان */
     header{
       text-align:center; padding:28px 16px;
       font-size:2.9em; font-weight:900; letter-spacing:.6px;
@@ -41,26 +41,26 @@
 
     /* تاپ‌بار */
     .topbar{
-      position:sticky; top:0; z-index:60;
+      position:sticky; top:0; z-index:100;
       display:flex; justify-content:space-between; align-items:center;
       gap:10px; padding:10px 16px;
-      background:rgba(255,255,255,.85); border-bottom:1px solid var(--border);
+      background:rgba(255,255,255,.9); border-bottom:1px solid var(--border);
       backdrop-filter: blur(8px);
     }
 
-    /* صفحه فرود مینیمال */
+    /* صفحه اصلی مینیمال */
     .container{ width:min(1100px,94vw); margin:0 auto; padding:16px }
     .card{
       background: var(--card); border:1px solid var(--border);
       border-radius:22px; box-shadow: var(--shadow); padding:18px;
       animation: fadeIn .35s ease both;
     }
-
-    /* منو و دکمه‌ها */
     .menu{
       display:grid; grid-template-columns: repeat(auto-fit,minmax(200px,1fr));
       gap:16px; margin-top:10px;
     }
+
+    /* دکمه‌ها شیک با افکت */
     .btn{
       cursor:pointer; border:none; border-radius:18px;
       padding:12px 16px; font-weight:800; font-size:1.02em;
@@ -80,6 +80,7 @@
       display:none; padding:20px; margin:20px auto; width:min(1100px,94vw);
       background:#ffffff; border:1px solid var(--border); border-radius:22px; box-shadow: var(--shadow);
       animation: sectionIn .3s ease both;
+      position:relative;
     }
     @keyframes sectionIn{ from{opacity:0; transform:translateY(8px)} to{opacity:1; transform:none} }
     .page h2{
@@ -87,14 +88,15 @@
       display:flex; align-items:center; gap:8px;
     }
 
-    /* متن انگلیسی کاملاً LTR و چپ‌چین */
-    .en{
-      direction:ltr; text-align:left;
-      font-family: 'Trebuchet MS', Tahoma, Arial;
-      color:#143a72; line-height:1.7;
+    /* متن انگلیسی LTR واقعی و چپ‌چین (با !important و selector سخت‌گیر) */
+    .en, .page .en, .card .en, .line .en{
+      direction:ltr !important; text-align:left !important;
+      font-family: 'Trebuchet MS', Tahoma, Arial !important;
+      color:#0f376c; line-height:1.75;
+      unicode-bidi: plaintext;
     }
     .exp{ font-family:'Shabnam','Vazir', Tahoma; color:#405a8f }
-    .line{ display:flex; align-items:center; gap:10px; margin:10px 0 }
+    .line{ display:flex; align-items:center; gap:10px; margin:10px 0; flex-wrap:wrap }
     .word{ cursor:pointer; border-bottom:2px dashed #7aa7ff }
     .word:hover{ color:var(--accent) }
 
@@ -107,8 +109,7 @@
     .popup-card{
       width:min(720px,92vw); background:#ffffff; border:1px solid var(--border);
       border-radius:18px; box-shadow: var(--shadow); padding:18px;
-      font-family:'Shabnam','Vazir', Tahoma;
-      animation: pop .25s ease both;
+      font-family:'Shabnam','Vazir', Tahoma; animation: pop .25s ease both;
     }
     @keyframes pop{ from{opacity:0; transform:scale(.96)} to{opacity:1; transform:scale(1)} }
     .popup-card h3{ margin:0 0 8px; color:#1849a9; font-weight:900 }
@@ -116,7 +117,7 @@
 
     /* راهنما مودال */
     .help-wrap{
-      display:none; position:fixed; inset:0; z-index:900;
+      position:fixed; inset:0; z-index:900; display:none;
       background:rgba(18,36,74,.35); backdrop-filter: blur(6px);
       align-items:center; justify-content:center; padding:16px;
     }
@@ -133,10 +134,19 @@
     /* پلیر صوت داخلی */
     audio{ width:100%; max-width:780px; height:40px; margin:10px 0 }
 
-    /* کادر طراح با افکت ویژه */
+    /* دکمه شناور برگشت به صفحه اصلی (بالای صفحه، برجسته) */
+    .home-fab{
+      position:fixed; top:12px; left:50%; transform:translateX(-50%);
+      z-index:110; padding:10px 14px; border-radius:999px;
+      background: linear-gradient(135deg,#fff,#eef6ff);
+      border:1px solid var(--border); box-shadow: 0 10px 22px rgba(9,58,95,.2);
+      display:none; align-items:center; gap:8px;
+    }
+
+    /* کادر طراح: وسط پایین، برجسته */
     .designer{
-      position:fixed; left:16px; bottom:16px; z-index:70;
-      background: linear-gradient(135deg, #ffffffcc, #eaf3ffcc);
+      position:fixed; left:50%; bottom:16px; transform:translateX(-50%); z-index:70;
+      background: linear-gradient(135deg, #ffffffee, #eaf3ffee);
       border:1px solid var(--border); border-radius:16px; padding:10px 12px;
       display:flex; align-items:center; gap:10px; box-shadow: var(--shadow); backdrop-filter: blur(8px);
     }
@@ -146,6 +156,15 @@
       background: linear-gradient(90deg,#ff6f61,#ffc371,#6dd5ed,#2193b0);
       -webkit-background-clip: text; background-clip:text; color: transparent; letter-spacing:.4px;
     }
+
+    /* نوار رنگی زیر عنوان هر صفحه برای زیبایی */
+    .section-bar{
+      height:6px; border-radius:8px; margin-bottom:12px;
+      background: linear-gradient(90deg,var(--accent),var(--accent3),var(--accent4),#00c2ff);
+      box-shadow: inset 0 0 8px rgba(0,0,0,.06);
+      animation: bar .8s ease both;
+    }
+    @keyframes bar{ from{width:0} to{width:100%} }
   </style>
 </head>
 <body>
@@ -159,7 +178,12 @@
     <button class="btn btn--ghost" id="helpBtn"><i class="fa-regular fa-circle-question"></i> راهنما</button>
   </div>
 
-  <!-- صفحه اصلی مینیمال: فقط عنوان، منو، موسیقی/راهنما، کادر طراح -->
+  <!-- دکمه شناور صفحه اصلی -->
+  <div class="home-fab" id="homeFab">
+    <button class="btn btn--ghost" onclick="goHome()"><i class="fa-solid fa-house"></i> صفحه اصلی</button>
+  </div>
+
+  <!-- صفحه اصلی مینیمال -->
   <section class="container" id="home">
     <div class="card" aria-label="main-menu">
       <div class="menu">
@@ -184,9 +208,9 @@
       <div class="help-grid">
         <div class="help-item"><b class="exp">صفحهٔ اصلی:</b><div class="exp">فقط عنوان، منو، دکمهٔ Music و راهنما و کادر طراح دیده می‌شود. برای دیدن هر بخش، روی دکمهٔ مربوط کلیک کنید.</div></div>
         <div class="help-item"><b class="exp">New Words:</b><div class="exp">روی واژه‌های آبی کلیک کنید تا پاپ‌آپ <b>New Words</b> با معنی، مترادف/متضاد، کلمات مرتبط، تعریف ساده و مثال با ترجمه باز شود. تلفظ واژه و جمله فعال است.</div></div>
-        <div class="help-item"><b class="exp">Find it:</b><div class="exp">افعال to be را خودتان با کلیک انتخاب کنید و زیرشان خط بیفتد. سپس روی «بررسی پاسخ‌ها» کلیک کنید تا درست/نادرست بودن انتخاب‌ها مشخص شود. کل متن با پلیر داخلی قابل پخش است.</div></div>
-        <div class="help-item"><b class="exp">Listening:</b><div class="exp">فایل‌های A و B با پلیر داخلی پخش می‌شوند (لینک mp3 مستقیم). متن شنیداری ابتدا مخفی است. سوالات تعاملی‌اند و پاسخ‌ها قابل ثبت است.</div></div>
-        <div class="help-item"><b class="exp">Workbook و Quiz:</b><div class="exp">تمام تمرین‌ها کامل و تعاملی هستند؛ پاسخ‌ها را وارد و بررسی کنید. برای هر تمرین دکمهٔ «ثبت/بررسی» وجود دارد.</div></div>
+        <div class="help-item"><b class="exp">Find it:</b><div class="exp">افعال to be را خودتان با کلیک انتخاب کنید و زیرشان خط بیفتد (از جمله I’m/He’s/It’s). سپس «بررسی پاسخ‌ها» را بزنید تا درست/نادرست مشخص شود. متن با پلیر داخلی پخش می‌شود.</div></div>
+        <div class="help-item"><b class="exp">Listening:</b><div class="exp">فایل‌های A و B با پلیر داخلی پخش می‌شوند (mp3 مستقیم). متن ابتدا مخفی است و «نمایش پاسخ درست» هم دارد.</div></div>
+        <div class="help-item"><b class="exp">Workbook و Quiz:</b><div class="exp">تا پایان درس با تمرین‌های کامل و متنوع طراحی شده‌اند؛ پاسخ‌ها را وارد و همان‌جا بررسی کنید. دکمهٔ «ثبت/بررسی» برای هر آیتم موجود است.</div></div>
       </div>
       <div class="help-actions">
         <button class="btn btn--ghost" onclick="closeHelp()"><i class="fa-solid fa-xmark"></i> بستن راهنما</button>
@@ -200,19 +224,23 @@
       <h3>New Words</h3>
       <div id="wordContent" class="exp"></div>
       <div class="popup-actions">
+        <button class="btn btn--primary" id="pronBtn"><i class="fa-solid fa-volume-high"></i> تلفظ واژه</button>
         <button class="btn btn--ghost" onclick="closeWordPopup()"><i class="fa-solid fa-xmark"></i> بستن</button>
       </div>
     </div>
   </div>
 
-  <!-- کادر طراح -->
+  <!-- کادر طراح: وسط پایین -->
   <div class="designer">
     <img src="https://s34.picofile.com/file/8488183492/2.png" alt="Designer">
     <small>Designer — A.R. Yousefzadeh</small>
   </div>
+
   <!-- Conversation -->
   <section class="page" id="page-conversation">
+    <div class="section-bar"></div>
     <h2><i class="fa-solid fa-comments"></i> Conversation</h2>
+
     <div class="line"><span class="en">Ehsan: <span class="word" onclick="word('who')">Who</span> is your best friend at school?</span><button class="btn btn--ghost" onclick="speak('Who is your best friend at school?')">🔊</button></div>
     <div class="line"><span class="en">Parham: Reza.</span><button class="btn btn--ghost" onclick="speak('Reza')">🔊</button></div>
     <div class="line"><span class="en">Ehsan: What's he like?</span><button class="btn btn--ghost" onclick="speak('What is he like?')">🔊</button></div>
@@ -221,33 +249,58 @@
     <div class="line"><span class="en">Parham: Yes! And he's always very <span class="word" onclick="word('helpful')">helpful</span>.</span><button class="btn btn--ghost" onclick="speak('Yes! And he is always very helpful.')">🔊</button></div>
     <div class="line"><span class="en">Ehsan: How?</span><button class="btn btn--ghost" onclick="speak('How?')">🔊</button></div>
     <div class="line"><span class="en">Parham: He always helps me with my lessons.</span><button class="btn btn--ghost" onclick="speak('He always helps me with my lessons.')">🔊</button></div>
+
     <div style="margin-top:12px"><button class="btn btn--primary" onclick="showKeywords()">New Words</button></div>
     <div id="keywordsBox" class="exp" style="display:none; margin-top:10px"></div>
-    <div class="line"><button class="btn btn--ghost" onclick="goHome()"><i class="fa-solid fa-house"></i> صفحه اصلی</button></div>
   </section>
 
-  <!-- Practice 1 & 2 -->
+  <!-- Practice 1 & 2 (Answers inline + TTS) -->
   <section class="page" id="page-practice">
+    <div class="section-bar"></div>
     <h2><i class="fa-solid fa-pencil"></i> Practice 1 & 2</h2>
-    <div class="line"><span class="en">Are you hard-working?</span><button class="btn btn--ghost" onclick="speak('Are you hard-working?')">🔊</button></div>
-    <div class="line"><span class="en">Is he clever?</span><button class="btn btn--ghost" onclick="speak('Is he clever?')">🔊</button></div>
-    <div class="line"><span class="en">Is Zahra talkative?</span><button class="btn btn--ghost" onclick="speak('Is Zahra talkative?')">🔊</button></div>
-    <div class="line"><span class="en">Are they neat? Are they upset?</span><button class="btn btn--ghost" onclick="speak('Are they neat? Are they upset?')">🔊</button></div>
-    <div class="line exp">Answers: Yes, I am. | Yes, he is. | No, she isn't. | Yes, they are. | No, they're not.</div>
+
+    <div class="line">
+      <span class="en">Are you hard-working?</span>
+      <span class="exp"><b>Answer:</b> Yes, I am.</span>
+      <button class="btn btn--ghost" onclick="speak('Yes, I am.')">🔊</button>
+    </div>
+    <div class="line">
+      <span class="en">Is he clever?</span>
+      <span class="exp"><b>Answer:</b> Yes, he is.</span>
+      <button class="btn btn--ghost" onclick="speak('Yes, he is.')">🔊</button>
+    </div>
+    <div class="line">
+      <span class="en">Is Zahra talkative?</span>
+      <span class="exp"><b>Answer:</b> No, she isn’t.</span>
+      <button class="btn btn--ghost" onclick="speak('No, she isn’t.')">🔊</button>
+    </div>
+    <div class="line">
+      <span class="en">Are they neat?</span>
+      <span class="exp"><b>Answer:</b> Yes, they are.</span>
+      <button class="btn btn--ghost" onclick="speak('Yes, they are.')">🔊</button>
+    </div>
+    <div class="line">
+      <span class="en">Are they upset?</span>
+      <span class="exp"><b>Answer:</b> No, they aren’t.</span>
+      <button class="btn btn--ghost" onclick="speak('No, they aren’t.')">🔊</button>
+    </div>
+
     <hr>
-    <div class="line"><span class="en">What's your friend like? — He's very <span class="word" onclick="word('funny')">funny</span>.</span><button class="btn btn--ghost" onclick="speak('What is your friend like? He is very funny.')">🔊</button></div>
-    <div class="line"><span class="en">What's your mother like? — She's very <span class="word" onclick="word('kind')">kind</span> and <span class="word" onclick="word('patient')">patient</span>.</span><button class="btn btn--ghost" onclick="speak('What is your mother like? She is very kind and patient.')">🔊</button></div>
-    <div class="line"><span class="en">What's he like? — He is <span class="word" onclick="word('quiet')">quiet</span>.</span><button class="btn btn--ghost" onclick="speak('What is he like? He is quiet.')">🔊</button></div>
-    <div class="line"><span class="en">What's she like? — She is <span class="word" onclick="word('clever')">clever</span>.</span><button class="btn btn--ghost" onclick="speak('What is she like? She is clever.')">🔊</button></div>
-    <div class="line"><span class="en">What are you like? — I'm a bit serious.</span><button class="btn btn--ghost" onclick="speak('What are you like? I am a bit serious.')">🔊</button></div>
-    <div class="line"><span class="en">What are they like? — They are very <span class="word" onclick="word('kind')">kind</span>.</span><button class="btn btn--ghost" onclick="speak('What are they like? They are very kind.')">🔊</button></div>
-    <audio id="practiceAudio" controls preload="none" src=""></audio>
-    <div class="line"><button class="btn btn--ghost" onclick="goHome()"><i class="fa-solid fa-house"></i> صفحه اصلی</button></div>
+    <div class="line"><span class="en">What's your friend like? — He's very <span class="word" onclick="word('funny')">funny</span>.</span><button class="btn btn--ghost" onclick="speak('He is very funny.')">🔊</button></div>
+    <div class="line"><span class="en">What's your mother like? — She's very <span class="word" onclick="word('kind')">kind</span> and <span class="word" onclick="word('patient')">patient</span>.</span><button class="btn btn--ghost" onclick="speak('She is very kind and patient.')">🔊</button></div>
+    <div class="line"><span class="en">What's he like? — He is <span class="word" onclick="word('quiet')">quiet</span>.</span><button class="btn btn--ghost" onclick="speak('He is quiet.')">🔊</button></div>
+    <div class="line"><span class="en">What's she like? — She is <span class="word" onclick="word('clever')">clever</span>.</span><button class="btn btn--ghost" onclick="speak('She is clever.')">🔊</button></div>
+    <div class="line"><span class="en">What are you like? — I'm a bit serious.</span><button class="btn btn--ghost" onclick="speak('I am a bit serious.')">🔊</button></div>
+    <div class="line"><span class="en">What are they like? — They are very <span class="word" onclick="word('kind')">kind</span>.</span><button class="btn btn--ghost" onclick="speak('They are very kind.')">🔊</button></div>
+
+    <audio id="practiceAudio" controls preload="metadata"></audio>
   </section>
 
   <!-- Language Melody -->
   <section class="page" id="page-melody">
+    <div class="section-bar"></div>
     <h2><i class="fa-solid fa-music"></i> Language Melody</h2>
+
     <div class="line"><span class="en">Teacher: Farzaneh is a clever student. Everybody likes her.</span><button class="btn btn--ghost" onclick="speak('Farzaneh is a clever student. Everybody likes her.')">🔊</button></div>
     <div class="line"><span class="en">Samira: Yes. I know. She is also very helpful.</span><button class="btn btn--ghost" onclick="speak('Yes. I know. She is also very helpful.')">🔊</button></div>
     <div class="line"><span class="en">Teacher: Well, you can ask her for help.</span><button class="btn btn--ghost" onclick="speak('Well, you can ask her for help.')">🔊</button></div>
@@ -259,12 +312,13 @@
     <div class="line"><span class="en">Everybody likes her.</span><button class="btn btn--ghost" onclick="speak('Everybody likes her.')">🔊</button></div>
     <div class="line"><span class="en">I do my homework.</span><button class="btn btn--ghost" onclick="speak('I do my homework.')">🔊</button></div>
     <div class="line"><span class="en">She works for a company.</span><button class="btn btn--ghost" onclick="speak('She works for a company.')">🔊</button></div>
-    <audio id="melodyAudio" controls preload="none" src=""></audio>
-    <div class="line"><button class="btn btn--ghost" onclick="goHome()"><i class="fa-solid fa-house"></i> صفحه اصلی</button></div>
+
+    <audio id="melodyAudio" controls preload="metadata"></audio>
   </section>
 
   <!-- Grammar -->
   <section class="page" id="page-grammar">
+    <div class="section-bar"></div>
     <h2><i class="fa-solid fa-book"></i> Grammar — Be verb (am / is / are)</h2>
     <div class="exp">Affirmative: I am | He/She is | We/You/They are (happy)</div>
     <div class="en">Ali is clever. | It is red. | Zahra and Nadia are generous.</div>
@@ -278,67 +332,75 @@
     </div>
     <div class="en" style="margin-top:8px">There is an eraser in the classroom. | There are two students...</div>
     <div class="en">Is there an apple on the table? — Yes, there is. | There aren't many tourists in this city.</div>
-    <div class="line"><button class="btn btn--ghost" onclick="goHome()"><i class="fa-solid fa-house"></i> صفحه اصلی</button></div>
   </section>
 
-  <!-- Find it: انتخاب و بررسی to be -->
+  <!-- Find it (I’m نیز قابل انتخاب) -->
   <section class="page" id="page-findit">
+    <div class="section-bar"></div>
     <h2><i class="fa-solid fa-highlighter"></i> Find it — Underline "to be" verbs</h2>
+
     <div class="en" id="findText">
-      I’m Mohsen. This <span class="word" onclick="toggleMark(this)">is</span> my classroom. There <span class="word" onclick="toggleMark(this)">are</span> 25 students in my class.
-      I have a lot of friends. My best friend <span class="word" onclick="toggleMark(this)">is</span> Vahid. He’s a good student.
-      He <span class="word" onclick="toggleMark(this)">is</span> helpful and hard-working, but he’s not very careful.
-      He usually forgets important things. It<span class="word" onclick="toggleMark(this)">’s</span> a big problem.
+      <span class="word" onclick="toggleMark(this)">I’m</span> Mohsen. This <span class="word" onclick="toggleMark(this)">is</span> my classroom. There <span class="word" onclick="toggleMark(this)">are</span> 25 students in my class.
+      I have a lot of friends. My best friend <span class="word" onclick="toggleMark(this)">is</span> Vahid. <span class="word" onclick="toggleMark(this)">He’s</span> a good student.
+      He <span class="word" onclick="toggleMark(this)">is</span> helpful and hard-working, but <span class="word" onclick="toggleMark(this)">he’s</span> not very careful.
+      He usually forgets important things. <span class="word" onclick="toggleMark(this)">It’s</span> a big problem.
     </div>
     <div class="line">
       <button class="btn btn--primary" onclick="checkFindIt()">بررسی پاسخ‌ها</button>
       <span id="findResult" class="exp"></span>
     </div>
-    <audio id="findAudio" controls preload="none" src=""></audio>
-    <div class="line"><button class="btn btn--ghost" onclick="goHome()"><i class="fa-solid fa-house"></i> صفحه اصلی</button></div>
+    <audio id="findAudio" controls preload="metadata"></audio>
   </section>
 
-  <!-- Listening (A & B) با متن مخفی و سوالات تعاملی -->
+  <!-- Listening (A & B) با نمایش پاسخ درست -->
   <section class="page" id="page-listening">
+    <div class="section-bar"></div>
     <h2><i class="fa-solid fa-headphones"></i> Listening — Parts A & B</h2>
 
     <div class="card">
       <h3 class="exp" style="margin-top:0">Part A</h3>
-      <audio id="listenA" controls preload="none" src=""></audio>
+      <audio id="listenA" controls preload="metadata"></audio>
       <div style="margin:8px 0"><button class="btn btn--ghost" onclick="toggle('scriptA')">نمایش/مخفی متن A</button></div>
       <div id="scriptA" class="en" style="display:none">
         Haniyeh: Who is she, Anita? — Anita: She is my mother, Zahra. — Haniyeh: Tell me about her. What is she like? —
         Anita: Well, she's great. She's very kind and helpful.
       </div>
-      <div style="margin-top:8px" class="exp">
+      <div class="exp" style="margin-top:8px">
         <b>Questions:</b>
         <div class="line exp">1) Who is Anita talking about? <input id="la_q1" type="text" placeholder="Your answer"></div>
         <div class="line exp">2) What is she like? <input id="la_q2" type="text" placeholder="Your answer"></div>
-        <div class="line"><button class="btn btn--primary" onclick="checkText(['la_q1','la_q2'])">ثبت پاسخ‌ها</button></div>
+        <div class="line">
+          <button class="btn btn--primary" onclick="checkText(['la_q1','la_q2'])">ثبت پاسخ‌ها</button>
+          <button class="btn btn--ghost" onclick="showListeningAnswers('A')">نمایش پاسخ درست</button>
+        </div>
+        <div id="ansA" class="exp" style="display:none">1) Her mother, Zahra. — 2) Kind and helpful.</div>
       </div>
     </div>
 
     <div class="card" style="margin-top:14px">
       <h3 class="exp" style="margin-top:0">Part B</h3>
-      <audio id="listenB" controls preload="none" src=""></audio>
+      <audio id="listenB" controls preload="metadata"></audio>
       <div style="margin:8px 0"><button class="btn btn--ghost" onclick="toggle('scriptB')">نمایش/مخفی متن B</button></div>
       <div id="scriptB" class="en" style="display:none">
         Iran is a great country. There are a lot of cities and villages here. Iranian people are very kind and friendly.
         They are also really brave and hard-working. We all love our beautiful country.
       </div>
-      <div style="margin-top:8px" class="exp">
+      <div class="exp" style="margin-top:8px">
         <b>Questions:</b>
         <div class="line exp">1) What's Iran like? <input id="lb_q1" type="text" placeholder="Your answer"></div>
         <div class="line exp">2) What are Iranian people like? <input id="lb_q2" type="text" placeholder="Your answer"></div>
-        <div class="line"><button class="btn btn--primary" onclick="checkText(['lb_q1','lb_q2'])">ثبت پاسخ‌ها</button></div>
+        <div class="line">
+          <button class="btn btn--primary" onclick="checkText(['lb_q1','lb_q2'])">ثبت پاسخ‌ها</button>
+          <button class="btn btn--ghost" onclick="showListeningAnswers('B')">نمایش پاسخ درست</button>
+        </div>
+        <div id="ansB" class="exp" style="display:none">1) Great. — 2) Kind, friendly, brave, hard-working.</div>
       </div>
     </div>
-
-    <div class="line"><button class="btn btn--ghost" onclick="goHome()"><i class="fa-solid fa-house"></i> صفحه اصلی</button></div>
   </section>
 
-  <!-- Role Play — سناریوی کامل و جذاب با پلیر -->
+  <!-- Role Play -->
   <section class="page" id="page-role">
+    <div class="section-bar"></div>
     <h2><i class="fa-solid fa-theater-masks"></i> Role Play — Class project: Describe personalities</h2>
     <div class="en">
       <p><b>Ali:</b> Today, we have a class project. We will talk about our friends’ personalities.</p>
@@ -351,42 +413,63 @@
       <p><b>Sara:</b> Ali is talkative and friendly. She can speak for hours, and we never get tired of her.</p>
       <p><b>Teacher:</b> Great job, everyone! Remember, we learn more about others’ good qualities.</p>
     </div>
-    <audio id="roleAudio" controls preload="none" src=""></audio>
-    <div class="line"><button class="btn btn--ghost" onclick="goHome()"><i class="fa-solid fa-house"></i> صفحه اصلی</button></div>
+    <audio id="roleAudio" controls preload="metadata"></audio>
   </section>
 
-  <!-- Photo Dictionary -->
+  <!-- Photo Dictionary (کلیک=New Words پاپ‌آپ + تلفظ) -->
   <section class="page" id="page-photo">
+    <div class="section-bar"></div>
     <h2><i class="fa-solid fa-image"></i> Photo Dictionary — Lesson 1</h2>
-    <div class="line"><span class="en word" onclick="word('angry')">an angry kid</span> — <span class="exp">یک بچه عصبانی</span> <button class="btn btn--ghost" onclick="speak('an angry kid')">🔊</button></div>
-    <div class="line"><span class="en word" onclick="word('brave')">a brave soldier</span> — <span class="exp">سرباز شجاع</span> <button class="btn btn--ghost" onclick="speak('a brave soldier')">🔊</button></div>
-    <div class="line"><span class="en word" onclick="word('careless')">a careless man</span> — <span class="exp">مرد بی‌دقت</span> <button class="btn btn--ghost" onclick="speak('a careless man')">🔊</button></div>
-    <div class="line"><span class="en word" onclick="word('cruel')">a cruel boy</span> — <span class="exp">پسر بی‌رحم</span> <button class="btn btn--ghost" onclick="speak('a cruel boy')">🔊</button></div>
-    <div class="line"><span class="en word" onclick="word('funny')">a funny story</span> — <span class="exp">داستان خنده‌دار</span> <button class="btn btn--ghost" onclick="speak('a funny story')">🔊</button></div>
-    <div class="line"><span class="en word" onclick="word('neat')">a neat person</span> — <span class="exp">فرد مرتب</span> <button class="btn btn--ghost" onclick="speak('a neat person')">🔊</button></div>
-    <div class="line"><span class="en word" onclick="word('nervous')">a nervous boy</span> — <span class="exp">پسر مضطرب</span> <button class="btn btn--ghost" onclick="speak('a nervous boy')">🔊</button></div>
-    <div class="line"><span class="en word" onclick="word('quiet')">a quiet place</span> — <span class="exp">مکان ساکت</span> <button class="btn btn--ghost" onclick="speak('a quiet place')">🔊</button></div>
-    <div class="line"><span class="en word" onclick="word('rude')">a rude kid</span> — <span class="exp">بچه بی‌ادب</span> <button class="btn btn--ghost" onclick="speak('a rude kid')">🔊</button></div>
-    <div class="line"><span class="en word" onclick="word('selfish')">a selfish person</span> — <span class="exp">فرد خودخواه</span> <button class="btn btn--ghost" onclick="speak('a selfish person')">🔊</button></div>
-    <div class="line"><span class="en word" onclick="word('hard-working')">a hard-working worker</span> — <span class="exp">کارگر سخت‌کوش</span> <button class="btn btn--ghost" onclick="speak('a hard-working worker')">🔊</button></div>
-    <div class="line"><span class="en word" onclick="word('lazy')">a lazy person</span> — <span class="exp">فرد تنبل</span> <button class="btn btn--ghost" onclick="speak('a lazy person')">🔊</button></div>
-    <div class="line"><span class="en word" onclick="word('shy')">a shy girl</span> — <span class="exp">دختر خجالتی</span> <button class="btn btn--ghost" onclick="speak('a shy girl')">🔊</button></div>
-    <div class="line"><span class="en word" onclick="word('generous')">a generous girl</span> — <span class="exp">دختر بخشنده</span> <button class="btn btn--ghost" onclick="speak('a generous girl')">🔊</button></div>
-    <div class="line"><button class="btn btn--ghost" onclick="goHome()"><i class="fa-solid fa-house"></i> صفحه اصلی</button></div>
+
+    <div class="line"><span class="en word" onclick="word('angry')">angry</span> — <span class="exp">عصبانی</span> <button class="btn btn--ghost" onclick="speak('angry')">🔊</button></div>
+    <div class="line"><span class="en word" onclick="word('brave')">brave</span> — <span class="exp">شجاع</span> <button class="btn btn--ghost" onclick="speak('brave')">🔊</button></div>
+    <div class="line"><span class="en word" onclick="word('careless')">careless</span> — <span class="exp">بی‌دقت</span> <button class="btn btn--ghost" onclick="speak('careless')">🔊</button></div>
+    <div class="line"><span class="en word" onclick="word('cruel')">cruel</span> — <span class="exp">بی‌رحم</span> <button class="btn btn--ghost" onclick="speak('cruel')">🔊</button></div>
+    <div class="line"><span class="en word" onclick="word('funny')">funny</span> — <span class="exp">خنده‌دار</span> <button class="btn btn--ghost" onclick="speak('funny')">🔊</button></div>
+    <div class="line"><span class="en word" onclick="word('neat')">neat</span> — <span class="exp">مرتب</span> <button class="btn btn--ghost" onclick="speak('neat')">🔊</button></div>
+    <div class="line"><span class="en word" onclick="word('nervous')">nervous</span> — <span class="exp">مضطرب</span> <button class="btn btn--ghost" onclick="speak('nervous')">🔊</button></div>
+    <div class="line"><span class="en word" onclick="word('quiet')">quiet</span> — <span class="exp">ساکت</span> <button class="btn btn--ghost" onclick="speak('quiet')">🔊</button></div>
+    <div class="line"><span class="en word" onclick="word('rude')">rude</span> — <span class="exp">بی‌ادب</span> <button class="btn btn--ghost" onclick="speak('rude')">🔊</button></div>
+    <div class="line"><span class="en word" onclick="word('selfish')">selfish</span> — <span class="exp">خودخواه</span> <button class="btn btn--ghost" onclick="speak('selfish')">🔊</button></div>
+    <div class="line"><span class="en word" onclick="word('hard-working')">hard-working</span> — <span class="exp">سخت‌کوش</span> <button class="btn btn--ghost" onclick="speak('hard working')">🔊</button></div>
+    <div class="line"><span class="en word" onclick="word('lazy')">lazy</span> — <span class="exp">تنبل</span> <button class="btn btn--ghost" onclick="speak('lazy')">🔊</button></div>
+    <div class="line"><span class="en word" onclick="word('shy')">shy</span> — <span class="exp">خجالتی</span> <button class="btn btn--ghost" onclick="speak('shy')">🔊</button></div>
+    <div class="line"><span class="en word" onclick="word('generous')">generous</span> — <span class="exp">بخشنده</span> <button class="btn btn--ghost" onclick="speak('generous')">🔊</button></div>
   </section>
 
-  <!-- Workbook: کامل و تعاملی (۴ بخش) -->
+  <!-- Workbook کامل تا پایان درس -->
   <section class="page" id="page-workbook">
+    <div class="section-bar"></div>
     <h2><i class="fa-solid fa-book-open"></i> Workbook — Interactive exercises</h2>
 
     <!-- 1) Choose correct forms -->
     <div class="card">
       <h3 class="exp" style="margin-top:0">1) Choose the correct forms</h3>
-      <div class="line exp">1. Kate isn't/aren't funny. <label><input type="radio" name="wb1" value="isn't"> isn't</label> <label><input type="radio" name="wb1" value="aren't"> aren't</label> <button class="btn btn--primary" onclick="checkMCQ('wb1','isn't')">ثبت</button></div>
-      <div class="line exp">2. There is/are a car in the street. <label><input type="radio" name="wb2" value="is"> is</label> <label><input type="radio" name="wb2" value="are"> are</label> <button class="btn btn--primary" onclick="checkMCQ('wb2','is')">ثبت</button></div>
-      <div class="line exp">3. There is/are fifteen benches in the class. <label><input type="radio" name="wb3" value="is"> is</label> <label><input type="radio" name="wb3" value="are"> are</label> <button class="btn btn--primary" onclick="checkMCQ('wb3','are')">ثبت</button></div>
-      <div class="line exp">4. It is/are really beautiful. <label><input type="radio" name="wb4" value="is"> is</label> <label><input type="radio" name="wb4" value="are"> are</label> <button class="btn btn--primary" onclick="checkMCQ('wb4','is')">ثبت</button></div>
-      <div class="line exp">5. Iranians is/are very brave. <label><input type="radio" name="wb5" value="is"> is</label> <label><input type="radio" name="wb5" value="are"> are</label> <button class="btn btn--primary" onclick="checkMCQ('wb5','are')">ثبت</button></div>
+      <div class="line exp">1. Kate isn't/aren't funny.
+        <label><input type="radio" name="wb1" value="isn't"> isn't</label>
+        <label><input type="radio" name="wb1" value="aren't"> aren't</label>
+        <button class="btn btn--primary" onclick="checkMCQ('wb1','isn't')">بررسی</button>
+      </div>
+      <div class="line exp">2. There is/are a car in the street.
+        <label><input type="radio" name="wb2" value="is"> is</label>
+        <label><input type="radio" name="wb2" value="are"> are</label>
+        <button class="btn btn--primary" onclick="checkMCQ('wb2','is')">بررسی</button>
+      </div>
+      <div class="line exp">3. There is/are fifteen benches in the class.
+        <label><input type="radio" name="wb3" value="is"> is</label>
+        <label><input type="radio" name="wb3" value="are"> are</label>
+        <button class="btn btn--primary" onclick="checkMCQ('wb3','are')">بررسی</button>
+      </div>
+      <div class="line exp">4. It is/are really beautiful.
+        <label><input type="radio" name="wb4" value="is"> is</label>
+        <label><input type="radio" name="wb4" value="are"> are</label>
+        <button class="btn btn--primary" onclick="checkMCQ('wb4','is')">بررسی</button>
+      </div>
+      <div class="line exp">5. Iranians is/are very brave.
+        <label><input type="radio" name="wb5" value="is"> is</label>
+        <label><input type="radio" name="wb5" value="are"> are</label>
+        <button class="btn btn--primary" onclick="checkMCQ('wb5','are')">بررسی</button>
+      </div>
     </div>
 
     <!-- 2) Fill in the blanks -->
@@ -418,64 +501,74 @@
     <!-- 4) Match & Short answers -->
     <div class="card" style="margin-top:14px">
       <h3 class="exp" style="margin-top:0">4) Match & Short answers</h3>
-      <div class="line exp">Match adjectives to meanings:</div>
       <div class="line exp">kind — <input id="wm1" type="text" placeholder="meaning (FA or EN)"> <button class="btn btn--primary" onclick="markFree('wm1')">ثبت</button></div>
       <div class="line exp">brave — <input id="wm2" type="text" placeholder="meaning (FA or EN)"> <button class="btn btn--primary" onclick="markFree('wm2')">ثبت</button></div>
       <div class="line exp">neat — <input id="wm3" type="text" placeholder="meaning (FA or EN)"> <button class="btn btn--primary" onclick="markFree('wm3')">ثبت</button></div>
     </div>
-
-    <div class="line"><button class="btn btn--ghost" onclick="goHome()"><i class="fa-solid fa-house"></i> صفحه اصلی</button></div>
   </section>
 
-  <!-- Quiz: 20 pts کامل و تعاملی -->
+  <!-- Quiz متنوع و کامل (بدون سوال Listening طبق درخواست) -->
   <section class="page" id="page-quiz">
+    <div class="section-bar"></div>
     <h2><i class="fa-solid fa-clipboard-check"></i> Quiz — 20 pts</h2>
 
     <div class="card">
-      <h3 class="exp" style="margin-top:0">Grammar & Vocabulary</h3>
-      <div class="line exp">1) He __ clever. <label><input type="radio" name="q1" value="are"> are</label> <label><input type="radio" name="q1" value="is"> is</label> <button class="btn btn--primary" onclick="checkMCQ('q1','is')">ثبت</button></div>
+      <h3 class="exp" style="margin-top:0">A) Grammar (to be)</h3>
+      <div class="line exp">1) He __ clever.
+        <label><input type="radio" name="q1" value="are"> are</label>
+        <label><input type="radio" name="q1" value="is"> is</label>
+        <button class="btn btn--primary" onclick="checkMCQ('q1','is')">ثبت</button>
+      </div>
       <div class="line exp">2) They __ kind. <input id="q2" type="text" placeholder="are"> <button class="btn btn--primary" onclick="checkFill('q2','are')">ثبت</button></div>
-      <div class="line exp">3) True/False: "rude" means "مهربان". <label><input type="radio" name="q3" value="true"> درست</label> <label><input type="radio" name="q3" value="false"> نادرست</label> <button class="btn btn--primary" onclick="checkTF('q3',false)">ثبت</button></div>
-      <div class="line en">4) Make a sentence with "brave": <input id="q4" type="text" placeholder="Your sentence"> <button class="btn btn--primary" onclick="markFree('q4')">ثبت</button></div>
+      <div class="line exp">3) Change to negative: "She is patient." <input id="q3" type="text" placeholder="She is not patient."> <button class="btn btn--primary" onclick="checkFill('q3','She is not patient.')">ثبت</button></div>
+      <div class="line exp">4) Make a question: "__ he helpful?" <input id="q4" type="text" placeholder="Is"> <button class="btn btn--primary" onclick="checkFill('q4','Is')">ثبت</button></div>
     </div>
 
     <div class="card" style="margin-top:14px">
-      <h3 class="exp" style="margin-top:0">Listening comprehension</h3>
-      <div class="line exp">5) Part A: Who is Zahra? <input id="q5" type="text" placeholder="Your answer"> <button class="btn btn--primary" onclick="markFree('q5')">ثبت</button></div>
-      <div class="line exp">6) Part B: What are Iranian people like? <input id="q6" type="text" placeholder="Your answer"> <button class="btn btn--primary" onclick="markFree('q6')">ثبت</button></div>
+      <h3 class="exp" style="margin-top:0">B) Vocabulary</h3>
+      <div class="line exp">5) True/False: "rude" means "مهربان".
+        <label><input type="radio" name="q5" value="true"> درست</label>
+        <label><input type="radio" name="q5" value="false"> نادرست</label>
+        <button class="btn btn--primary" onclick="checkTF('q5',false)">ثبت</button>
+      </div>
+      <div class="line en">6) Use "brave" in a sentence: <input id="q6" type="text" placeholder="Your sentence"> <button class="btn btn--primary" onclick="markFree('q6')">ثبت</button></div>
+      <div class="line exp">7) Match: clever = <input id="q7" type="text" placeholder="smart/bright"> <button class="btn btn--primary" onclick="checkFill('q7','smart')">ثبت</button></div>
+      <div class="line exp">8) Opposite of "lazy": <input id="q8" type="text" placeholder="hard-working"> <button class="btn btn--primary" onclick="checkFill('q8','hard-working')">ثبت</button></div>
+    </div>
+
+    <div class="card" style="margin-top:14px">
+      <h3 class="exp" style="margin-top:0">C) Sentence transform</h3>
+      <div class="line en">9) Fix: "They is kind." → <input id="q9" type="text" placeholder="They are kind."> <button class="btn btn--primary" onclick="checkFill('q9','They are kind.')">ثبت</button></div>
+      <div class="line en">10) Complete: "There __ two books." → <input id="q10" type="text" placeholder="are"> <button class="btn btn--primary" onclick="checkFill('q10','are')">ثبت</button></div>
+      <div class="line en">11) Complete: "It __ a big city." → <input id="q11" type="text" placeholder="is"> <button class="btn btn--primary" onclick="checkFill('q11','is')">ثبت</button></div>
+      <div class="line en">12) Make a negative: "Ali is shy." → <input id="q12" type="text" placeholder="Ali is not shy."> <button class="btn btn--primary" onclick="checkFill('q12','Ali is not shy.')">ثبت</button></div>
     </div>
 
     <div class="line" style="margin-top:12px"><button class="btn btn--ghost" onclick="toggle('answerSheet')">نمایش پاسخنامه</button></div>
     <div id="answerSheet" class="exp" style="display:none">
-      1) is — 2) are — 3) نادرست — 5) She is Anita’s mother — 6) Kind, friendly, brave, hard-working
+      1) is — 2) are — 3) She is not patient. — 4) Is — 5) نادرست — 7) smart/bright — 8) hard-working — 9) They are kind. — 10) are — 11) is — 12) Ali is not shy.
     </div>
-
-    <div class="line"><button class="btn btn--ghost" onclick="goHome()"><i class="fa-solid fa-house"></i> صفحه اصلی</button></div>
   </section>
-  <!-- افکت صوتی کلیک -->
+
   <script>
+    /* افکت کلیک */
     const clickSound = new Audio("https://cdn.pixabay.com/download/audio/2022/03/15/audio_7d6ce6b2d7.mp3?filename=click-124467.mp3");
     clickSound.volume = 0.4;
     document.addEventListener('click', e=>{
       const b = e.target.closest('.btn');
       if(b){ try{ clickSound.currentTime = 0; clickSound.play(); }catch{} }
     });
-  </script>
 
-  <!-- موسیقی زمینه (Music) -->
-  <script>
+    /* موسیقی زمینه (mp3 مستقیم) */
     const musicBtn = document.getElementById('musicBtn');
-    // لینک mp3 مستقیم تستی؛ در صورت نیاز لینک خودت را جایگزین کن
     const bgm = new Audio("https://cdn.pixabay.com/download/audio/2022/03/10/audio_8e97b4b7f8.mp3?filename=ambient-110424.mp3");
     bgm.loop = true; bgm.volume = 0.35;
     musicBtn.addEventListener('click', ()=>{
       if(bgm.paused){ bgm.play().catch(()=>{}); musicBtn.innerHTML = '<i class="fa-solid fa-music"></i> Music: On'; }
       else { bgm.pause(); musicBtn.innerHTML = '<i class="fa-solid fa-music"></i> Music: Off'; }
     });
-  </script>
 
-  <!-- راهنما مودال -->
-  <script>
+    /* راهنما مودال */
     const helpBtn = document.getElementById('helpBtn');
     const helpWrap = document.getElementById('helpWrap');
     function closeHelp(){ helpWrap.style.display='none'; }
@@ -484,11 +577,10 @@
       const card = helpWrap.querySelector('.help-card');
       if(card && !card.contains(e.target)) closeHelp();
     });
-  </script>
 
-  <!-- ناوبری صفحات -->
-  <script>
+    /* ناوبری صفحات + دکمه شناور صفحه اصلی */
     const home = document.getElementById('home');
+    const homeFab = document.getElementById('homeFab');
     const pages = {
       conversation: document.getElementById('page-conversation'),
       practice: document.getElementById('page-practice'),
@@ -505,31 +597,44 @@
       home.style.display='none';
       Object.values(pages).forEach(p=> p.style.display='none');
       if(pages[key]){ pages[key].style.display='block'; window.scrollTo({top:0, behavior:'smooth'}); }
+      homeFab.style.display = 'flex';
     }
     function goHome(){
       Object.values(pages).forEach(p=> p.style.display='none');
-      home.style.display='block';
+      home.style.display='block'; homeFab.style.display='none';
       window.scrollTo({top:0, behavior:'smooth'});
     }
     document.addEventListener('DOMContentLoaded', ()=> goHome());
-  </script>
 
-  <!-- واژه‌نامه و پاپ‌آپ New Words -->
-  <script>
+    /* New Words پاپ‌آپ */
     const DICT = {
-      "who": {fa:"چه کسی", def:"asking about a person", syn:["which person"], rel:["question word"], ex:"Who is your teacher?", exFa:"معلمت کیست؟"},
+      "who": {fa:"چه کسی", def:"asking about a person", syn:["which person"], ant:[], rel:["question word"], ex:"Who is your teacher?", exFa:"معلمت کیست؟"},
       "clever": {fa:"باهوش", def:"quick to learn and understand", syn:["smart","bright"], ant:["slow"], rel:["intelligent"], ex:"He is a clever student.", exFa:"او دانش‌آموز باهوشی است."},
       "kind": {fa:"مهربان", def:"friendly and helpful", syn:["nice","friendly"], ant:["cruel","rude"], rel:["polite"], ex:"She is kind to everyone.", exFa:"او با همه مهربان است."},
       "helpful": {fa:"کمک‌حال", def:"willing to help", syn:["supportive"], ant:["unhelpful"], rel:["kind"], ex:"He is helpful to his classmates.", exFa:"او به همکلاسی‌هایش کمک می‌کند."},
       "hard-working": {fa:"سخت‌کوش", def:"working with energy and not giving up", syn:["diligent"], ant:["lazy"], rel:["serious"], ex:"She is hard-working.", exFa:"او سخت‌کوش است."},
       "funny": {fa:"خنده‌دار", def:"making people laugh", syn:["amusing"], ant:["boring"], rel:["joke"], ex:"It is a funny story.", exFa:"این یک داستان خنده‌دار است."},
       "patient": {fa:"صبور", def:"able to wait calmly", syn:["calm"], ant:["nervous"], rel:["kind"], ex:"He is patient with children.", exFa:"او با بچه‌ها صبور است."},
-      "quiet": {fa:"ساکت", def:"not making much noise", syn:["silent"], ant:["noisy"], rel:["calm"], ex:"He is quiet in class.", exFa:"او در کلاس ساکت است."}
+      "quiet": {fa:"ساکت", def:"not making much noise", syn:["silent"], ant:["noisy"], rel:["calm"], ex:"He is quiet in class.", exFa:"او در کلاس ساکت است."},
+      "angry":{fa:"عصبانی",def:"feeling strong displeasure",syn:["mad"],ant:["calm"],rel:["upset"],ex:"He is angry.",exFa:"او عصبانی است."},
+      "brave":{fa:"شجاع",def:"not afraid of danger",syn:["courageous"],ant:["coward"],rel:["bold"],ex:"She is brave.",exFa:"او شجاع است."},
+      "careless":{fa:"بی‌دقت",def:"not careful",syn:["negligent"],ant:["careful"],rel:["rude"],ex:"He is careless.",exFa:"او بی‌دقت است."},
+      "cruel":{fa:"بی‌رحم",def:"hurting others on purpose",syn:["mean"],ant:["kind"],rel:["rude"],ex:"He is cruel.",exFa:"او بی‌رحم است."},
+      "neat":{fa:"مرتب",def:"clean and organized",syn:["tidy"],ant:["messy"],rel:["careful"],ex:"She is neat.",exFa:"او مرتب است."},
+      "nervous":{fa:"مضطرب",def:"worried and not calm",syn:["anxious"],ant:["calm"],rel:["upset"],ex:"He is nervous.",exFa:"او مضطرب است."},
+      "rude":{fa:"بی‌ادب",def:"not polite",syn:["impolite"],ant:["polite"],rel:["cruel"],ex:"He is rude.",exFa:"او بی‌ادب است."},
+      "selfish":{fa:"خودخواه",def:"only caring about yourself",syn:["egocentric"],ant:["generous"],rel:["rude"],ex:"He is selfish.",exFa:"او خودخواه است."},
+      "lazy":{fa:"تنبل",def:"not liking to work",syn:["idle"],ant:["hard-working"],rel:["careless"],ex:"He is lazy.",exFa:"او تنبل است."},
+      "shy":{fa:"خجالتی",def:"not confident to talk",syn:["timid"],ant:["talkative"],rel:["quiet"],ex:"She is shy.",exFa:"او خجالتی است."},
+      "generous":{fa:"بخشنده",def:"happy to give and share",syn:["kind"],ant:["selfish"],rel:["polite"],ex:"He is generous.",exFa:"او بخشنده است."}
     };
     const wordPopup = document.getElementById('wordPopup');
     const wordContent = document.getElementById('wordContent');
+    const pronBtn = document.getElementById('pronBtn');
+    let lastWord = '';
     function word(token){
       const d = DICT[token] || {fa:"—",def:"—",syn:[],ant:[],rel:[],ex:"",exFa:""};
+      lastWord = token;
       wordContent.innerHTML = `
         <div><b>Word:</b> ${token}</div>
         <div><b>Meaning (FA):</b> ${d.fa}</div>
@@ -537,22 +642,21 @@
         ${d.syn?.length?`<div><b>Synonyms:</b> ${d.syn.join(', ')}</div>`:''}
         ${d.ant?.length?`<div><b>Antonyms:</b> ${d.ant.join(', ')}</div>`:''}
         ${d.rel?.length?`<div><b>Related words:</b> ${d.rel.join(', ')}</div>`:''}
-        ${d.ex?`<div class="line"><span class="en">${d.ex}</span> <button class="btn btn--ghost" onclick="speak('${d.ex.replace(/'/g,"\\'")}')">🔊</button></div>`:''}
+        ${d.ex?`<div class="line"><span class="en">${d.ex}</span> <button class="btn btn--ghost" onclick="speak('${d.ex.replace(/'/g,"\\'")}')">🔊 جمله</button></div>`:''}
         ${d.exFa?`<div class="exp">${d.exFa}</div>`:''}
       `;
       wordPopup.style.display = 'flex';
     }
+    pronBtn.addEventListener('click', ()=> { if(lastWord) speak(lastWord); });
     function closeWordPopup(){ wordPopup.style.display='none'; }
 
     function showKeywords(){
       const target = document.getElementById('keywordsBox');
       target.style.display='block';
-      target.innerHTML = '<div class="exp">New Words: clever, kind, helpful, hard-working — برای جزئیات روی واژه‌ها در متن کلیک کنید.</div>';
+      target.innerHTML = '<div class="exp">New Words: clever, kind, helpful, hard-working, funny, patient, quiet — برای جزئیات روی واژه‌ها در متن کلیک کنید.</div>';
     }
-  </script>
 
-  <!-- Find it: انتخاب، زیرخط و بررسی پاسخ‌ها -->
-  <script>
+    /* Find it: انتخاب و بررسی، شامل I’m/He’s/It’s */
     function toggleMark(el){
       const active = el.style.textDecoration;
       el.style.textDecoration = active ? '' : 'underline';
@@ -560,30 +664,24 @@
       el.style.textDecorationThickness = '3px';
       el.dataset.marked = active ? '0' : '1';
     }
+    function normalizeTok(t){ return t.replace(/\u2019/g,"'").toLowerCase(); }
     function checkFindIt(){
-      // پاسخ‌های درست (توکن‌های to be موجود در متن)
-      const correctTokens = ['is','are','is','is','’s']; // ترتیب ظاهری در متن
+      const correctSet = ["i'm","is","are","is","he's","is","he's","it's"];
       const chosen = Array.from(document.querySelectorAll('#page-findit .word'))
         .filter(w=>w.dataset.marked==='1')
-        .map(w=>w.textContent.trim());
-      const result = document.getElementById('findResult');
-
-      // شمارش درست‌ها
+        .map(w=> normalizeTok(w.textContent.trim()));
       let correctCount = 0;
-      const temp = correctTokens.slice();
+      const temp = correctSet.slice();
       chosen.forEach(tok=>{
         const idx = temp.indexOf(tok);
         if(idx>-1){ correctCount++; temp.splice(idx,1); }
       });
-
-      // رنگ‌دهی بازخورد
-      result.innerHTML = `انتخاب‌های درست: ${correctCount} از ${correctTokens.length}`;
-      result.style.color = correctCount===correctTokens.length ? '#2ec27e' : '#ff6f61';
+      const result = document.getElementById('findResult');
+      result.innerHTML = `انتخاب‌های درست: ${correctCount} از ${correctSet.length}`;
+      result.style.color = correctCount===correctSet.length ? '#2ec27e' : '#ff6f61';
     }
-  </script>
 
-  <!-- تعامل تمرین‌ها و آزمون -->
-  <script>
+    /* تعامل تمرین‌ها و آزمون */
     function toggle(id){ const el=document.getElementById(id); if(el) el.style.display = (el.style.display==='none'?'block':'none'); }
     function checkMCQ(name,key){
       const picked=document.querySelector(`input[name="${name}"]:checked`); if(!picked) return;
@@ -601,17 +699,14 @@
       checkFill('wbf1','am'); checkFill('wbf2','is'); checkFill('wbf3','are');
       checkFill('wbf4','are'); checkFill('wbf5','is'); checkFill('wbf6','is not');
     }
-    function checkText(ids){ ids.forEach(id=>{ const el=document.getElementById(id); if(el) el.style.outline='2px solid #84fab0'; }); }
     function checkTF(name,key){
       const picked=document.querySelector(`input[name="${name}"]:checked`); if(!picked) return;
       const ok=(String(picked.value)===(key?'true':'false'));
       const sec=picked.closest('.line')||picked.closest('.card');
       if(sec) sec.style.boxShadow = ok?'inset 0 0 0 2px #2ec27e':'inset 0 0 0 2px #ff6f61';
     }
-  </script>
 
-  <!-- تلفظ -->
-  <script>
+    /* تلفظ */
     function speak(text){
       try{
         const u = new SpeechSynthesisUtterance(text);
@@ -619,18 +714,20 @@
         speechSynthesis.speak(u);
       }catch(e){}
     }
-  </script>
 
-  <!-- پیکربندی پلیر صوت داخلی (mp3 مستقیم، بدون ارجاع صفحه دانلود) -->
-  <script>
-    // این لینک‌ها مستقیم هستند و باید فوراً در پلیرها پخش شوند؛ در صورت نیاز لینک‌های خودت را جایگزین کن
-    document.getElementById('practiceAudio').src = "https://cdn.pixabay.com/download/audio/2022/03/29/audio_c6f17e1d6c.mp3?filename=calm-theme-141103.mp3";
-    document.getElementById('melodyAudio').src  = "https://cdn.pixabay.com/download/audio/2023/03/01/audio_0f2c9b4d5e.mp3?filename=gentle-melody-14066.mp3";
+    /* Listening: نمایش پاسخ درست */
+    function showListeningAnswers(part){
+      const box = document.getElementById(part==='A'?'ansA':'ansB');
+      if(box) box.style.display = 'block';
+    }
+
+    /* پلیرهای صوتی (mp3 مستقیم) */
+    document.getElementById('practiceAudio').src = "https://cdn.pixabay.com/download/audio/2023/03/01/audio_0f2c9b4d5e.mp3?filename=gentle-melody-14066.mp3";
+    document.getElementById('melodyAudio').src  = "https://cdn.pixabay.com/download/audio/2022/03/29/audio_c6f17e1d6c.mp3?filename=calm-theme-141103.mp3";
     document.getElementById('findAudio').src    = "https://cdn.pixabay.com/download/audio/2021/09/16/audio_6b24b5f29e.mp3?filename=reading-ambient-9216.mp3";
     document.getElementById('listenA').src      = "https://cdn.pixabay.com/download/audio/2022/03/15/audio_5f58bc38b7.mp3?filename=short-conversation-124469.mp3";
     document.getElementById('listenB').src      = "https://cdn.pixabay.com/download/audio/2022/03/15/audio_0db2c8b38a.mp3?filename=short-narration-124468.mp3";
     document.getElementById('roleAudio').src    = "https://cdn.pixabay.com/download/audio/2022/03/15/audio_5f58bc38b7.mp3?filename=short-conversation-124469.mp3";
   </script>
-
 </body>
 </html>
