@@ -7,56 +7,65 @@
   <style>
     body {
       font-family: 'Tahoma', sans-serif;
-      background: linear-gradient(135deg, #0b1220, #1c2a4a);
-      color: #eaf3ff;
+      background: linear-gradient(135deg, #fdfcfb, #e2d1c3);
+      color: #333;
       margin: 0;
       padding: 0;
     }
     header {
       text-align: center;
       padding: 20px;
-      font-size: 2em;
+      font-size: 2.2em;
       font-weight: bold;
-      color: #13d38b;
-      text-shadow: 0 0 10px #13d38b;
+      font-family: 'Georgia', serif;
+      color: #2a4d69;
+      text-shadow: 0 0 8px #a1c4fd;
     }
-    .menu {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 12px;
-      margin: 20px;
+    .topbar {
+      display:flex; justify-content:space-between; align-items:center;
+      padding:10px 20px; background:#f9f9f9; border-bottom:2px solid #ddd;
     }
     .btn {
-      background: linear-gradient(90deg,#13d38b,#71d7ff);
-      border: none;
-      border-radius: 12px;
-      padding: 12px 20px;
-      font-weight: bold;
-      cursor: pointer;
-      transition: 0.3s;
-      color: #06233a;
-      box-shadow: 0 6px 14px rgba(0,0,0,.3);
+      background: linear-gradient(90deg,#a1c4fd,#c2e9fb);
+      border: none; border-radius: 12px;
+      padding: 12px 20px; font-weight: bold;
+      cursor: pointer; transition: 0.3s;
+      color: #06233a; box-shadow: 0 6px 14px rgba(0,0,0,.2);
     }
-    .btn:hover { transform: translateY(-3px); filter: brightness(1.1); }
+    .btn:hover { transform: translateY(-3px) scale(1.05); filter: brightness(1.1); }
+    .menu {
+      display: grid; grid-template-columns: repeat(auto-fit,minmax(180px,1fr));
+      gap: 14px; margin: 20px;
+    }
     .section {
-      display: none;
-      margin: 20px;
-      padding: 20px;
-      background: #121a2d;
-      border-radius: 12px;
-      box-shadow: 0 6px 14px rgba(0,0,0,.3);
+      display: none; margin: 20px; padding: 20px;
+      background: #fff; border-radius: 12px;
+      box-shadow: 0 6px 14px rgba(0,0,0,.2);
+      font-family: 'Verdana', sans-serif;
     }
     .line { margin: 8px 0; display:flex; align-items:center; gap:8px; }
-    .en { direction:ltr; text-align:left; color:#eaf8ff; }
-    .word { cursor:pointer; border-bottom:1px dashed #71d7ff; }
-    .word:hover { color:#13d38b; }
-    .hidden { display:none; }
+    .en { direction:ltr; text-align:left; color:#2a4d69; }
+    .word { cursor:pointer; border-bottom:1px dashed #2a4d69; }
+    .word:hover { color:#ff6f61; }
+    .designer {
+      position:fixed; left:16px; bottom:16px; z-index:70;
+      background:rgba(255,255,255,.8); border:1px solid #ccc;
+      border-radius:14px; padding:10px; display:flex; align-items:center; gap:10px;
+      box-shadow:0 10px 24px rgba(0,0,0,.25); backdrop-filter:blur(6px);
+    }
+    .designer img{width:42px;height:42px;border-radius:50%;border:1px solid #aaa}
+    .designer small{color:#333;font-weight:600;font-size:.85em;font-family:'Courier New', monospace}
+    .hidden{display:none}
   </style>
 </head>
 <body>
 
 <header>Lesson 1 — Personality</header>
+
+<div class="topbar">
+  <button class="btn" id="bgmToggle"><i class="fa-solid fa-music"></i> موسیقی زمینه</button>
+  <button class="btn" onclick="showSection('help')"><i class="fa-regular fa-circle-question"></i> راهنما</button>
+</div>
 
 <div class="menu">
   <button class="btn" onclick="showSection('conversation')">Conversation</button>
@@ -70,3 +79,61 @@
   <button class="btn" onclick="showSection('workbook')">Workbook</button>
   <button class="btn" onclick="showSection('quiz')">Quiz</button>
 </div>
+<!-- Conversation -->
+<div id="conversation" class="section">
+  <h2>Conversation</h2>
+  <div class="line">
+    <span class="en">Ehsan: Who is your best friend at school?</span>
+    <button class="btn" onclick="speak('Who is your best friend at school?')">🔊</button>
+  </div>
+  <div class="line">
+    <span class="en">Parham: Reza.</span>
+    <button class="btn" onclick="speak('Reza')">🔊</button>
+  </div>
+  <div class="line">
+    <span class="en">Ehsan: What's he like?</span>
+    <button class="btn" onclick="speak('What is he like?')">🔊</button>
+  </div>
+  <div class="line">
+    <span class="en">Parham: He is <span class="word" onclick="showWord('clever')">clever</span> and <span class="word" onclick="showWord('kind')">kind</span>.</span>
+    <button class="btn" onclick="speak('He is clever and kind.')">🔊</button>
+  </div>
+  <button class="btn" onclick="showWordInfo()">کلمات کلیدی مکالمه</button>
+</div>
+
+<!-- سایر بخش‌ها مشابه Conversation با متن و دکمه‌های صوتی -->
+
+<!-- Designer footer -->
+<div class="designer">
+  <img src="https://s34.picofile.com/file/8488183492/2.png" alt="Designer">
+  <small>Designer — A.R. Yousefzadeh</small>
+</div>
+
+<script>
+  // افکت صوتی کلیک
+  const clickSound = new Audio("https://cdn.pixabay.com/download/audio/2022/03/15/audio_7d6ce6b2d7.mp3?filename=click-124467.mp3");
+  document.addEventListener('click', e=>{
+    if(e.target.closest('.btn')){ clickSound.currentTime=0; clickSound.play(); }
+  });
+
+  // موسیقی زمینه
+  const bgm = new Audio("https://cdn.pixabay.com/download/audio/2023/03/01/audio_76b5d8b3c7.mp3?filename=serene-background-14065.mp3");
+  bgm.loop=true; bgm.volume=0.3;
+  document.getElementById('bgmToggle').addEventListener('click',()=>{
+    if(bgm.paused){ bgm.play(); } else { bgm.pause(); }
+  });
+
+  function showSection(id){
+    document.querySelectorAll('.section').forEach(sec=>sec.style.display='none');
+    document.getElementById(id).style.display='block';
+  }
+  function speak(text){
+    const u=new SpeechSynthesisUtterance(text);
+    u.lang='en-US'; speechSynthesis.speak(u);
+  }
+  function showWord(word){ alert("معنی و توضیحات کلمه: "+word); }
+  function showWordInfo(){ alert("کلمات کلیدی مکالمه: clever, kind ... با معنی و مترادف‌ها"); }
+</script>
+
+</body>
+</html>
