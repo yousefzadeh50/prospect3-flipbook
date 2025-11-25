@@ -1,345 +1,128 @@
 <!DOCTYPE html>
 <html lang="fa" dir="rtl">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Prospect 3 — Flipbook سبک</title>
+  <meta charset="UTF-8">
+  <title>Prospect 3 — نسخه پایدار</title>
   <style>
-    :root{
-      --bg:#0b1220; --surface:#121a2d; --text:#e9f1ff; --muted:#9bb3cc;
-      --border:#2a4068; --accent:#13d38b; --accent2:#71d7ff;
-    }
-    *{box-sizing:border-box}
-    html,body{margin:0;background:var(--bg);color:var(--text);font-family:Tahoma,Segoe UI,Arial}
-    .hidden{display:none}
-
-    /* Top bar */
-    .topbar{
-      position:sticky;top:0;z-index:20;height:60px;background:#111a2fcc;
-      backdrop-filter:blur(6px);border-bottom:1px solid var(--border);
-      display:flex;align-items:center;justify-content:space-between;padding:0 12px;
-    }
-    .brand{font-weight:800}
-    .btn{cursor:pointer;border:none;border-radius:10px;padding:10px 14px}
-    .btn--primary{background:linear-gradient(90deg,var(--accent),var(--accent2));color:#06233a;font-weight:800}
-    .btn--outline{background:transparent;border:1px solid var(--border);color:var(--text)}
-    .btn--ghost{background:#1b294a;color:#fff}
-
-    /* Layout */
-    .container{width:min(1050px,95vw);margin:0 auto;padding:12px}
-    .card{
-      background:linear-gradient(160deg,#10192f,#0d1630);border:1px solid var(--border);
-      border-radius:18px;box-shadow:0 20px 50px rgba(0,0,0,.35);padding:16px
-    }
-
-    /* Grids */
-    .grid{display:grid;gap:10px}
-    .grid.lessons{grid-template-columns:repeat(auto-fit,minmax(220px,1fr))}
-    .pill{
-      background:#16274b;border:1px solid var(--border);border-radius:14px;padding:14px;
-      color:#eaf3ff;display:flex;align-items:center;justify-content:space-between;font-weight:700
-    }
-
-    /* Flipbook */
-    .flip-nav{display:flex;align-items:center;justify-content:space-between;margin:8px 0}
-    .flip{width:min(1050px,95vw);margin:0 auto}
-    .page{
-      background:var(--surface);border:1px solid var(--border);border-radius:14px;margin:16px 0;padding:16px
-    }
-    .page h2{margin-top:0;color:#cfe7ff;border-bottom:1px solid #233a60;padding-bottom:6px}
-
-    /* Content */
-    .section{margin:8px 0 14px;padding:10px;border:1px dashed var(--border);border-radius:12px}
-    .section h3{margin:0 0 6px;color:#9bd6ff}
-    .text{line-height:1.9}
-
-    /* Modal */
-    .modal{position:fixed;inset:0;background:rgba(6,12,24,.55);display:flex;align-items:center;justify-content:center;padding:12px;z-index:1000}
-    .modal-content{width:min(880px,95vw);background:#0f1a32;border:1px solid var(--border);border-radius:16px;padding:14px;position:relative}
-    .modal-actions{margin-top:10px;display:flex;gap:8px;justify-content:flex-end;flex-wrap:wrap}
+    body { background:#0b1220; color:#eaf3ff; font-family:tahoma; margin:0; }
+    .topbar { background:#111a2f; padding:10px; display:flex; justify-content:space-between; align-items:center; }
+    .btn { padding:8px 12px; border:none; border-radius:8px; cursor:pointer; font-weight:bold; }
+    .btn--primary { background:#13d38b; color:#06233a; }
+    .btn--outline { background:transparent; border:1px solid #2a4068; color:#eaf3ff; }
+    .container { padding:20px; max-width:900px; margin:auto; }
+    .card { background:#121a2d; padding:16px; border-radius:12px; border:1px solid #2a4068; }
+    .grid { display:grid; gap:10px; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); margin-top:10px; }
+    .pill { background:#16274b; padding:12px; border-radius:10px; text-align:center; cursor:pointer; }
+    .hidden { display:none !important; }
+    .modal { position:fixed; inset:0; background:rgba(0,0,0,.6); display:flex; align-items:center; justify-content:center; z-index:1000; }
+    .modal-content { background:#0f1a32; padding:20px; border-radius:12px; width:90%; max-width:600px; }
+    .modal-actions { margin-top:10px; text-align:right; }
+    .page { background:#121a2d; padding:16px; border-radius:10px; margin-top:20px; }
   </style>
 </head>
 <body>
 
-  <!-- Topbar -->
-  <header class="topbar">
-    <div class="brand">Prospect 3 — Flipbook سبک</div>
-    <div style="display:flex;gap:8px">
-      <button class="btn btn--ghost" id="irregularBtn" type="button">افعال بی‌قاعده</button>
-      <button class="btn btn--outline" id="helpBtn" type="button">راهنما</button>
+  <!-- نوار بالا -->
+  <div class="topbar">
+    <div>Prospect 3 — نسخه پایدار</div>
+    <div>
+      <button class="btn btn--outline" onclick="showModal('helpModal')">راهنما</button>
+      <button class="btn btn--primary" onclick="showModal('verbsModal')">افعال بی‌قاعده</button>
     </div>
-  </header>
+  </div>
 
-  <!-- Start -->
-  <section class="container" id="startScreen">
+  <!-- صفحه شروع -->
+  <div class="container" id="startScreen">
     <div class="card">
-      <h1 style="margin:0 0 8px">English for Schools — Prospect 3</h1>
-      <p style="margin:0;color:var(--muted)">Lessons • Practice • Workbook</p>
-
-      <h2 style="margin:14px 0 8px">انتخاب درس</h2>
-      <div class="grid lessons">
-        <button class="pill lesson-btn" data-lesson="1" type="button"><span>Lesson 1</span><small>&nbsp;Personality</small></button>
-        <button class="pill lesson-btn" data-lesson="2" type="button"><span>Lesson 2</span><small>&nbsp;Travel</small></button>
-        <button class="pill lesson-btn" data-lesson="3" type="button"><span>Lesson 3</span><small>&nbsp;Festivals</small></button>
-      </div>
-    </div>
-  </section>
-
-  <!-- Flipbook -->
-  <main id="flipbookArea" class="hidden">
-    <div class="container">
-      <div class="flip-nav">
-        <button class="btn btn--outline" id="prevPage" type="button">‹</button>
-        <div id="currentTitle" style="font-weight:800;color:#cfe7ff"></div>
-        <button class="btn btn--outline" id="nextPage" type="button">›</button>
-      </div>
-      <div class="flip" id="flipbook"></div>
-      <div style="display:flex;justify-content:flex-end">
-        <button class="btn btn--outline" id="backBtn" type="button">بازگشت</button>
-      </div>
-    </div>
-  </main>
-
-  <!-- Help modal -->
-  <div class="modal hidden" id="helpModal" aria-hidden="true">
-    <div class="modal-content">
-      <h2>راهنما</h2>
-      <div class="text">
-        <div>• با دکمه‌های ‹ و › بین صفحات جابه‌جا شوید.</div>
-        <div>• برای برگشت، «بازگشت» را بزنید.</div>
-      </div>
-      <div class="modal-actions">
-        <button class="btn btn--outline" data-action="close-modal" type="button">بستن</button>
+      <h2>انتخاب درس</h2>
+      <div class="grid">
+        <div class="pill" onclick="loadLesson(1)">Lesson 1 — Personality</div>
+        <div class="pill" onclick="loadLesson(2)">Lesson 2 — Travel</div>
+        <div class="pill" onclick="loadLesson(3)">Lesson 3 — Festivals</div>
       </div>
     </div>
   </div>
 
-  <!-- Irregular verbs modal -->
-  <div class="modal hidden" id="verbsModal" aria-hidden="true">
+  <!-- صفحه درس -->
+  <div class="container hidden" id="lessonScreen">
+    <h2 id="lessonTitle"></h2>
+    <div id="pages"></div>
+    <button class="btn btn--outline" onclick="goBack()">بازگشت</button>
+  </div>
+
+  <!-- مودال راهنما -->
+  <div class="modal hidden" id="helpModal">
     <div class="modal-content">
-      <h2>افعال بی‌قاعده</h2>
-      <div id="verbsBody"></div>
+      <h3>راهنما</h3>
+      <p>برای انتخاب درس، روی یکی از گزینه‌ها کلیک کنید. برای بازگشت، دکمه «بازگشت» را بزنید.</p>
       <div class="modal-actions">
-        <button class="btn btn--outline" data-action="close-modal" type="button">بستن</button>
+        <button class="btn btn--outline" type="button" onclick="closeModal('helpModal')">بستن</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- مودال افعال بی‌قاعده -->
+  <div class="modal hidden" id="verbsModal">
+    <div class="modal-content">
+      <h3>افعال بی‌قاعده</h3>
+      <ul>
+        <li>be → was/were</li>
+        <li>go → went</li>
+        <li>break → broke</li>
+        <li>buy → bought</li>
+      </ul>
+      <div class="modal-actions">
+        <button class="btn btn--outline" type="button" onclick="closeModal('verbsModal')">بستن</button>
       </div>
     </div>
   </div>
 
   <script>
-    document.addEventListener("DOMContentLoaded", function(){
-      /* ---------- Data ---------- */
-      const LESSONS = [
-        {
-          id:1, title:"Lesson 1 — Personality",
-          sections:[
-            { type:"conversation", title:"Conversation", text:`Ehsan: Who is your best friend at school?
-Parham: Reza.
-Ehsan: What's he like?
-Parham: He is clever and kind.` },
-            { type:"practice", title:"Practice — Yes/No", items:[
-              { q:"Is he clever?", a:"Yes, he is." },
-              { q:"Are you kind?", a:"Yes, I am." }
-            ]},
-          ]
-        },
-        {
-          id:2, title:"Lesson 2 — Travel",
-          sections:[
-            { type:"conversation", title:"Conversation", text:`Receptionist: Welcome to our hotel. Do you have a reservation?
-Tourist: Yes, my name is Paul.` },
-            { type:"practice", title:"Practice — Travel", items:[
-              { q:"Do you have a reservation?", a:"Yes, I do." },
-              { q:"Where is your passport?", a:"It's here." }
-            ]}
-          ]
-        },
-        {
-          id:3, title:"Lesson 3 — Festivals & Ceremonies",
-          sections:[
-            { type:"conversation", title:"Conversation", text:`Elham: We usually visit our relatives in Norooz.
-Nasrin: We get gifts, too!` }
-          ]
-        }
-      ];
+    const lessons = {
+      1: { title:"Lesson 1 — Personality", content:[
+        "Ehsan: Who is your best friend at school?",
+        "Parham: Reza.",
+        "Ehsan: What's he like?",
+        "Parham: He is clever and kind."
+      ]},
+      2: { title:"Lesson 2 — Travel", content:[
+        "Receptionist: Welcome to our hotel. Do you have a reservation?",
+        "Tourist: Yes, my name is Paul."
+      ]},
+      3: { title:"Lesson 3 — Festivals", content:[
+        "Elham: We usually visit our relatives in Norooz.",
+        "Nasrin: We get gifts, too!"
+      ]}
+    };
 
-      /* ---------- Elements ---------- */
-      const startScreen = document.getElementById('startScreen');
-      const flipbookArea = document.getElementById('flipbookArea');
-      const flipbookEl = document.getElementById('flipbook');
-      const currentTitleEl = document.getElementById('currentTitle');
-      const prevPageBtn = document.getElementById('prevPage');
-      const nextPageBtn = document.getElementById('nextPage');
-      const backBtn = document.getElementById('backBtn');
-
-      const helpBtn = document.getElementById('helpBtn');
-      const helpModal = document.getElementById('helpModal');
-
-      const irregularBtn = document.getElementById('irregularBtn');
-      const verbsModal = document.getElementById('verbsModal');
-      const verbsBody = document.getElementById('verbsBody');
-
-      let pages = [];
-      let pageIndex = 0;
-
-      /* ---------- Navigation ---------- */
-      document.querySelectorAll('.lesson-btn').forEach(btn=>{
-        btn.addEventListener('click', ()=>{
-          const id = parseInt(btn.dataset.lesson,10);
-          loadLesson(id);
-        });
+    function loadLesson(id){
+      const lesson = lessons[id];
+      document.getElementById("startScreen").classList.add("hidden");
+      document.getElementById("lessonScreen").classList.remove("hidden");
+      document.getElementById("lessonTitle").textContent = lesson.title;
+      const pages = document.getElementById("pages");
+      pages.innerHTML = "";
+      lesson.content.forEach(line=>{
+        const div=document.createElement("div");
+        div.className="page";
+        div.textContent=line;
+        pages.appendChild(div);
       });
-      prevPageBtn.addEventListener('click', ()=> turnPage(-1));
-      nextPageBtn.addEventListener('click', ()=> turnPage(1));
-      backBtn.addEventListener('click', ()=>{
-        flipbookArea.classList.add('hidden');
-        startScreen.classList.remove('hidden');
-      });
+    }
 
-      /* ---------- Modals open ---------- */
-      helpBtn.addEventListener('click', ()=> helpModal.classList.remove('hidden'));
-      irregularBtn.addEventListener('click', ()=>{
-        renderIrregular();
-        verbsModal.classList.remove('hidden');
-      });
+    function goBack(){
+      document.getElementById("lessonScreen").classList.add("hidden");
+      document.getElementById("startScreen").classList.remove("hidden");
+    }
 
-      /* ---------- Global close handlers (robust) ---------- */
-      // 1) کلیک روی هر دکمه‌ای که data-action="close-modal" دارد → مودال والد بسته شود
-      document.addEventListener('click', (e)=>{
-        const closeBtn = e.target.closest('[data-action="close-modal"]');
-        if(closeBtn){
-          e.preventDefault();
-          e.stopPropagation();
-          const modal = closeBtn.closest('.modal');
-          if(modal) modal.classList.add('hidden');
-        }
-      });
-      // 2) کلیک بیرون از محتوای مودال → همان مودال بسته شود
-      [helpModal, verbsModal].forEach(modal=>{
-        if(!modal) return;
-        modal.addEventListener('click', (e)=>{
-          const content = modal.querySelector('.modal-content');
-          if(content && !content.contains(e.target)){
-            modal.classList.add('hidden');
-          }
-        });
-      });
-      // 3) کلید Escape → هر مودال باز بسته شود
-      document.addEventListener('keydown', (e)=>{
-        if(e.key==='Escape'){
-          const openModal = document.querySelector('.modal:not(.hidden)');
-          if(openModal) openModal.classList.add('hidden');
-        }
-        if(e.key==='ArrowRight') turnPage(1);
-        if(e.key==='ArrowLeft') turnPage(-1);
-      });
+    function showModal(id){
+      document.getElementById(id).classList.remove("hidden");
+    }
 
-      /* ---------- Lesson / pages ---------- */
-      function loadLesson(id){
-        const lesson = LESSONS.find(l=>l.id===id);
-        if(!lesson){ alert("Lesson not found"); return; }
-        startScreen.classList.add('hidden');
-        flipbookArea.classList.remove('hidden');
-        currentTitleEl.textContent = lesson.title;
-        pages = buildPages(lesson);
-        pageIndex = 0;
-        renderPages();
-      }
-
-      function buildPages(lesson){
-        return lesson.sections.map(sec=> sectionToPage(sec));
-      }
-
-      function renderPages(){
-        flipbookEl.innerHTML = "";
-        pages.forEach((pageHTML, idx)=>{
-          const el = document.createElement('div');
-          el.className = 'page';
-          el.dataset.index = idx;
-          el.innerHTML = pageHTML;
-          flipbookEl.appendChild(el);
-        });
-        highlightPage();
-        bindExerciseEvents();
-      }
-
-      function bindExerciseEvents(){
-        // دکمه های بررسی و نمایش پاسخ در صفحات
-        flipbookEl.querySelectorAll('.reveal').forEach(btn=>{
-          btn.addEventListener('click', ()=>{
-            const ans = btn.closest('.exercise').querySelector('.answer');
-            ans.classList.toggle('hidden');
-          });
-        });
-        flipbookEl.querySelectorAll('.check').forEach(btn=>{
-          btn.addEventListener('click', ()=>{
-            const item = btn.closest('.exercise');
-            const input = item.querySelector('input');
-            const key = (item.dataset.key||"").trim().toLowerCase();
-            if(!input) return;
-            const val = (input.value||"").trim().toLowerCase();
-            const ok = (val===key);
-            input.style.outline = ok ? '2px solid #13d38b' : '2px solid #ff6e6e';
-          });
-        });
-      }
-
-      function highlightPage(){
-        flipbookEl.querySelectorAll('.page').forEach((p,i)=>{
-          p.style.opacity = (i===pageIndex) ? '1' : '0';
-          p.style.pointerEvents = (i===pageIndex) ? 'auto' : 'none';
-          p.style.transition = 'opacity .25s';
-        });
-      }
-      function turnPage(dir){
-        const next = pageIndex + dir;
-        if(next<0 || next>=pages.length) return;
-        pageIndex = next;
-        highlightPage();
-      }
-
-      function sectionToPage(sec){
-        const title = `<h2>${sec.title}</h2>`;
-        let body = "";
-        if(sec.type==="conversation"){
-          body += `<div class="section"><h3>${sec.title}</h3><div class="text">${nl(sec.text)}</div></div>`;
-        }
-        if(sec.type==="practice"){
-          body += `<div class="section"><h3>${sec.title}</h3>
-            ${sec.items.map(it=>`
-              <div class="exercise" data-key="${(it.a||'').toLowerCase()}">
-                <div><b>Q:</b> ${it.q}</div>
-                <div class="controls">
-                  <input type="text" placeholder="پاسخ خود را بنویسید"/>
-                  <button class="btn btn--ghost check" type="button">بررسی</button>
-                  <button class="btn btn--outline reveal" type="button">نمایش پاسخ</button>
-                </div>
-                <div class="answer hidden"><b>Answer:</b> ${it.a}</div>
-              </div>
-            `).join("")}
-          </div>`;
-        }
-        return `${title}${body}`;
-      }
-
-      function nl(str){ return String(str).replace(/\n/g,"<br/>"); }
-
-      /* ---------- Irregular verbs ---------- */
-      function renderIrregular(){
-        const data = [
-          { base:"be", past:"was/were", en:"I was happy.", fa:"من خوشحال بودم." },
-          { base:"go", past:"went", en:"She went home.", fa:"او به خانه رفت." },
-          { base:"break", past:"broke", en:"He broke his leg.", fa:"او پایش را شکست." },
-          { base:"buy", past:"bought", en:"They bought food.", fa:"آن‌ها غذا خریدند." }
-        ];
-        verbsBody.innerHTML = data.map(v=>`
-          <div class="section">
-            <div><b>Base:</b> ${v.base} — <b>Past:</b> ${v.past}</div>
-            <div style="margin-top:6px"><b>EN:</b> ${v.en}</div>
-            <div><b>FA:</b> ${v.fa}</div>
-          </div>
-        `).join("");
-      }
-    });
+    function closeModal(id){
+      document.getElementById(id).classList.add("hidden");
+    }
   </script>
+
 </body>
 </html>
