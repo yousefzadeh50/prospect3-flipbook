@@ -1,20 +1,18 @@
 <!DOCTYPE html>
 <html lang="fa" dir="rtl">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>English for Schools — Prospect 3</title>
 
   <!-- فونت و آیکون‌ها -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/rastikerdar/vazir-font@v30.1.0/Farsi-Digits/Vazir-FD.css" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/rastikerdar/vazir-font@v30.1.0/Farsi-Digits/Vazir-FD.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
   <style>
     :root{
-      --bg1:#0b1220; --bg2:#1c2a4a;
-      --surface:#121a2d; --surface2:#0f1a32;
-      --text:#eaf3ff; --muted:#9bb3cc;
-      --border:#2a4068; --accent:#13d38b; --accent2:#71d7ff;
+      --bg1:#0b1220; --bg2:#1b2b4a; --surface:#121a2d; --surface2:#0f1a32;
+      --text:#eaf3ff; --muted:#9bb3cc; --border:#2a4068; --accent:#13d38b; --accent2:#71d7ff;
       --shadow:0 12px 36px rgba(0,0,0,.35);
     }
     *{box-sizing:border-box}
@@ -23,73 +21,68 @@
 
     /* Topbar */
     .topbar{
-      position:sticky; top:0; z-index:60; display:flex; align-items:center; justify-content:space-between;
-      padding:10px 16px; background:linear-gradient(90deg,#0f1a32cc,#101a31cc);
-      backdrop-filter:blur(6px); border-bottom:1px solid var(--border)
+      position:sticky;top:0;z-index:60;display:flex;align-items:center;justify-content:space-between;
+      padding:10px 16px;background:linear-gradient(90deg,#0f1a32cc,#101a31cc);
+      backdrop-filter:blur(6px);border-bottom:1px solid var(--border)
     }
-    .brand{font-weight:900; color:#cfe7ff; display:flex; align-items:center; gap:8px}
-    .left-actions,.right-actions{display:flex; gap:8px; align-items:center}
-
-    /* Buttons */
-    .btn{cursor:pointer; border:none; border-radius:14px; padding:10px 14px; font-weight:800; transition:.2s}
-    .btn--primary{background:linear-gradient(90deg,var(--accent),var(--accent2)); color:#06233a; box-shadow:0 8px 20px rgba(19,211,139,.25)}
-    .btn--outline{background:transparent; border:1px solid var(--border); color:var(--text)}
-    .btn--ghost{background:#1b294a; color:#fff; border:1px solid #243a60}
-    .btn:hover{transform:translateY(-2px); filter:brightness(1.06)}
+    .brand{font-weight:900;color:#cfe7ff;display:flex;align-items:center;gap:8px}
+    .left-actions,.right-actions{display:flex;gap:8px;align-items:center}
+    .btn{cursor:pointer;border:none;border-radius:12px;padding:10px 14px;font-weight:800;transition:.2s}
+    .btn--primary{background:linear-gradient(90deg,var(--accent),var(--accent2));color:#06233a;box-shadow:0 8px 20px rgba(19,211,139,.25)}
+    .btn--outline{background:transparent;border:1px solid var(--border);color:var(--text)}
+    .btn--ghost{background:#1b294a;color:#fff;border:1px solid #243a60}
+    .btn:hover{transform:translateY(-2px);filter:brightness(1.06)}
     .btn:active{transform:scale(.98)}
 
-    /* Containers */
-    .container{width:min(1200px,94vw); margin:0 auto; padding:16px}
-    .card{
-      background:linear-gradient(145deg,var(--surface),var(--surface2)); border:1px solid var(--border);
-      border-radius:20px; box-shadow:var(--shadow); padding:20px
-    }
-    .tip{color:var(--muted); font-size:.92rem}
+    /* Layout */
+    .container{width:min(1200px,94vw);margin:0 auto;padding:16px}
+    .card{background:linear-gradient(145deg,var(--surface),var(--surface2));border:1px solid var(--border);border-radius:20px;box-shadow:var(--shadow);padding:20px}
+    .tip{color:var(--muted);font-size:.92rem}
 
     /* Lesson grid */
-    .grid{display:grid; gap:14px}
+    .grid{display:grid;gap:14px}
     .grid.lessons{grid-template-columns:repeat(auto-fit,minmax(240px,1fr))}
     .pill{
-      background:#16274b; border:1px solid var(--border); border-radius:16px; padding:18px; text-align:center;
-      font-weight:800; display:flex; align-items:center; justify-content:center; gap:10px;
-      transition:.2s; box-shadow:0 6px 14px rgba(0,0,0,.25)
+      background:#16274b;border:1px solid var(--border);border-radius:16px;padding:18px;text-align:center;
+      font-weight:800;display:flex;align-items:center;justify-content:center;gap:10px;
+      transition:.2s;box-shadow:0 6px 14px rgba(0,0,0,.25)
     }
-    .pill:hover{transform:translateY(-3px); border-color:#3a5fa0}
+    .pill:hover{transform:translateY(-3px);border-color:#3a5fa0}
 
     /* Pages */
-    .flip-nav{display:flex; align-items:center; justify-content:space-between; margin:12px 0}
+    .flip-nav{display:flex;align-items:center;justify-content:space-between;margin:12px 0}
     .page{
       background:linear-gradient(160deg,#101a31,#0d182f);
-      border:1px solid var(--border); border-radius:18px; padding:18px; margin:16px 0; box-shadow:var(--shadow);
-      opacity:0; transform:translateY(16px); animation:fadeIn .5s ease forwards
+      border:1px solid var(--border);border-radius:18px;padding:18px;margin:16px 0;box-shadow:var(--shadow);
+      opacity:0;transform:translateY(16px);animation:fadeIn .5s ease forwards
     }
-    .page h2{margin:0 0 10px; color:#cfe7ff; border-bottom:1px solid #233a60; padding-bottom:8px}
-    .section{margin:10px 0 16px; padding:12px; border:1px dashed var(--border); border-radius:12px; background:#0e1a30}
-    .section h3{margin:0 0 8px; color:#9bd6ff}
-    .line{display:flex; align-items:center; gap:10px; margin:6px 0}
-    .en{direction:ltr; text-align:left; font-family:Tahoma,Arial; color:#eaf8ff; letter-spacing:.2px}
-    .fa{direction:rtl; text-align:right}
-    .word{cursor:pointer; border-bottom:1px dashed #3a5fa0}
+    .page h2{margin:0 0 10px;color:#cfe7ff;border-bottom:1px solid #233a60;padding-bottom:8px}
+    .section{margin:10px 0 16px;padding:12px;border:1px dashed var(--border);border-radius:12px;background:#0e1a30}
+    .section h3{margin:0 0 8px;color:#9bd6ff}
+    .line{display:flex;align-items:center;gap:10px;margin:6px 0}
+    .en{direction:ltr;text-align:left;font-family:Tahoma,Arial;color:#eaf8ff;letter-spacing:.2px}
+    .fa{direction:rtl;text-align:right}
+    .word{cursor:pointer;border-bottom:1px dashed #3a5fa0}
     .word:hover{color:#71d7ff}
-    .audio-row{display:flex; align-items:center; gap:10px; margin:8px 0}
+    .audio-row{display:flex;align-items:center;gap:10px;margin:8px 0}
 
-    /* Modals */
-    .modal{position:fixed; inset:0; display:flex; align-items:center; justify-content:center; padding:16px; background:rgba(8,14,26,.6); z-index:1000; animation:fadeModal .25s ease}
-    .modal-content{width:min(900px,96vw); background:#0f1a32; border:1px solid var(--border); border-radius:16px; padding:16px; box-shadow:var(--shadow)}
-    .modal-actions{display:flex; gap:8px; justify-content:flex-end; margin-top:10px}
+    /* Modal */
+    .modal{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;padding:16px;background:rgba(8,14,26,.6);z-index:1000;animation:fadeModal .25s ease}
+    .modal-content{width:min(900px,96vw);background:#0f1a32;border:1px solid var(--border);border-radius:16px;padding:16px;box-shadow:var(--shadow)}
+    .modal-actions{display:flex;gap:8px;justify-content:flex-end;margin-top:10px}
 
-    /* Designer footer */
+    /* Footer designer */
     .designer{
-      position:fixed; left:16px; bottom:16px; z-index:70;
-      background:#0f1a32cc; border:1px solid #243a60; border-radius:14px; padding:10px;
-      display:flex; align-items:center; gap:10px; box-shadow:0 10px 24px rgba(0,0,0,.35); backdrop-filter:blur(6px)
+      position:fixed;left:16px;bottom:16px;z-index:70;
+      background:#0f1a32cc;border:1px solid #243a60;border-radius:14px;padding:10px;display:flex;align-items:center;gap:10px;
+      box-shadow:0 10px 24px rgba(0,0,0,.35);backdrop-filter:blur(6px)
     }
-    .designer img{width:42px; height:42px; border-radius:50%; border:1px solid #2a4068}
-    .designer small{color:#cfe7ff; font-weight:700; letter-spacing:.2px}
+    .designer img{width:42px;height:42px;border-radius:50%;border:1px solid #2a4068}
+    .designer small{color:#cfe7ff;font-weight:700;letter-spacing:.2px}
 
     /* Animations */
-    @keyframes fadeIn{to{opacity:1; transform:translateY(0)}}
-    @keyframes fadeModal{from{opacity:0; transform:scale(.96)} to{opacity:1; transform:scale(1)}}
+    @keyframes fadeIn{to{opacity:1;transform:translateY(0)}}
+    @keyframes fadeModal{from{opacity:0;transform:scale(.96)}to{opacity:1;transform:scale(1)}}
   </style>
 </head>
 <body>
@@ -111,6 +104,7 @@
     <div class="card">
       <h1 style="margin:0 0 8px">Prospect 3 — Flipbook تعاملی</h1>
       <p class="tip">Lessons • Conversation • Practice • Language melody • Grammar • Find it • Listening A/B • Workbook • Exams</p>
+
       <h2 style="margin:14px 0 8px">انتخاب درس</h2>
       <div class="grid lessons" id="lessonButtons"></div>
     </div>
@@ -124,7 +118,9 @@
         <div id="lessonTitle" style="font-weight:900;color:#cfe7ff"></div>
         <button class="btn btn--outline" onclick="nextPage()" type="button">بعد <i class="fa-solid fa-chevron-left"></i></button>
       </div>
+
       <div id="pages"></div>
+
       <div style="display:flex;justify-content:flex-end;gap:8px">
         <button class="btn btn--ghost" onclick="goBack()" type="button"><i class="fa-solid fa-rotate-left"></i> بازگشت</button>
       </div>
@@ -136,7 +132,7 @@
     <div class="modal-content">
       <h2><i class="fa-regular fa-circle-question"></i> راهنما</h2>
       <div class="fa">
-        <div>• متن‌های انگلیسی چپ‌چین و LTR هستند.</div>
+        <div>• متن‌های انگلیسی چپ‌چین و با جهت LTR هستند.</div>
         <div>• روی واژه‌های آبی کلیک کنید تا معنی، مترادف، کلمات مرتبط و مثال نمایش داده شود.</div>
         <div>• دکمه‌های 🔊 برای تلفظ جمله/واژه فعال هستند.</div>
         <div>• برای هر بخش دکمهٔ پخش صوت کامل وجود دارد.</div>
@@ -170,38 +166,34 @@
     </div>
   </div>
 
-  <!-- Designer footer -->
+  <!-- Designer footer (fixed across pages) -->
   <div class="designer">
-    <img src="https://s34.picofile.com/file/8488183492/2.png" alt="Designer" />
+    <img src="https://s34.picofile.com/file/8488183492/2.png" alt="Designer">
     <small>Designer — A.R. Yousefzadeh</small>
   </div>
 
   <script>
-    /* ------------------ Sounds: background music + click ------------------ */
-    const bgm = new Audio("https://cdn.pixabay.com/download/audio/2023/03/01/audio_76b5d8b3c7.mp3?filename=serene-background-14065.mp3");
+    /* ------------------ Background music + click sound ------------------ */
+    const bgm = new Audio();
+    bgm.src = "https://cdn.pixabay.com/download/audio/2023/03/01/audio_76b5d8b3c7.mp3?filename=serene-background-14065.mp3"; // نمونه آزاد؛ در صورت تمایل جایگزین کنید
     bgm.loop = true; bgm.volume = 0.25;
     const clickSound = new Audio("https://cdn.pixabay.com/download/audio/2022/03/15/audio_7d6ce6b2d7.mp3?filename=click-124467.mp3");
     clickSound.volume = 0.35;
-
     function playClick(){ try{ clickSound.currentTime=0; clickSound.play(); }catch{} }
-    document.addEventListener('click', (e)=>{
-      const clickable = e.target.closest('.btn, .pill');
-      if(clickable) playClick();
+    document.querySelectorAll('.btn,.pill').forEach(el=> el.addEventListener('click', playClick));
+    document.getElementById('bgmToggle').addEventListener('click', ()=>{
+      if(bgm.paused){ bgm.play(); document.getElementById('bgmToggle').innerHTML = '<i class="fa-solid fa-music"></i> موسیقی زمینه: روشن'; }
+      else { bgm.pause(); document.getElementById('bgmToggle').innerHTML = '<i class="fa-solid fa-music"></i> موسیقی زمینه: خاموش'; }
     });
 
-    const bgmToggle = document.getElementById('bgmToggle');
-    bgmToggle.addEventListener('click', ()=>{
-      if(bgm.paused){ bgm.play(); bgmToggle.innerHTML = '<i class="fa-solid fa-music"></i> موسیقی زمینه: روشن'; }
-      else { bgm.pause(); bgmToggle.innerHTML = '<i class="fa-solid fa-music"></i> موسیقی زمینه: خاموش'; }
-    });
-
-    /* ------------------ Dictionary helpers ------------------ */
+    /* ------------------ Dictionary and helpers ------------------ */
     const DICT = {
-      // این بخش را با واژه‌های کلیدی هر درس از SB9/WB9 کامل کنید:
-      clever:{fa:"باهوش/زرنگ",syn:["smart","bright"],rel:["intelligent"],ex:"He is a clever student.",exFa:"او دانش‌آموز باهوشی است."},
-      kind:{fa:"مهربان",syn:["nice","friendly"],rel:["polite"],ex:"She is kind to everyone.",exFa:"او با همه مهربان است."},
-      reservation:{fa:"رزرو",syn:["booking"],rel:["ticket"],ex:"I have a reservation.",exFa:"من رزرو دارم."},
-      passport:{fa:"گذرنامه",syn:["ID"],rel:["visa"],ex:"Show your passport, please.",exFa:"لطفاً گذرنامه‌ات را نشان بده."}
+      // نمونه‌ها؛ لطفاً واژه‌های کلیدی هر درس را کامل کنید
+      clever:{ fa:"باهوش/زرنگ", syn:["smart","bright"], rel:["intelligent"], ex:"He is a clever student.", exFa:"او دانش‌آموز باهوشی است." },
+      kind:{ fa:"مهربان", syn:["nice","friendly"], rel:["polite"], ex:"She is kind to everyone.", exFa:"او با همه مهربان است." },
+      reservation:{ fa:"رزرو", syn:["booking"], rel:["ticket"], ex:"I have a reservation.", exFa:"من رزرو دارم." },
+      passport:{ fa:"گذرنامه", syn:["ID"], rel:["visa"], ex:"Show your passport, please.", exFa:"لطفاً گذرنامه‌ات را نشان بده." },
+      gift:{ fa:"هدیه", syn:["present"], rel:["reward"], ex:"They get gifts in Norooz.", exFa:"آن‌ها در نوروز هدیه می‌گیرند." }
     };
     function inlineWords(s){
       return String(s).replace(/\b([A-Za-z][A-Za-z\-']+)\b/g,(m)=>{
@@ -210,7 +202,7 @@
       });
     }
     function openWord(w){
-      const info = DICT[w] || {fa:"—",syn:[],rel:[],ex:"",exFa:""};
+      const info = DICT[w] || {fa:"—", syn:[], rel:[], ex:"", exFa:""};
       document.getElementById('wmWord').textContent = w;
       document.getElementById('wmBody').innerHTML = `
         <div><b>معنی:</b> ${info.fa}</div>
@@ -225,86 +217,113 @@
       try{
         if(!window.speechSynthesis){ alert('Speech Synthesis پشتیبانی نمی‌شود.'); return; }
         const u = new SpeechSynthesisUtterance(text);
-        u.lang = 'en-US';
-        window.speechSynthesis.speak(u);
+        u.lang = 'en-US'; window.speechSynthesis.speak(u);
       }catch(e){}
     }
 
-    /* ------------------ Listening links ------------------ */
+    /* ------------------ Listening links provided by you ------------------ */
     const LISTENING = {
-      1:{A:"https://s34.picofile.com/file/8488257092/6A.mp3.html",B:"https://s34.picofile.com/file/8488257100/6B.mp3.html"},
-      2:{A:"https://s34.picofile.com/file/8488257218/026_A.mp3.html",B:"https://s34.picofile.com/file/8488257226/026_B.mp3.html"},
-      3:{A:"https://s34.picofile.com/file/8488257234/036_A.mp3.html",B:"https://s34.picofile.com/file/8488257242/036_B.mp3.html"},
-      4:{A:"https://s34.picofile.com/file/8488257250/046_A.mp3.html",B:"https://s34.picofile.com/file/8488257268/046_B.mp3.html"},
-      5:{A:"https://s34.picofile.com/file/8488257326/056_A.mp3.html",B:"https://s34.picofile.com/file/8488257350/056_B.mp3.html"},
-      6:{A:"https://s34.picofile.com/file/8488257376/066_A.mp3.html",B:"https://s34.picofile.com/file/8488257400/066_B.mp3.html"}
+      1:{ A:"https://s34.picofile.com/file/8488257092/6A.mp3.html", B:"https://s34.picofile.com/file/8488257100/6B.mp3.html" },
+      2:{ A:"https://s34.picofile.com/file/8488257218/026_A.mp3.html", B:"https://s34.picofile.com/file/8488257226/026_B.mp3.html" },
+      3:{ A:"https://s34.picofile.com/file/8488257234/036_A.mp3.html", B:"https://s34.picofile.com/file/8488257242/036_B.mp3.html" },
+      4:{ A:"https://s34.picofile.com/file/8488257250/046_A.mp3.html", B:"https://s34.picofile.com/file/8488257268/046_B.mp3.html" },
+      5:{ A:"https://s34.picofile.com/file/8488257326/056_A.mp3.html", B:"https://s34.picofile.com/file/8488257350/056_B.mp3.html" },
+      6:{ A:"https://s34.picofile.com/file/8488257376/066_A.mp3.html", B:"https://s34.picofile.com/file/8488257400/066_B.mp3.html" }
     };
 
-    /* ------------------ Lessons structure (fill from SB9/WB9) ------------------ */
-    // توجه: اینجا باید متن هر بخش را از PDF وارد کنید. نمونه برای درس 1 گذاشته شده تا قالب روشن باشد.
+    /* ------------------ Lessons data structure (to be filled from SB9/WB9) ------------------ */
+    // لطفاً متن هر بخش را از PDFها اینجا وارد کنید.
+    // برای نمونه، درس 1 فقط قالب دارد و باید با محتوای واقعی SB9/WB9 جایگزین شود.
     const LESSONS = [
       {
-        id:1, icon:"fa-user", title:"Lesson 1 — (موضوع SB9)",
+        id:1, title:"Lesson 1 — (موضوع SB9)", topics:["Conversation","Practice 1","Practice 2","Language melody","Sentences below","Grammar","Find it","Listening A","Listening B","Workbook","Photo Dictionary"],
         sections:{
-          vocabulary:["clever","kind","reservation","passport"], // نمونه؛ با واژه‌های واقعی درس جایگزین کنید
-          conversation:{ lines:[
-            // این خطوط را با متن کامل بخش Conversation از SB9 جایگزین کنید (هر جمله یک آیتم)
-            "Ehsan: Who is your best friend at school?",
-            "Parham: Reza.",
-            "Ehsan: What's he like?",
-            "Parham: He is clever and kind."
-          ], audio:"" }, // اگر فایل صوتیِ کامل Conversation دارید، لینک را وارد کنید
-          practice1:{ lines:[ "Q: Is he clever?  A: Yes, he is." ], audio:"" },
-          practice2:{ lines:[ "Q: Are you kind?  A: Yes, I am." ], audio:"" },
-          languageMelody:{ lines:[ "He is clever and kind." ], audio:"" },
-          sentencesBelow:{ lines:[ "They are kind.", "He is clever." ] },
-          grammar:{ title:"Be verb (is/are)", description:"Use 'is' for singular and 'are' for plural.", examples:[ "He is clever.", "They are kind." ] },
-          findIt:{ lines:[ "Find 'is' and 'are' in the conversation." ] },
-          listeningA:{ transcript:[ "Transcript from SB9 — Lesson 1, Part A (وارد کنید)" ], audio: LISTENING[1].A },
-          listeningB:{ transcript:[ "Transcript from SB9 — Lesson 1, Part B (وارد کنید)" ], audio: LISTENING[1].B },
-          workbook:{ exercises:[
-            { type:"fill", q:"They __ kind.", key:"are", explain:"Plural be-verb", answer:"are" },
-            { type:"mcq", q:"He __ clever.", options:["are","is"], key:"is", explain:"Singular be-verb", answer:"is" },
-            { type:"tf", q:"Reservation means booking.", key:true }
-          ]},
+          conversation:{
+            text:[
+              // این‌ها را از SB9 وارد کنید؛ هر خط یک جمله
+              "Ehsan: ...",
+              "Parham: ..."
+            ],
+            audio:"" // اگر فایل صوتی کامل بخش دارید، لینک بگذارید
+          },
+          practice1:{ text:[ "..." ], audio:"" },
+          practice2:{ text:[ "..." ], audio:"" },
+          languageMelody:{ text:[ "..." ], audio:"" },
+          sentencesBelow:{ text:[ "..." ] },
+          grammar:{ title:"...", description:"...", examples:[ "..." ] },
+          findIt:{ text:[ "..." ] },
+          listeningA:{ transcript:[ "..." ], audio: LISTENING[1].A },
+          listeningB:{ transcript:[ "..." ], audio: LISTENING[1].B },
+          workbook:{
+            exercises:[
+              // تمرین تعاملی نمونه؛ پاسخنامه پنهان
+              { type:"fill", q:"They __ kind.", key:"are", explain:"Be verb plural", answer:"are" },
+              { type:"mcq", q:"He __ clever.", options:["are","is"], key:"is", explain:"Be verb singular", answer:"is" }
+            ],
+            answersVisible:false
+          },
           photoDictionary:[
-            { phrase:"school bag", fa:"کیف مدرسه", example:"This is my school bag.", exFa:"این کیف مدرسه‌ی من است." }
-          ],
-          exam:{ points:20, items:[
-            { type:"mcq", q:"He __ clever.", options:["are","is"], key:"is" },
+            { phrase:"school bag", fa:"کیف مدرسه", example:"This is my school bag.", exFa:"این کیف مدرسه‌ی من است." },
+          ]
+        },
+        exam:{
+          points:20,
+          items:[
+            { type:"mcq", q:"Choose the correct verb: He __ clever.", options:["are","is"], key:"is" },
             { type:"fill", q:"They __ kind.", key:"are" },
-            { type:"tf", q:"Passport means گذرنامه.", key:true }
-          ]}
+            { type:"tf", q:"Reservation means booking.", key:true }
+          ]
         }
       },
-      { id:2, icon:"fa-plane", title:"Lesson 2 — (موضوع SB9)", sections:{ /* دقیقا مانند درس 1 با داده‌های واقعی */ } },
-      { id:3, icon:"fa-fireworks", title:"Lesson 3 — (موضوع SB9)", sections:{ /* ... */ } },
-      { id:4, icon:"fa-school", title:"Lesson 4 — (موضوع SB9)", sections:{ /* ... */ } },
-      { id:5, icon:"fa-utensils", title:"Lesson 5 — (موضوع SB9)", sections:{ /* ... */ } },
-      { id:6, icon:"fa-heart", title:"Lesson 6 — (موضوع SB9)", sections:{ /* ... */ } }
+      // ... درس‌های 2 تا 6 را دقیقاً مثل درس 1 با متن واقعی SB9/WB9 پر کنید
+      { id:2, title:"Lesson 2 — (موضوع SB9)", topics:[/*...*/], sections:{ /* مانند بالا */ }, exam:{ points:20, items:[] } },
+      { id:3, title:"Lesson 3 — (موضوع SB9)", topics:[/*...*/], sections:{ /* مانند بالا */ }, exam:{ points:20, items:[] } },
+      { id:4, title:"Lesson 4 — (موضوع SB9)", topics:[/*...*/], sections:{ /* مانند بالا */ }, exam:{ points:20, items:[] } },
+      { id:5, title:"Lesson 5 — (موضوع SB9)", topics:[/*...*/], sections:{ /* مانند بالا */ }, exam:{ points:20, items:[] } },
+      { id:6, title:"Lesson 6 — (موضوع SB9)", topics:[/*...*/], sections:{ /* مانند بالا */ }, exam:{ points:20, items:[] } }
     ];
 
-    /* ------------------ Build lesson buttons ------------------ */
+    /* ------------------ UI build ------------------ */
     const lessonButtons = document.getElementById('lessonButtons');
     LESSONS.forEach(lesson=>{
       const btn = document.createElement('button');
       btn.className = "pill";
-      btn.innerHTML = `<i class="fa-solid ${lesson.icon||'fa-book'}"></i> ${lesson.title}`;
+      btn.innerHTML = `<i class="fa-solid fa-book"></i> ${lesson.title}`;
       btn.addEventListener('click', ()=> loadLesson(lesson.id));
       lessonButtons.appendChild(btn);
     });
 
     let pages = []; let pageIndex = 0; let currentLesson = null;
 
-    /* ------------------ Section builders ------------------ */
-    function renderVocabulary(vocab=[]){
+    function sectionBlock(title, lines=[], opts={}){
+      const speakAllBtn = opts.audio ? `<button class="btn btn--primary" type="button" onclick="playAudio('${opts.audio}')">🔊 پخش صوت بخش</button>` : "";
+      const rendered = (lines||[]).map(line=>{
+        const safe = line.replace(/"/g,'&quot;').replace(/'/g,"\\'");
+        return `<div class="line">
+          <span class="en">${inlineWords(line)}</span>
+          <button class="btn btn--outline" type="button" onclick="speak('${safe}')">🔊</button>
+        </div>`;
+      }).join("");
+      return `
+        <div class="page">
+          <h2>${title}</h2>
+          ${speakAllBtn?`<div class="audio-row">${speakAllBtn}</div>`:""}
+          <div class="section">
+            ${rendered || `<div class="fa">در انتظار وارد کردن متن از SB9/WB9...</div>`}
+          </div>
+        </div>
+      `;
+    }
+
+    function vocabBlock(lesson){
+      const vocab = (lesson.sections.vocab || lesson.sections?.photoDictionary?.map(p=>p.phrase)) || [];
       const rows = (vocab||[]).map(w=>{
-        const info = DICT[(w||'').toLowerCase()] || {fa:"—",ex:"",exFa:""};
+        const info = DICT[w?.toLowerCase()] || {fa:"—",ex:"",exFa:""};
         return `
           <div class="line">
             <span class="en word" onclick="openWord('${(w||'').toLowerCase()}')">${w}</span>
             <span class="fa">— ${info.fa}</span>
-            <button class="btn btn--outline" type="button" onclick="speak('${w.replace(/'/g,"\\'")}')">🔊</button>
+            <button class="btn btn--outline" type="button" onclick="speak('${w}')">🔊</button>
           </div>
           ${info.ex?`<div class="en" style="margin:0 0 8px 26px">${info.ex}</div>`:""}
           ${info.exFa?`<div class="fa" style="margin:0 0 8px 26px">${info.exFa}</div>`:""}
@@ -313,62 +332,23 @@
       return `
         <div class="page">
           <h2>Lesson vocabulary</h2>
-          <div class="section">${rows || `<div class="fa">واژگان درس را وارد کنید.</div>`}</div>
+          <div class="section">${rows || `<div class="fa">لیست واژهٔ درس را وارد کنید.</div>`}</div>
         </div>
       `;
     }
 
-    function renderTextSection(title, lines=[], audioSrc=""){
-      const speakSectionBtn = audioSrc ? `<button class="btn btn--primary" type="button" onclick="openAudio('${audioSrc}')">🔊 پخش صوتِ ${title}</button>` : "";
-      const rendered = (lines||[]).map(line=>{
-        const safe = String(line).replace(/"/g,'&quot;').replace(/'/g,"\\'");
-        return `
-          <div class="line">
-            <span class="en">${inlineWords(line)}</span>
-            <button class="btn btn--outline" type="button" onclick="speak('${safe}')">🔊</button>
-          </div>
-        `;
-      }).join("");
-      return `
-        <div class="page">
-          <h2>${title}</h2>
-          ${speakSectionBtn ? `<div class="audio-row">${speakSectionBtn}</div>` : ""}
-          <div class="section">${rendered || `<div class="fa">متن این بخش را وارد کنید.</div>`}</div>
-        </div>
-      `;
-    }
-
-    function renderGrammar(grammar){
-      const id = `gr_${Date.now()}`;
-      const examples = (grammar.examples||[]).map(e=>`<div class="en">${inlineWords(e)}</div>`).join("");
-      return `
-        <div class="page">
-          <h2>Grammar</h2>
-          <div class="section fa">
-            <button class="btn btn--outline" type="button" onclick="toggleAnswer('${id}')">نمایش توضیحات گرامر</button>
-            <div id="${id}" class="hidden">
-              <div><b>${grammar.title||'—'}</b></div>
-              <div>${grammar.description||'—'}</div>
-              ${examples}
-            </div>
-          </div>
-        </div>
-      `;
-    }
-
-    function renderWorkbook(exercises=[]){
+    function workbookBlock(exercises){
       const rows = (exercises||[]).map((ex,i)=>{
         const id = `wb_${i}`;
         if(ex.type==="fill"){
           return `
             <div class="section">
               <div class="line fa"><b>سوال:</b> ${ex.q}</div>
-              <div class="line">
-                <input id="${id}" type="text" placeholder="پاسخ شما..." style="padding:8px;border-radius:8px;border:1px solid #2a4068;background:#0f1a32;color:#eaf3ff" />
+              <div class="line"><input id="${id}" type="text" placeholder="پاسخ شما..." style="padding:8px;border-radius:8px;border:1px solid #2a4068;background:#0f1a32;color:#eaf3ff">
                 <button class="btn btn--ghost" type="button" onclick="checkFill('${id}','${ex.key}')">بررسی</button>
                 <button class="btn btn--outline" type="button" onclick="toggleAnswer('${id}_ans')">نمایش پاسخ</button>
               </div>
-              <div id="${id}_ans" class="hidden fa"><b>پاسخ:</b> ${ex.answer||ex.key} — <i>${ex.explain||''}</i></div>
+              <div id="${id}_ans" class="hidden fa"><b>پاسخ:</b> ${ex.answer || ex.key} — <i>${ex.explain||''}</i></div>
             </div>
           `;
         }
@@ -412,33 +392,14 @@
       `;
     }
 
-    function renderPhotoDictionary(items=[]){
-      const rows = (items||[]).map(p=>`
-        <div class="line">
-          <span class="en word" onclick="openWord('${p.phrase.toLowerCase()}')">${p.phrase}</span>
-          <span class="fa">— ${p.fa}</span>
-          <button class="btn btn--outline" type="button" onclick="speak('${p.phrase.replace(/'/g,"\\'")}')">🔊</button>
-        </div>
-        ${p.example?`<div class="en" style="margin:0 0 8px 26px">${inlineWords(p.example)}</div>`:""}
-        ${p.exFa?`<div class="fa" style="margin:0 0 8px 26px">${p.exFa}</div>`:""}
-      `).join("");
-      return `
-        <div class="page">
-          <h2>Photo Dictionary</h2>
-          <div class="section">${rows || `<div class="fa">عبارات Photo Dictionary را وارد کنید.</div>`}</div>
-        </div>
-      `;
-    }
-
-    function renderExam(exam){
+    function examBlock(exam){
       const rows = (exam?.items||[]).map((it,i)=>{
         const id = `ex_${i}`;
         if(it.type==="fill"){
           return `
             <div class="section">
               <div class="line fa"><b>سوال:</b> ${it.q}</div>
-              <div class="line">
-                <input id="${id}" type="text" placeholder="پاسخ..." style="padding:8px;border-radius:8px;border:1px solid #2a4068;background:#0f1a32;color:#eaf3ff" />
+              <div class="line"><input id="${id}" type="text" placeholder="پاسخ..." style="padding:8px;border-radius:8px;border:1px solid #2a4068;background:#0f1a32;color:#eaf3ff">
                 <button class="btn btn--ghost" type="button" onclick="checkFill('${id}','${it.key}')">بررسی</button>
                 <button class="btn btn--outline" type="button" onclick="toggleAnswer('${id}_ans')">نمایش پاسخ</button>
               </div>
@@ -480,47 +441,93 @@
       }).join("");
       return `
         <div class="page">
-          <h2>Exam — ${exam?.points||20} pts</h2>
-          ${rows || `<div class="section fa">سوالات آزمون این درس را وارد کنید.</div>`}
+          <h2>Exam — 20 pts</h2>
+          ${rows || `<div class="section fa">سوالات آزمون این درس را اضافه کنید.</div>`}
         </div>
       `;
     }
 
-    /* ------------------ Lesson load ------------------ */
+    function listeningBlock(title, part, lessonId){
+      const audioLink = LISTENING[lessonId]?.[part];
+      return `
+        <div class="page">
+          <h2>${title} — Part ${part}</h2>
+          <div class="section">
+            <div class="audio-row">
+              <button class="btn btn--primary" type="button" onclick="openAudio('${audioLink}')">🔊 پخش فایل شنیداری (${part})</button>
+            </div>
+            <div class="fa tip">متن شنیداری را از SB9/WB9 اینجا وارد کنید.</div>
+          </div>
+        </div>
+      `;
+    }
+
     function loadLesson(id){
       currentLesson = LESSONS.find(l=>l.id===id);
-      if(!currentLesson) return;
-
       document.getElementById('startScreen').classList.add('hidden');
       document.getElementById('lessonScreen').classList.remove('hidden');
       document.getElementById('lessonTitle').textContent = currentLesson.title;
 
       pages = [];
-      // Vocabulary
-      pages.push(renderVocabulary(currentLesson.sections.vocabulary||[]));
+      // بخش واژگان درس
+      pages.push(vocabBlock(currentLesson));
+
       // Conversation
-      pages.push(renderTextSection("Conversation", currentLesson.sections.conversation?.lines||[], currentLesson.sections.conversation?.audio||""));
+      pages.push(sectionBlock("Conversation", currentLesson.sections.conversation.text, {audio: currentLesson.sections.conversation.audio}));
+
       // Practice 1 & 2
-      pages.push(renderTextSection("Practice 1", currentLesson.sections.practice1?.lines||[], currentLesson.sections.practice1?.audio||""));
-      pages.push(renderTextSection("Practice 2", currentLesson.sections.practice2?.lines||[], currentLesson.sections.practice2?.audio||""));
-      // Language melody & Sentences below
-      pages.push(renderTextSection("Language melody", currentLesson.sections.languageMelody?.lines||[], currentLesson.sections.languageMelody?.audio||""));
-      pages.push(renderTextSection("Sentences below", currentLesson.sections.sentencesBelow?.lines||[]));
+      pages.push(sectionBlock("Practice 1", currentLesson.sections.practice1.text, {audio: currentLesson.sections.practice1.audio}));
+      pages.push(sectionBlock("Practice 2", currentLesson.sections.practice2.text, {audio: currentLesson.sections.practice2.audio}));
+
+      // Language melody & sentences below
+      pages.push(sectionBlock("Language melody", currentLesson.sections.languageMelody.text, {audio: currentLesson.sections.languageMelody.audio}));
+      pages.push(sectionBlock("Sentences below", currentLesson.sections.sentencesBelow.text));
+
       // Grammar
-      pages.push(renderGrammar(currentLesson.sections.grammar||{}));
+      pages.push(`
+        <div class="page">
+          <h2>Grammar</h2>
+          <div class="section fa">
+            <button class="btn btn--outline" type="button" onclick="toggleAnswer('gr_${id}')">نمایش توضیحات گرامر</button>
+            <div id="gr_${id}" class="hidden">
+              <div><b>${currentLesson.sections.grammar.title || '—'}</b></div>
+              <div>${currentLesson.sections.grammar.description || '—'}</div>
+              ${(currentLesson.sections.grammar.examples||[]).map(e=>`<div class="en">${inlineWords(e)}</div>`).join("")}
+            </div>
+          </div>
+        </div>
+      `);
+
       // Find it
-      pages.push(renderTextSection("Find it", currentLesson.sections.findIt?.lines||[]));
+      pages.push(sectionBlock("Find it", currentLesson.sections.findIt.text));
+
       // Listening A/B
-      const LA = currentLesson.sections.listeningA?.audio || LISTENING[id]?.A || "";
-      const LB = currentLesson.sections.listeningB?.audio || LISTENING[id]?.B || "";
-      pages.push(renderTextSection("Listening — Part A", currentLesson.sections.listeningA?.transcript||[], LA));
-      pages.push(renderTextSection("Listening — Part B", currentLesson.sections.listeningB?.transcript||[], LB));
+      pages.push(listeningBlock("Listening", "A", id));
+      pages.push(listeningBlock("Listening", "B", id));
+
       // Workbook
-      pages.push(renderWorkbook(currentLesson.sections.workbook?.exercises||[]));
-      // Photo Dictionary
-      pages.push(renderPhotoDictionary(currentLesson.sections.photoDictionary||[]));
-      // Exam
-      pages.push(renderExam(currentLesson.sections.exam||{points:20, items:[]}));
+      pages.push(workbookBlock(currentLesson.sections.workbook.exercises));
+
+      // Photo Dictionary (درس به درس)
+      pages.push(`
+        <div class="page">
+          <h2>Photo Dictionary</h2>
+          <div class="section">
+            ${(currentLesson.sections.photoDictionary||[]).map(p=>`
+              <div class="line">
+                <span class="en word" onclick="openWord('${p.phrase.toLowerCase()}')">${p.phrase}</span>
+                <span class="fa">— ${p.fa}</span>
+                <button class="btn btn--outline" type="button" onclick="speak('${p.phrase.replace(/'/g,"\\'")}')">🔊</button>
+              </div>
+              ${p.example?`<div class="en" style="margin:0 0 8px 26px">${inlineWords(p.example)}</div>`:""}
+              ${p.exFa?`<div class="fa" style="margin:0 0 8px 26px">${p.exFa}</div>`:""}
+            `).join("") || `<div class="fa">عبارات Photo Dictionary را برای این درس وارد کنید.</div>`}
+          </div>
+        </div>
+      `);
+
+      // Exam (20 pts)
+      pages.push(examBlock(currentLesson.exam));
 
       pageIndex = 0;
       renderPages();
@@ -528,13 +535,13 @@
     }
 
     function renderPages(){
-      const wrap=document.getElementById('pages');
-      wrap.innerHTML="";
+      const wrap = document.getElementById('pages');
+      wrap.innerHTML = "";
       pages.forEach((html,i)=>{
-        const tmp=document.createElement('div');
-        tmp.innerHTML=html.trim();
-        const page=tmp.firstElementChild;
-        page.dataset.index=i;
+        const tmp = document.createElement('div');
+        tmp.innerHTML = html.trim();
+        const page = tmp.firstElementChild;
+        page.dataset.index = i;
         wrap.appendChild(page);
       });
     }
@@ -553,7 +560,7 @@
       currentLesson=null; pages=[]; pageIndex=0;
     }
 
-    /* ------------------ Modal + checks + audio ------------------ */
+    /* ------------------ Modal controls ------------------ */
     function showModal(id){ document.getElementById(id).classList.remove('hidden'); }
     function closeModal(id){ document.getElementById(id).classList.add('hidden'); }
     document.addEventListener('keydown',(e)=>{
@@ -566,17 +573,14 @@
     });
     ['helpModal','irregularModal','wordModal'].forEach(id=>{
       const m=document.getElementById(id);
-      if(!m) return;
       m.addEventListener('click',(e)=>{
         const content=m.querySelector('.modal-content');
         if(content && !content.contains(e.target)) m.classList.add('hidden');
       });
     });
 
-    function toggleAnswer(id){
-      const el=document.getElementById(id); if(!el) return;
-      el.classList.toggle('hidden');
-    }
+    /* ------------------ Workbook/exam checkers ------------------ */
+    function toggleAnswer(id){ const el=document.getElementById(id); if(!el) return; el.classList.toggle('hidden'); }
     function checkFill(id,key){
       const el=document.getElementById(id); if(!el) return;
       const val=(el.value||"").trim().toLowerCase();
@@ -598,19 +602,27 @@
       if(wrap) wrap.style.boxShadow = ok ? '0 0 0 2px #13d38b inset' : '0 0 0 2px #ff6e6e inset';
     }
 
+    /* ------------------ Audio openers ------------------ */
+    function playAudio(src){
+      if(!src){ alert('لینک صوتی این بخش هنوز وارد نشده است.'); return; }
+      openAudio(src);
+    }
     function openAudio(url){
-      if(!url){ alert('لینک صوتی این بخش هنوز وارد نشده است.'); return; }
-      try{ window.open(url,'_blank','noopener'); }catch(e){ location.href = url; }
+      try{
+        window.open(url,'_blank','noopener');
+      }catch(e){
+        location.href = url;
+      }
     }
 
-    /* ------------------ Irregular verbs list ------------------ */
+    /* ------------------ Irregular verbs ------------------ */
     const IRREGULAR = [
       { base:"be", past:"was/were", fa:"بودن — بود/بودند", exBase:"I am happy.", exPast:"I was happy.", exFaBase:"من خوشحالم.", exFaPast:"من خوشحال بودم." },
       { base:"go", past:"went", fa:"رفتن — رفت", exBase:"They go to school.", exPast:"They went to school.", exFaBase:"آن‌ها به مدرسه می‌روند.", exFaPast:"آن‌ها به مدرسه رفتند." },
       { base:"break", past:"broke", fa:"شکستن — شکست", exBase:"He breaks the rule.", exPast:"He broke the rule.", exFaBase:"او قانون را می‌شکند.", exFaPast:"او قانون را شکست." },
       { base:"buy", past:"bought", fa:"خریدن — خرید", exBase:"We buy food.", exPast:"We bought food.", exFaBase:"ما غذا می‌خریم.", exFaPast:"ما غذا خریدیم." }
     ];
-    const irregularBody=document.getElementById('irregularBody');
+    const irregularBody = document.getElementById('irregularBody');
     irregularBody.innerHTML = IRREGULAR.map(v=>`
       <div class="section">
         <div class="line"><b>Base:</b> <span class="en word" onclick="openWord('${v.base}')">${v.base}</span> — <b>Past:</b> <span class="en word" onclick="openWord('${v.past}')">${v.past}</span></div>
