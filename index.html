@@ -2,127 +2,334 @@
 <html lang="fa" dir="rtl">
 <head>
   <meta charset="UTF-8">
-  <title>Prospect 3 — نسخه پایدار</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Prospect 3 — نسخه‌ی زیباسازی‌شده</title>
+
+  <!-- فونت فارسی Vazir -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/rastikerdar/vazir-font@v30.1.0/Farsi-Digits/Vazir-FD.css">
+  <!-- آیکون‌ها -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
   <style>
-    body { background:#0b1220; color:#eaf3ff; font-family:tahoma; margin:0; }
-    .topbar { background:#111a2f; padding:10px; display:flex; justify-content:space-between; align-items:center; }
-    .btn { padding:8px 12px; border:none; border-radius:8px; cursor:pointer; font-weight:bold; }
-    .btn--primary { background:#13d38b; color:#06233a; }
-    .btn--outline { background:transparent; border:1px solid #2a4068; color:#eaf3ff; }
-    .container { padding:20px; max-width:900px; margin:auto; }
-    .card { background:#121a2d; padding:16px; border-radius:12px; border:1px solid #2a4068; }
-    .grid { display:grid; gap:10px; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); margin-top:10px; }
-    .pill { background:#16274b; padding:12px; border-radius:10px; text-align:center; cursor:pointer; }
-    .hidden { display:none !important; }
-    .modal { position:fixed; inset:0; background:rgba(0,0,0,.6); display:flex; align-items:center; justify-content:center; z-index:1000; }
-    .modal-content { background:#0f1a32; padding:20px; border-radius:12px; width:90%; max-width:600px; }
-    .modal-actions { margin-top:10px; text-align:right; }
-    .page { background:#121a2d; padding:16px; border-radius:10px; margin-top:20px; }
+    :root{
+      --bg1:#0b1220; --bg2:#1c2a4a;
+      --surface:#121a2d; --surface2:#0f1a32;
+      --text:#eaf3ff; --muted:#9bb3cc;
+      --border:#2a4068; --accent:#13d38b; --accent2:#71d7ff;
+      --shadow:0 10px 30px rgba(0,0,0,.35);
+    }
+    *{box-sizing:border-box}
+    html,body{margin:0;padding:0}
+    body{
+      font-family:'Vazir',Tahoma,Segoe UI,Arial;
+      color:var(--text);
+      background:linear-gradient(160deg,var(--bg1),var(--bg2));
+      min-height:100vh;
+    }
+
+    /* Topbar */
+    .topbar{
+      position:sticky; top:0; z-index:50;
+      background:linear-gradient(90deg,#0f1a32cc,#101a31cc);
+      backdrop-filter:blur(6px);
+      border-bottom:1px solid var(--border);
+      display:flex; align-items:center; justify-content:space-between;
+      padding:10px 16px;
+    }
+    .brand{
+      font-weight:900; letter-spacing:.2px;
+      color:#cfe7ff;
+    }
+    .nav-actions{display:flex; gap:8px; align-items:center}
+
+    /* Buttons */
+    .btn{
+      cursor:pointer; border:none; border-radius:12px;
+      padding:10px 14px; font-weight:800; transition:.2s ease;
+    }
+    .btn--primary{
+      background:linear-gradient(90deg,var(--accent),var(--accent2));
+      color:#06233a; box-shadow:0 8px 20px rgba(19,211,139,.25);
+    }
+    .btn--outline{
+      background:transparent; border:1px solid var(--border); color:var(--text);
+    }
+    .btn--ghost{
+      background:#1b294a; color:#fff; border:1px solid #243a60;
+    }
+    .btn:hover{ transform:translateY(-2px); filter:brightness(1.05) }
+    .btn:active{ transform:scale(.98) }
+
+    /* Containers */
+    .container{ width:min(1100px,94vw); margin:0 auto; padding:16px }
+    .card{
+      background:linear-gradient(145deg,var(--surface),var(--surface2));
+      border:1px solid var(--border); border-radius:18px; box-shadow:var(--shadow);
+      padding:18px;
+    }
+
+    /* Lesson grid */
+    .grid{ display:grid; gap:12px }
+    .grid.lessons{ grid-template-columns:repeat(auto-fit,minmax(240px,1fr)) }
+    .pill{
+      background:#16274b; border:1px solid var(--border); color:#eaf3ff;
+      border-radius:14px; padding:18px; text-align:center; font-weight:800;
+      display:flex; align-items:center; justify-content:center; gap:10px;
+      transition:.2s; box-shadow:0 6px 14px rgba(0,0,0,.25);
+    }
+    .pill:hover{ transform:translateY(-3px); border-color:#3a5fa0 }
+
+    /* Flipbook */
+    .flip-nav{ display:flex; align-items:center; justify-content:space-between; margin:12px 0 }
+    .flip{ width:100% }
+    .page{
+      background:linear-gradient(160deg,#101a31,#0d182f);
+      border:1px solid var(--border); border-radius:16px; padding:18px; margin:16px 0;
+      box-shadow:var(--shadow);
+      opacity:0; transform:translateY(16px);
+      animation:fadeIn .5s ease forwards;
+    }
+    .page h2{ margin:0 0 8px; color:#cfe7ff; border-bottom:1px solid #233a60; padding-bottom:8px }
+    .section{ margin:8px 0 14px; padding:12px; border:1px dashed var(--border); border-radius:12px; background:#0e1a30 }
+    .section h3{ margin:0 0 6px; color:#9bd6ff }
+    .text{ line-height:1.9 }
+
+    /* Modal */
+    .hidden{ display:none !important }
+    .modal{
+      position:fixed; inset:0; display:flex; align-items:center; justify-content:center; padding:16px;
+      background:rgba(8,14,26,.6); z-index:1000; animation:fadeModal .25s ease;
+    }
+    .modal-content{
+      width:min(880px,95vw); background:#0f1a32; border:1px solid var(--border);
+      border-radius:16px; padding:16px; box-shadow:var(--shadow);
+    }
+    .modal-actions{ display:flex; gap:8px; justify-content:flex-end; margin-top:10px }
+
+    /* Animations */
+    @keyframes fadeIn{
+      to{ opacity:1; transform:translateY(0) }
+    }
+    @keyframes fadeModal{
+      from{ opacity:0; transform:scale(.96) }
+      to{ opacity:1; transform:scale(1) }
+    }
+
+    /* Footer tip */
+    .tip{ color:var(--muted); font-size:.92rem }
   </style>
 </head>
 <body>
 
-  <!-- نوار بالا -->
-  <div class="topbar">
-    <div>Prospect 3 — نسخه پایدار</div>
-    <div>
-      <button class="btn btn--outline" onclick="showModal('helpModal')">راهنما</button>
-      <button class="btn btn--primary" onclick="showModal('verbsModal')">افعال بی‌قاعده</button>
+  <!-- Topbar -->
+  <header class="topbar">
+    <div class="brand"><i class="fa-solid fa-book-open"></i> Prospect 3 — نسخه‌ی زیباسازی‌شده</div>
+    <div class="nav-actions">
+      <button class="btn btn--ghost" onclick="showModal('helpModal')"><i class="fa-regular fa-circle-question"></i> راهنما</button>
+      <button class="btn btn--primary" onclick="showModal('verbsModal')"><i class="fa-solid fa-bolt"></i> افعال بی‌قاعده</button>
     </div>
-  </div>
+  </header>
 
-  <!-- صفحه شروع -->
-  <div class="container" id="startScreen">
+  <!-- Start screen -->
+  <section class="container" id="startScreen">
     <div class="card">
-      <h2>انتخاب درس</h2>
-      <div class="grid">
-        <div class="pill" onclick="loadLesson(1)">Lesson 1 — Personality</div>
-        <div class="pill" onclick="loadLesson(2)">Lesson 2 — Travel</div>
-        <div class="pill" onclick="loadLesson(3)">Lesson 3 — Festivals</div>
+      <h1 style="margin:0 0 8px">English for Schools — Prospect 3</h1>
+      <p class="tip">Lessons • Practice • Workbook</p>
+
+      <h2 style="margin:14px 0 8px">انتخاب درس</h2>
+      <div class="grid lessons">
+        <button class="pill" onclick="loadLesson(1)"><i class="fa-solid fa-user"></i> Lesson 1 — Personality</button>
+        <button class="pill" onclick="loadLesson(2)"><i class="fa-solid fa-plane"></i> Lesson 2 — Travel</button>
+        <button class="pill" onclick="loadLesson(3)"><i class="fa-solid fa-fireworks"></i> Lesson 3 — Festivals</button>
       </div>
     </div>
-  </div>
+  </section>
 
-  <!-- صفحه درس -->
-  <div class="container hidden" id="lessonScreen">
-    <h2 id="lessonTitle"></h2>
-    <div id="pages"></div>
-    <button class="btn btn--outline" onclick="goBack()">بازگشت</button>
-  </div>
+  <!-- Flipbook -->
+  <main id="lessonScreen" class="hidden">
+    <div class="container">
+      <div class="flip-nav">
+        <button class="btn btn--outline" onclick="prevPage()"><i class="fa-solid fa-chevron-right"></i> قبل</button>
+        <div id="lessonTitle" style="font-weight:900;color:#cfe7ff"></div>
+        <button class="btn btn--outline" onclick="nextPage()">بعد <i class="fa-solid fa-chevron-left"></i></button>
+      </div>
+      <div class="flip" id="pages"></div>
+      <div style="display:flex;justify-content:flex-end;gap:8px">
+        <button class="btn btn--ghost" onclick="goBack()"><i class="fa-solid fa-rotate-left"></i> بازگشت</button>
+      </div>
+    </div>
+  </main>
 
-  <!-- مودال راهنما -->
+  <!-- Help modal -->
   <div class="modal hidden" id="helpModal">
     <div class="modal-content">
-      <h3>راهنما</h3>
-      <p>برای انتخاب درس، روی یکی از گزینه‌ها کلیک کنید. برای بازگشت، دکمه «بازگشت» را بزنید.</p>
+      <h2><i class="fa-regular fa-circle-question"></i> راهنما</h2>
+      <div class="text">
+        <div>• با «قبل/بعد» بین صفحات حرکت کنید.</div>
+        <div>• برای بازگشت به انتخاب درس، «بازگشت» را بزنید.</div>
+      </div>
       <div class="modal-actions">
-        <button class="btn btn--outline" type="button" onclick="closeModal('helpModal')">بستن</button>
+        <button class="btn btn--outline" type="button" onclick="closeModal('helpModal')"><i class="fa-solid fa-xmark"></i> بستن</button>
       </div>
     </div>
   </div>
 
-  <!-- مودال افعال بی‌قاعده -->
+  <!-- Irregular verbs modal -->
   <div class="modal hidden" id="verbsModal">
     <div class="modal-content">
-      <h3>افعال بی‌قاعده</h3>
-      <ul>
-        <li>be → was/were</li>
-        <li>go → went</li>
-        <li>break → broke</li>
-        <li>buy → bought</li>
-      </ul>
+      <h2><i class="fa-solid fa-bolt"></i> افعال بی‌قاعده</h2>
+      <div id="verbsBody" class="text"></div>
       <div class="modal-actions">
-        <button class="btn btn--outline" type="button" onclick="closeModal('verbsModal')">بستن</button>
+        <button class="btn btn--outline" type="button" onclick="closeModal('verbsModal')"><i class="fa-solid fa-xmark"></i> بستن</button>
       </div>
     </div>
   </div>
 
   <script>
+    // درس‌ها و محتوا
     const lessons = {
-      1: { title:"Lesson 1 — Personality", content:[
-        "Ehsan: Who is your best friend at school?",
-        "Parham: Reza.",
-        "Ehsan: What's he like?",
-        "Parham: He is clever and kind."
+      1:{ title:"Lesson 1 — Personality", sections:[
+        { h:"Conversation", t:[
+          "Ehsan: Who is your best friend at school?",
+          "Parham: Reza.",
+          "Ehsan: What's he like?",
+          "Parham: He is clever and kind."
+        ]},
+        { h:"Practice — Yes/No", t:[
+          "Q: Is he clever?  A: Yes, he is.",
+          "Q: Are you kind?  A: Yes, I am."
+        ]}
       ]},
-      2: { title:"Lesson 2 — Travel", content:[
-        "Receptionist: Welcome to our hotel. Do you have a reservation?",
-        "Tourist: Yes, my name is Paul."
+      2:{ title:"Lesson 2 — Travel", sections:[
+        { h:"Conversation", t:[
+          "Receptionist: Welcome to our hotel. Do you have a reservation?",
+          "Tourist: Yes, my name is Paul."
+        ]},
+        { h:"Practice — Travel", t:[
+          "Q: Do you have a reservation?  A: Yes, I do.",
+          "Q: Where is your passport?  A: It's here."
+        ]}
       ]},
-      3: { title:"Lesson 3 — Festivals", content:[
-        "Elham: We usually visit our relatives in Norooz.",
-        "Nasrin: We get gifts, too!"
+      3:{ title:"Lesson 3 — Festivals", sections:[
+        { h:"Conversation", t:[
+          "Elham: We usually visit our relatives in Norooz.",
+          "Nasrin: We get gifts, too!"
+        ]}
       ]}
     };
 
+    // وضعیت صفحه‌ها
+    let currentLesson = null;
+    let pagesData = [];
+    let pageIndex = 0;
+
+    // بارگذاری درس
     function loadLesson(id){
-      const lesson = lessons[id];
-      document.getElementById("startScreen").classList.add("hidden");
-      document.getElementById("lessonScreen").classList.remove("hidden");
-      document.getElementById("lessonTitle").textContent = lesson.title;
-      const pages = document.getElementById("pages");
-      pages.innerHTML = "";
-      lesson.content.forEach(line=>{
-        const div=document.createElement("div");
-        div.className="page";
-        div.textContent=line;
-        pages.appendChild(div);
+      currentLesson = lessons[id];
+      pagesData = buildPages(currentLesson);
+      pageIndex = 0;
+
+      document.getElementById('startScreen').classList.add('hidden');
+      document.getElementById('lessonScreen').classList.remove('hidden');
+      document.getElementById('lessonTitle').textContent = currentLesson.title;
+
+      renderPages();
+      highlightPage();
+    }
+
+    // ساخت صفحه‌ها از داده‌ها
+    function buildPages(lesson){
+      const pages = [];
+      lesson.sections.forEach(sec=>{
+        let html = `<div class="page"><h2>${sec.h}</h2>`;
+        html += `<div class="section"><h3>${sec.h}</h3>`;
+        html += sec.t.map(line=> `<div class="text">${line}</div>`).join("");
+        html += `</div></div>`;
+        pages.push(html);
+      });
+      return pages;
+    }
+
+    // رندر همه‌ی صفحه‌ها
+    function renderPages(){
+      const wrap = document.getElementById('pages');
+      wrap.innerHTML = "";
+      pagesData.forEach((html, i)=>{
+        const el = document.createElement('div');
+        el.innerHTML = html;
+        const page = el.firstElementChild;
+        page.dataset.index = i;
+        wrap.appendChild(page);
       });
     }
 
+    // برجسته‌سازی صفحه فعلی با افکت محو
+    function highlightPage(){
+      const all = document.querySelectorAll('.page');
+      all.forEach((p,i)=>{
+        p.style.opacity = (i===pageIndex) ? '1' : '0';
+        p.style.pointerEvents = (i===pageIndex) ? 'auto' : 'none';
+        p.style.transition = 'opacity .25s ease';
+      });
+    }
+
+    // پیمایش
+    function prevPage(){
+      const next = pageIndex-1;
+      if(next>=0){ pageIndex = next; highlightPage(); }
+    }
+    function nextPage(){
+      const next = pageIndex+1;
+      if(next<pagesData.length){ pageIndex = next; highlightPage(); }
+    }
+
+    // بازگشت
     function goBack(){
-      document.getElementById("lessonScreen").classList.add("hidden");
-      document.getElementById("startScreen").classList.remove("hidden");
+      document.getElementById('lessonScreen').classList.add('hidden');
+      document.getElementById('startScreen').classList.remove('hidden');
+      currentLesson = null; pagesData = []; pageIndex = 0;
     }
 
-    function showModal(id){
-      document.getElementById(id).classList.remove("hidden");
-    }
+    // مودال‌ها
+    function showModal(id){ document.getElementById(id).classList.remove('hidden'); }
+    function closeModal(id){ document.getElementById(id).classList.add('hidden'); }
 
-    function closeModal(id){
-      document.getElementById(id).classList.add("hidden");
+    // پر کردن افعال بی‌قاعده
+    function renderVerbs(){
+      const data = [
+        { base:"be", past:"was/were", en:"I was happy.", fa:"من خوشحال بودم." },
+        { base:"go", past:"went", en:"She went home.", fa:"او به خانه رفت." },
+        { base:"break", past:"broke", en:"He broke his leg.", fa:"او پایش را شکست." },
+        { base:"buy", past:"bought", en:"They bought food.", fa:"آن‌ها غذا خریدند." }
+      ];
+      const body = document.getElementById('verbsBody');
+      body.innerHTML = data.map(v=>`
+        <div class="section">
+          <div><b>Base:</b> ${v.base} — <b>Past:</b> ${v.past}</div>
+          <div style="margin-top:6px"><b>EN:</b> ${v.en}</div>
+          <div><b>FA:</b> ${v.fa}</div>
+        </div>
+      `).join("");
     }
+    // اجرای اولیه برای افعال
+    renderVerbs();
+
+    // بستن با Escape و کلیک بیرون
+    document.addEventListener('keydown', (e)=>{
+      if(e.key==='Escape'){
+        const open = document.querySelector('.modal:not(.hidden)');
+        if(open) open.classList.add('hidden');
+      }
+      if(e.key==='ArrowRight') nextPage();
+      if(e.key==='ArrowLeft') prevPage();
+    });
+    ['helpModal','verbsModal'].forEach(id=>{
+      const m = document.getElementById(id);
+      m.addEventListener('click', (e)=>{
+        const content = m.querySelector('.modal-content');
+        if(content && !content.contains(e.target)) m.classList.add('hidden');
+      });
+    });
   </script>
-
 </body>
 </html>
