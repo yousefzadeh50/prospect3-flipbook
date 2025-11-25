@@ -542,5 +542,53 @@ Nasrin: We get gifts, too!` }
       });
     });
   </script>
+  <script>
+document.addEventListener("DOMContentLoaded", function () {
+  // 1) همیشه دکمه بستن را به حالت button تبدیل کن
+  const glCloseBtn = document.getElementById("glClose");
+  if (glCloseBtn) glCloseBtn.setAttribute("type","button");
+
+  // 2) نماینده‌رویداد: هر کلیکی روی صفحه اگر دکمه بستن بود، مودال را ببند
+  document.addEventListener("click", function (e) {
+    const closeBtn = e.target.closest("#glClose");
+    if (closeBtn) {
+      e.preventDefault();
+      e.stopPropagation();
+
+      // نزدیک‌ترین مودال والد را پیدا کن (اگر چند مودال وجود دارد)
+      const modal = closeBtn.closest(".modal");
+      if (modal) modal.classList.add("hidden");
+    }
+  });
+
+  // 3) کلیک بیرون از پنجره، مودال را ببندد (به‌طور ایمن)
+  const glossaryModal = document.getElementById("glossaryModal");
+  if (glossaryModal) {
+    glossaryModal.addEventListener("click", function (e) {
+      const content = glossaryModal.querySelector(".modal-content");
+      if (!content) return;
+      if (!content.contains(e.target)) glossaryModal.classList.add("hidden");
+    });
+  }
+
+  // 4) کلید Escape هم ببندد
+  document.addEventListener("keydown", function (e) {
+    if (e.key === "Escape") {
+      const openModal = document.querySelector(".modal:not(.hidden)");
+      if (openModal) openModal.classList.add("hidden");
+    }
+  });
+
+  // 5) ایمنیِ لایه‌ها: اطمینان از کلیک‌پذیری
+  const style = document.createElement("style");
+  style.textContent = `
+    .modal { z-index: 1000; }
+    .modal-content { position: relative; z-index: 1001; }
+    .modal * { pointer-events: auto; }
+    button#glClose { pointer-events: auto; }
+  `;
+  document.head.appendChild(style);
+});
+</script>
 </body>
 </html>
