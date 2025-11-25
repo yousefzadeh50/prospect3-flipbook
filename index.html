@@ -3,8 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Prospect 3 — Flipbook تعاملی</title>
-  <meta name="color-scheme" content="dark light" />
+  <title>Prospect 3 — Flipbook سبک</title>
   <style>
     :root{
       --bg:#0b1220; --surface:#121a2d; --text:#e9f1ff; --muted:#9bb3cc;
@@ -14,13 +13,13 @@
     html,body{margin:0;background:var(--bg);color:var(--text);font-family:Tahoma,Segoe UI,Arial}
     .hidden{display:none}
 
-    /* Topbar */
+    /* Top bar */
     .topbar{
       position:sticky;top:0;z-index:20;height:60px;background:#111a2fcc;
       backdrop-filter:blur(6px);border-bottom:1px solid var(--border);
       display:flex;align-items:center;justify-content:space-between;padding:0 12px;
     }
-    .brand{font-weight:800;letter-spacing:.3px}
+    .brand{font-weight:800}
     .btn{cursor:pointer;border:none;border-radius:10px;padding:10px 14px}
     .btn--primary{background:linear-gradient(90deg,var(--accent),var(--accent2));color:#06233a;font-weight:800}
     .btn--outline{background:transparent;border:1px solid var(--border);color:var(--text)}
@@ -36,7 +35,6 @@
     /* Grids */
     .grid{display:grid;gap:10px}
     .grid.lessons{grid-template-columns:repeat(auto-fit,minmax(220px,1fr))}
-    .grid.tools{grid-template-columns:repeat(auto-fit,minmax(240px,1fr))}
     .pill{
       background:#16274b;border:1px solid var(--border);border-radius:14px;padding:14px;
       color:#eaf3ff;display:flex;align-items:center;justify-content:space-between;font-weight:700
@@ -54,55 +52,35 @@
     .section{margin:8px 0 14px;padding:10px;border:1px dashed var(--border);border-radius:12px}
     .section h3{margin:0 0 6px;color:#9bd6ff}
     .text{line-height:1.9}
-    .word{cursor:pointer;border-bottom:1px dashed var(--border)}
-    .word:hover{color:var(--accent2)}
 
-    /* Exercises */
-    .exercise{padding:8px;border-radius:10px;background:#0f1a32;border:1px solid var(--border);margin-bottom:8px}
-    .controls{display:flex;gap:8px;margin-top:8px;flex-wrap:wrap}
-    .answer{display:none;margin-top:6px;color:#bde8ff}
-    .answer.show{display:block}
-    .correct{outline:2px solid #13d38b}
-    .incorrect{outline:2px solid #ff6e6e}
-
-    /* Modal & popup */
-    .modal{position:fixed;inset:0;background:rgba(6,12,24,.55);display:flex;align-items:center;justify-content:center;padding:12px;z-index:100}
-    .modal-content{width:min(880px,95vw);background:#0f1a32;border:1px solid var(--border);border-radius:16px;padding:14px}
-    .popup{position:fixed;bottom:20px;right:20px;z-index:110}
-    .popup-content{width:min(420px,92vw);background:#0f1a32;border:1px solid var(--border);border-radius:14px}
-    .popup-head{display:flex;align-items:center;justify-content:space-between;padding:10px;border-bottom:1px solid #233a60}
-    #popupWord{font-weight:800;color:#9bd6ff}
-    .popup-body{padding:10px}
+    /* Modal */
+    .modal{position:fixed;inset:0;background:rgba(6,12,24,.55);display:flex;align-items:center;justify-content:center;padding:12px;z-index:1000}
+    .modal-content{width:min(880px,95vw);background:#0f1a32;border:1px solid var(--border);border-radius:16px;padding:14px;position:relative}
+    .modal-actions{margin-top:10px;display:flex;gap:8px;justify-content:flex-end;flex-wrap:wrap}
   </style>
 </head>
 <body>
 
   <!-- Topbar -->
   <header class="topbar">
-    <button class="btn btn--primary" id="openGlossary">واژه‌نامهٔ تعاملی</button>
-    <div class="brand">Prospect 3 — Flipbook تعاملی</div>
+    <div class="brand">Prospect 3 — Flipbook سبک</div>
     <div style="display:flex;gap:8px">
-      <button class="btn btn--ghost" id="irregularBtn">افعال بی‌قاعده</button>
-      <button class="btn btn--outline" id="helpBtn">راهنما</button>
+      <button class="btn btn--ghost" id="irregularBtn" type="button">افعال بی‌قاعده</button>
+      <button class="btn btn--outline" id="helpBtn" type="button">راهنما</button>
     </div>
   </header>
 
-  <!-- Start screen -->
+  <!-- Start -->
   <section class="container" id="startScreen">
     <div class="card">
       <h1 style="margin:0 0 8px">English for Schools — Prospect 3</h1>
-      <p style="margin:0;color:var(--muted)">Lessons • Practice • Workbook • Audio • Dictionary • Exams</p>
+      <p style="margin:0;color:var(--muted)">Lessons • Practice • Workbook</p>
 
       <h2 style="margin:14px 0 8px">انتخاب درس</h2>
       <div class="grid lessons">
-        <button class="pill lesson-btn" data-lesson="1"><span>Lesson 1</span><small>&nbsp;Personality</small></button>
-        <button class="pill lesson-btn" data-lesson="2"><span>Lesson 2</span><small>&nbsp;Travel</small></button>
-        <button class="pill lesson-btn" data-lesson="3"><span>Lesson 3</span><small>&nbsp;Festivals</small></button>
-      </div>
-
-      <h2 style="margin:14px 0 8px">آزمون‌ها</h2>
-      <div class="grid lessons">
-        <button class="pill exam-btn" data-exam="midterm-1-3">Midterm — Lessons 1–3</button>
+        <button class="pill lesson-btn" data-lesson="1" type="button"><span>Lesson 1</span><small>&nbsp;Personality</small></button>
+        <button class="pill lesson-btn" data-lesson="2" type="button"><span>Lesson 2</span><small>&nbsp;Travel</small></button>
+        <button class="pill lesson-btn" data-lesson="3" type="button"><span>Lesson 3</span><small>&nbsp;Festivals</small></button>
       </div>
     </div>
   </section>
@@ -111,13 +89,13 @@
   <main id="flipbookArea" class="hidden">
     <div class="container">
       <div class="flip-nav">
-        <button class="btn btn--outline" id="prevPage">‹</button>
+        <button class="btn btn--outline" id="prevPage" type="button">‹</button>
         <div id="currentTitle" style="font-weight:800;color:#cfe7ff"></div>
-        <button class="btn btn--outline" id="nextPage">›</button>
+        <button class="btn btn--outline" id="nextPage" type="button">›</button>
       </div>
       <div class="flip" id="flipbook"></div>
       <div style="display:flex;justify-content:flex-end">
-        <button class="btn btn--outline" id="backBtn">بازگشت</button>
+        <button class="btn btn--outline" id="backBtn" type="button">بازگشت</button>
       </div>
     </div>
   </main>
@@ -128,11 +106,10 @@
       <h2>راهنما</h2>
       <div class="text">
         <div>• با دکمه‌های ‹ و › بین صفحات جابه‌جا شوید.</div>
-        <div>• روی واژه‌های انگلیسی کلیک کنید تا معنی و مثال ببینید.</div>
-        <div>• برای تلفظ، از دکمه‌های 🔊 استفاده کنید.</div>
+        <div>• برای برگشت، «بازگشت» را بزنید.</div>
       </div>
-      <div style="margin-top:10px;display:flex;gap:8px;justify-content:flex-end">
-        <button class="btn btn--outline" id="closeHelp">بستن</button>
+      <div class="modal-actions">
+        <button class="btn btn--outline" data-action="close-modal" type="button">بستن</button>
       </div>
     </div>
   </div>
@@ -142,63 +119,9 @@
     <div class="modal-content">
       <h2>افعال بی‌قاعده</h2>
       <div id="verbsBody"></div>
-      <div style="margin-top:10px;display:flex;justify-content:flex-end;gap:8px">
-        <button class="btn btn--outline" id="closeVerbs">بستن</button>
+      <div class="modal-actions">
+        <button class="btn btn--outline" data-action="close-modal" type="button">بستن</button>
       </div>
-    </div>
-  </div>
-
-  <!-- Glossary modal with fully working buttons -->
-  <div class="modal hidden" id="glossaryModal" aria-hidden="true">
-    <div class="modal-content">
-      <h2>واژه‌نامهٔ تعاملی</h2>
-
-      <!-- Search -->
-      <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:8px">
-        <input id="glInput" type="text" placeholder="جستجوی واژه انگلیسی..." style="flex:1;padding:10px;border-radius:10px;border:1px solid var(--border);background:#0f1a32;color:#eaf4ff"/>
-        <button class="btn btn--outline" id="glSpeak">🔊 تلفظ</button>
-      </div>
-      <div id="glResult" style="margin-top:10px;border:1px dashed var(--border);border-radius:12px;padding:10px;background:#0f1a32"></div>
-
-      <!-- Mini practice inside glossary -->
-      <div style="margin-top:14px" id="glBody">
-        <div class="exercise" data-key="are">
-          <div><b>Q:</b> They __ kind.</div>
-          <div class="controls">
-            <input type="text" placeholder="are / is"/>
-            <div class="answer"><b>Answer:</b> are</div>
-          </div>
-        </div>
-        <div class="exercise" data-key="is">
-          <div><b>Q:</b> He __ clever. (is/are)</div>
-          <div class="controls">
-            <input type="text" placeholder="is / are"/>
-            <div class="answer"><b>Answer:</b> is</div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Action buttons -->
-      <div style="margin-top:12px;display:flex;gap:8px;justify-content:flex-end;flex-wrap:wrap">
-        <button class="btn btn--primary" id="glSubmit">ثبت پاسخ‌ها</button>
-        <button class="btn btn--outline" id="glShow">نمایش پاسخ‌ها</button>
-        <button class="btn btn--outline" id="glClear">پاک کردن</button>
-        <button class="btn btn--outline" id="glClose">بستن</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- Word popup -->
-  <div class="popup hidden" id="wordPopup" aria-hidden="true">
-    <div class="popup-content">
-      <div class="popup-head">
-        <span id="popupWord"></span>
-        <div style="display:flex;gap:8px">
-          <button class="btn btn--outline" id="popupSpeak">🔊 تلفظ</button>
-          <button class="btn btn--outline" id="popupClose">✕</button>
-        </div>
-      </div>
-      <div class="popup-body" id="popupBody"></div>
     </div>
   </div>
 
@@ -217,7 +140,6 @@ Parham: He is clever and kind.` },
               { q:"Is he clever?", a:"Yes, he is." },
               { q:"Are you kind?", a:"Yes, I am." }
             ]},
-            { type:"listening", title:"Listening A", audio:"", text:`Iran is a great country. People are kind and friendly.` }
           ]
         },
         {
@@ -240,14 +162,6 @@ Nasrin: We get gifts, too!` }
         }
       ];
 
-      const DICT = {
-        "clever": { fa:"باهوش", syn:["smart","bright"], rel:["intelligent"], ex:"He is a clever student." },
-        "kind": { fa:"مهربان", syn:["nice","friendly"], rel:["polite"], ex:"She is kind to everyone." },
-        "reservation": { fa:"رزرو", syn:["booking"], rel:["ticket"], ex:"I have a reservation." },
-        "gift": { fa:"هدیه", syn:["present"], rel:["money"], ex:"They get gifts in Norooz." },
-        "passport": { fa:"گذرنامه", syn:["ID"], rel:["visa"], ex:"Show your passport, please." }
-      };
-
       /* ---------- Elements ---------- */
       const startScreen = document.getElementById('startScreen');
       const flipbookArea = document.getElementById('flipbookArea');
@@ -259,139 +173,61 @@ Nasrin: We get gifts, too!` }
 
       const helpBtn = document.getElementById('helpBtn');
       const helpModal = document.getElementById('helpModal');
-      const closeHelp = document.getElementById('closeHelp');
 
       const irregularBtn = document.getElementById('irregularBtn');
       const verbsModal = document.getElementById('verbsModal');
-      const closeVerbs = document.getElementById('closeVerbs');
       const verbsBody = document.getElementById('verbsBody');
 
-      const openGlossary = document.getElementById('openGlossary');
-      const glossaryModal = document.getElementById('glossaryModal');
-      const glClose = document.getElementById('glClose');
-      const glSubmit = document.getElementById('glSubmit');
-      const glShow = document.getElementById('glShow');
-      const glClear = document.getElementById('glClear');
-      const glInput = document.getElementById('glInput');
-      const glResult = document.getElementById('glResult');
-      const glSpeak = document.getElementById('glSpeak');
-      const glBody = document.getElementById('glBody');
-
-      const wordPopup = document.getElementById('wordPopup');
-      const popupWord = document.getElementById('popupWord');
-      const popupBody = document.getElementById('popupBody');
-      const popupSpeak = document.getElementById('popupSpeak');
-      const popupClose = document.getElementById('popupClose');
-
-      let currentLesson = null;
       let pages = [];
       let pageIndex = 0;
 
-      /* ---------- Safe bindings ---------- */
-      // Start: lessons
+      /* ---------- Navigation ---------- */
       document.querySelectorAll('.lesson-btn').forEach(btn=>{
         btn.addEventListener('click', ()=>{
           const id = parseInt(btn.dataset.lesson,10);
           loadLesson(id);
         });
       });
-      // Start: exams (demo alert)
-      document.querySelectorAll('.exam-btn').forEach(btn=>{
-        btn.addEventListener('click', ()=>{
-          alert('در این نسخه، آزمون در واژه‌نامهٔ تعاملی به‌صورت کوچک قرار داده شده است.');
-          openGlossaryModal();
-        });
+      prevPageBtn.addEventListener('click', ()=> turnPage(-1));
+      nextPageBtn.addEventListener('click', ()=> turnPage(1));
+      backBtn.addEventListener('click', ()=>{
+        flipbookArea.classList.add('hidden');
+        startScreen.classList.remove('hidden');
       });
 
-      // Topbar modals
+      /* ---------- Modals open ---------- */
       helpBtn.addEventListener('click', ()=> helpModal.classList.remove('hidden'));
-      closeHelp.addEventListener('click', ()=> helpModal.classList.add('hidden'));
-
       irregularBtn.addEventListener('click', ()=>{
         renderIrregular();
         verbsModal.classList.remove('hidden');
       });
-      closeVerbs.addEventListener('click', ()=> verbsModal.classList.add('hidden'));
 
-      // Glossary open/close
-      function openGlossaryModal(){
-        glossaryModal.classList.remove('hidden');
-        glInput.value="";
-        glResult.innerHTML = `<div style="color:${getComputedStyle(document.body).getPropertyValue('--muted')}">یک واژه انگلیسی وارد کنید...</div>`;
-        // reset practice UI
-        glBody.querySelectorAll('.exercise input').forEach(i=>{
-          i.value = "";
-          i.classList.remove('correct','incorrect');
-        });
-        glBody.querySelectorAll('.answer').forEach(a=> a.classList.remove('show'));
-      }
-      openGlossary.addEventListener('click', openGlossaryModal);
-      glClose.addEventListener('click', ()=> glossaryModal.classList.add('hidden'));
-
-      // Glossary actions — WORKING handlers
-      glSubmit.addEventListener('click', ()=>{
-        const items = glBody.querySelectorAll('.exercise');
-        let score=0,total=0;
-        items.forEach(item=>{
-          const key = (item.dataset.key||"").trim().toLowerCase();
-          const input = item.querySelector('input');
-          if(!input) return;
-          const val = (input.value||"").trim().toLowerCase();
-          if(key){ total++; }
-          if(val===key){
-            score++;
-            input.classList.add('correct'); input.classList.remove('incorrect');
-          }else{
-            input.classList.add('incorrect'); input.classList.remove('correct');
+      /* ---------- Global close handlers (robust) ---------- */
+      // 1) کلیک روی هر دکمه‌ای که data-action="close-modal" دارد → مودال والد بسته شود
+      document.addEventListener('click', (e)=>{
+        const closeBtn = e.target.closest('[data-action="close-modal"]');
+        if(closeBtn){
+          e.preventDefault();
+          e.stopPropagation();
+          const modal = closeBtn.closest('.modal');
+          if(modal) modal.classList.add('hidden');
+        }
+      });
+      // 2) کلیک بیرون از محتوای مودال → همان مودال بسته شود
+      [helpModal, verbsModal].forEach(modal=>{
+        if(!modal) return;
+        modal.addEventListener('click', (e)=>{
+          const content = modal.querySelector('.modal-content');
+          if(content && !content.contains(e.target)){
+            modal.classList.add('hidden');
           }
         });
-        alert(`نمره‌ی خودکار: ${score} از ${total}.`);
       });
-
-      glShow.addEventListener('click', ()=>{
-        glBody.querySelectorAll('.answer').forEach(a=> a.classList.add('show'));
-      });
-
-      glClear.addEventListener('click', ()=>{
-        glBody.querySelectorAll('.exercise input').forEach(i=>{
-          i.value = "";
-          i.classList.remove('correct','incorrect');
-        });
-        glBody.querySelectorAll('.answer').forEach(a=> a.classList.remove('show'));
-      });
-
-      // Glossary search + speak
-      glInput.addEventListener('input', ()=>{
-        const q = (glInput.value||"").trim().toLowerCase();
-        if(!q){
-          glResult.innerHTML = `<div style="color:${getComputedStyle(document.body).getPropertyValue('--muted')}">یک واژه انگلیسی وارد کنید...</div>`;
-          return;
-        }
-        const info = DICT[q];
-        glResult.innerHTML = info ? `
-          <div><b>واژه:</b> ${q}</div>
-          <div><b>معنی فارسی:</b> ${info.fa}</div>
-          <div><b>مترادف‌ها:</b> ${(info.syn||[]).join(", ")}</div>
-          <div><b>کلمات مرتبط:</b> ${(info.rel||[]).join(", ")}</div>
-          <div><b>مثال انگلیسی:</b> ${info.ex}</div>
-        ` : `ورودی برای "<b>${q}</b>" یافت نشد. می‌توانید آن را به DICT اضافه کنید.`;
-      });
-      glSpeak.addEventListener('click', ()=>{
-        const q = (glInput.value||"").trim();
-        if(q) speak(q);
-      });
-
-      // Popup
-      popupClose.addEventListener('click', ()=> wordPopup.classList.add('hidden'));
-      popupSpeak.addEventListener('click', ()=> speak(popupWord.textContent));
-
-      // Global ESC to close
+      // 3) کلید Escape → هر مودال باز بسته شود
       document.addEventListener('keydown', (e)=>{
         if(e.key==='Escape'){
-          helpModal.classList.add('hidden');
-          verbsModal.classList.add('hidden');
-          glossaryModal.classList.add('hidden');
-          wordPopup.classList.add('hidden');
+          const openModal = document.querySelector('.modal:not(.hidden)');
+          if(openModal) openModal.classList.add('hidden');
         }
         if(e.key==='ArrowRight') turnPage(1);
         if(e.key==='ArrowLeft') turnPage(-1);
@@ -422,32 +258,27 @@ Nasrin: We get gifts, too!` }
           el.innerHTML = pageHTML;
           flipbookEl.appendChild(el);
         });
-        bindPageEvents();
         highlightPage();
+        bindExerciseEvents();
       }
 
-      function bindPageEvents(){
-        flipbookEl.querySelectorAll('.word').forEach(w=>{
-          w.addEventListener('click', ()=> showWord(w.textContent.trim().toLowerCase()));
-        });
+      function bindExerciseEvents(){
+        // دکمه های بررسی و نمایش پاسخ در صفحات
         flipbookEl.querySelectorAll('.reveal').forEach(btn=>{
           btn.addEventListener('click', ()=>{
             const ans = btn.closest('.exercise').querySelector('.answer');
-            ans.classList.toggle('show');
+            ans.classList.toggle('hidden');
           });
         });
         flipbookEl.querySelectorAll('.check').forEach(btn=>{
           btn.addEventListener('click', ()=>{
             const item = btn.closest('.exercise');
-            const input = item.querySelector('input, textarea, select');
+            const input = item.querySelector('input');
             const key = (item.dataset.key||"").trim().toLowerCase();
             if(!input) return;
             const val = (input.value||"").trim().toLowerCase();
-            if(val===key || key.includes(val)){
-              input.classList.add('correct'); input.classList.remove('incorrect');
-            }else{
-              input.classList.add('incorrect'); input.classList.remove('correct');
-            }
+            const ok = (val===key);
+            input.style.outline = ok ? '2px solid #13d38b' : '2px solid #ff6e6e';
           });
         });
       }
@@ -470,125 +301,45 @@ Nasrin: We get gifts, too!` }
         const title = `<h2>${sec.title}</h2>`;
         let body = "";
         if(sec.type==="conversation"){
-          body += `<div class="section"><h3>${sec.title}</h3><div class="text">${inlineWords(nl(sec.text))}</div></div>`;
+          body += `<div class="section"><h3>${sec.title}</h3><div class="text">${nl(sec.text)}</div></div>`;
         }
         if(sec.type==="practice"){
           body += `<div class="section"><h3>${sec.title}</h3>
             ${sec.items.map(it=>`
               <div class="exercise" data-key="${(it.a||'').toLowerCase()}">
-                <div><b>Q:</b> ${inlineWords(it.q)}</div>
+                <div><b>Q:</b> ${it.q}</div>
                 <div class="controls">
                   <input type="text" placeholder="پاسخ خود را بنویسید"/>
-                  <button class="btn btn--ghost check">بررسی</button>
-                  <button class="btn btn--outline reveal">نمایش پاسخ</button>
+                  <button class="btn btn--ghost check" type="button">بررسی</button>
+                  <button class="btn btn--outline reveal" type="button">نمایش پاسخ</button>
                 </div>
-                <div class="answer"><b>Answer:</b> ${it.a}</div>
+                <div class="answer hidden"><b>Answer:</b> ${it.a}</div>
               </div>
             `).join("")}
-          </div>`;
-        }
-        if(sec.type==="listening"){
-          body += `<div class="section"><h3>${sec.title}</h3>
-            <div class="text">${inlineWords(nl(sec.text))}</div>
           </div>`;
         }
         return `${title}${body}`;
       }
 
-      function inlineWords(text){
-        return String(text).replace(/\b([A-Za-z][A-Za-z\-']+)\b/g,(m)=>`<span class="word">${m}</span>`);
-      }
       function nl(str){ return String(str).replace(/\n/g,"<br/>"); }
-
-      function showWord(word){
-        const info = DICT[word];
-        popupWord.textContent = word;
-        popupBody.innerHTML = info ? `
-          <div>معنی فارسی: <b>${info.fa}</b></div>
-          <div>مترادف‌ها: ${(info.syn||[]).join(", ")}</div>
-          <div>کلمات مرتبط: ${(info.rel||[]).join(", ")}</div>
-          <div>مثال انگلیسی: ${info.ex}</div>
-        ` : `واژه یافت نشد. می‌توانید "${word}" را به DICT اضافه کنید.`;
-        wordPopup.classList.remove('hidden');
-      }
-
-      function speak(text){
-        if(!window.speechSynthesis){ alert("Speech Synthesis پشتیبانی نمی‌شود."); return; }
-        const u = new SpeechSynthesisUtterance(text);
-        u.lang = 'en-US';
-        window.speechSynthesis.speak(u);
-      }
 
       /* ---------- Irregular verbs ---------- */
       function renderIrregular(){
-        verbsBody.innerHTML = [
-          { base:"be", past:"was/were", exEn:"I was happy.", exFa:"من خوشحال بودم." },
-          { base:"go", past:"went", exEn:"She went home.", exFa:"او به خانه رفت." },
-          { base:"break", past:"broke", exEn:"He broke his leg.", exFa:"او پایش را شکست." },
-          { base:"buy", past:"bought", exEn:"آن‌ها غذا خریدند.", exFa:"آن‌ها غذا خریدند." }
-        ].map(v=>`
-          <div class="exercise">
+        const data = [
+          { base:"be", past:"was/were", en:"I was happy.", fa:"من خوشحال بودم." },
+          { base:"go", past:"went", en:"She went home.", fa:"او به خانه رفت." },
+          { base:"break", past:"broke", en:"He broke his leg.", fa:"او پایش را شکست." },
+          { base:"buy", past:"bought", en:"They bought food.", fa:"آن‌ها غذا خریدند." }
+        ];
+        verbsBody.innerHTML = data.map(v=>`
+          <div class="section">
             <div><b>Base:</b> ${v.base} — <b>Past:</b> ${v.past}</div>
-            <div style="margin-top:6px"><b>EN:</b> ${v.exEn}</div>
-            <div><b>FA:</b> ${v.exFa}</div>
+            <div style="margin-top:6px"><b>EN:</b> ${v.en}</div>
+            <div><b>FA:</b> ${v.fa}</div>
           </div>
         `).join("");
       }
-
-      // Flipbook back
-      backBtn.addEventListener('click', ()=>{
-        flipbookArea.classList.add('hidden');
-        startScreen.classList.remove('hidden');
-      });
     });
   </script>
-  <script>
-document.addEventListener("DOMContentLoaded", function () {
-  // 1) همیشه دکمه بستن را به حالت button تبدیل کن
-  const glCloseBtn = document.getElementById("glClose");
-  if (glCloseBtn) glCloseBtn.setAttribute("type","button");
-
-  // 2) نماینده‌رویداد: هر کلیکی روی صفحه اگر دکمه بستن بود، مودال را ببند
-  document.addEventListener("click", function (e) {
-    const closeBtn = e.target.closest("#glClose");
-    if (closeBtn) {
-      e.preventDefault();
-      e.stopPropagation();
-
-      // نزدیک‌ترین مودال والد را پیدا کن (اگر چند مودال وجود دارد)
-      const modal = closeBtn.closest(".modal");
-      if (modal) modal.classList.add("hidden");
-    }
-  });
-
-  // 3) کلیک بیرون از پنجره، مودال را ببندد (به‌طور ایمن)
-  const glossaryModal = document.getElementById("glossaryModal");
-  if (glossaryModal) {
-    glossaryModal.addEventListener("click", function (e) {
-      const content = glossaryModal.querySelector(".modal-content");
-      if (!content) return;
-      if (!content.contains(e.target)) glossaryModal.classList.add("hidden");
-    });
-  }
-
-  // 4) کلید Escape هم ببندد
-  document.addEventListener("keydown", function (e) {
-    if (e.key === "Escape") {
-      const openModal = document.querySelector(".modal:not(.hidden)");
-      if (openModal) openModal.classList.add("hidden");
-    }
-  });
-
-  // 5) ایمنیِ لایه‌ها: اطمینان از کلیک‌پذیری
-  const style = document.createElement("style");
-  style.textContent = `
-    .modal { z-index: 1000; }
-    .modal-content { position: relative; z-index: 1001; }
-    .modal * { pointer-events: auto; }
-    button#glClose { pointer-events: auto; }
-  `;
-  document.head.appendChild(style);
-});
-</script>
 </body>
 </html>
